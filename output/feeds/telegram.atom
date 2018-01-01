@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Telegram</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/telegram.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2016-04-22T20:43:33-03:00</updated><entry><title>"Instalando Telegram-Cli"</title><link href="http://chcdc.com.br/instalando-telegram-cli" rel="alternate"></link><published>2016-04-22T20:43:33-03:00</published><updated>2016-04-22T20:43:33-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-04-22:/instalando-telegram-cli</id><summary type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+
+
+&lt;p&gt;Instale as dependencias&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone --recursive https://github.com/vysheng/tg.git &amp;amp;&amp;amp; cd tg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Compile&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure
+make
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pronto, o proximo passo é a configuração do Telegram&lt;/p&gt;
+&lt;p&gt;Acesse a pasta do executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/tg/bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Execute o Telegram-Cli com o seguinte comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Na primeira execução será solicitado o numero de telefone e o codigo que será enviado por sms&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Telegram-cli version 1.2.0, Copyright (C) 2013-2015 Vitaly Valtman
+Telegram-cli comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show_license&amp;#39; for details.
+Telegram-cli uses libtgl version 1.2.0
+I: config dir=[~/.telegram-cli]
+[~/.telegram-cli] created
+[~/.telegram-cli/downloads] created
+phone number: +554499999999 &amp;lt;--colocar aqui seu número de telefone
+code (&amp;#39;call&amp;#39; for phone call): 12345 &amp;lt;-- colocar aqui o código que
+                            o próprio Telegram enviará por SMS
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pronto! Está configurado!&lt;/p&gt;
+&lt;p&gt;Para enviar mensagens basta executar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo vim /etc/profile.d/TelNotdata.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Acrescente o conteudo&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotIP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname -I&lt;span class="p"&gt;|&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*$//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TempFileDir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/var/tmp/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramHomePath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/tg/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScriptPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/user/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramGenericPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/generic/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScript&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;telegram.sh&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramCli&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bin/telegram-cli&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TempFileDir&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tg.log&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;ReceiveLua&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;receive.lua&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PrimeiroNome_SegundoNome&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;EmailTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seu@email.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Torne ele executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo chmod +x /etc/profile.d/TelNotdata.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De um start no Daemon do Telegram-CLI&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234 &amp;amp;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Verifique se esta rodando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ef | grep telegram
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A saida é algo parecido com isso&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;root 1736  978  0 01:53 pts/0  00:00:01 bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para enviar mensagens é simples!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;msg Firstname_Surname Test123&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_text Firstname_Surname  switch_icons.txt&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_photo Firstname_Surname  logo.png&amp;quot; | nc 127.0.0.1 1234
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Dessa forma, voce pode criar scripts para enviar mensagens automaticas, 
+inclusive quando ocorrer algo no servidor&lt;/p&gt;</content></entry></feed>

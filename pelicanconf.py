@@ -61,7 +61,7 @@ PLUGINS = [
 
 
 # Path THEME
-THEME = './.themes/genus' 
+THEME = './themes/genus' 
 
 
 # Theme customizations

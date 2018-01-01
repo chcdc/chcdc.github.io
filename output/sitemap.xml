@@ -4,147 +4,147 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>n/</loc>
-<lastmod>2018-01-01T01:43:11-00:00</lastmod>
+<loc>http://chcdc.com.br/</loc>
+<lastmod>2018-01-01T01:54:18-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/archives.html</loc>
-<lastmod>2018-01-01T01:43:11-00:00</lastmod>
+<loc>http://chcdc.com.br/archives.html</loc>
+<lastmod>2018-01-01T01:54:18-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/tags.html</loc>
-<lastmod>2018-01-01T01:43:11-00:00</lastmod>
+<loc>http://chcdc.com.br/tags.html</loc>
+<lastmod>2018-01-01T01:54:18-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/categories.html</loc>
-<lastmod>2018-01-01T01:43:11-00:00</lastmod>
+<loc>http://chcdc.com.br/categories.html</loc>
+<lastmod>2018-01-01T01:54:18-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/copiando-arquivos-por-extensao-usando-python</loc>
+<loc>http://chcdc.com.br/copiando-arquivos-por-extensao-usando-python</loc>
 <lastmod>2017-01-25T11:45:45-02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/criando-um-bot-do-telegram</loc>
+<loc>http://chcdc.com.br/criando-um-bot-do-telegram</loc>
 <lastmod>2016-09-18T20:14:12-03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/monitorar-conexoes</loc>
+<loc>http://chcdc.com.br/monitorar-conexoes</loc>
 <lastmod>2016-07-20T04:06:37-03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/instalando-telegram-cli</loc>
+<loc>http://chcdc.com.br/instalando-telegram-cli</loc>
 <lastmod>2016-04-22T20:43:33-03:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/gerando-senhas-seguras</loc>
+<loc>http://chcdc.com.br/gerando-senhas-seguras</loc>
 <lastmod>2016-01-20T01:48:25-02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/registro-de-acesso</loc>
+<loc>http://chcdc.com.br/registro-de-acesso</loc>
 <lastmod>2016-01-05T01:59:44-02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/removendo-varios-arquivos-de-uma-lista-gigante</loc>
+<loc>http://chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante</loc>
 <lastmod>2016-01-02T23:39:17-02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/category/linux</loc>
+<loc>http://chcdc.com.br/category/linux</loc>
 <lastmod>2016-01-02T23:39:17-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/category/network</loc>
+<loc>http://chcdc.com.br/category/network</loc>
 <lastmod>2016-07-20T04:06:37-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/category/python</loc>
+<loc>http://chcdc.com.br/category/python</loc>
 <lastmod>2017-01-25T11:45:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/category/shell-script</loc>
+<loc>http://chcdc.com.br/category/shell-script</loc>
 <lastmod>2016-01-20T01:48:25-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/category/telegram</loc>
+<loc>http://chcdc.com.br/category/telegram</loc>
 <lastmod>2016-04-22T20:43:33-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/tag/regex</loc>
+<loc>http://chcdc.com.br/tag/regex</loc>
 <lastmod>2017-01-25T11:45:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/tag/telegram</loc>
+<loc>http://chcdc.com.br/tag/telegram</loc>
 <lastmod>2016-09-18T20:14:12-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/tag/bot</loc>
+<loc>http://chcdc.com.br/tag/bot</loc>
 <lastmod>2016-09-18T20:14:12-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/tag/sysadmin</loc>
+<loc>http://chcdc.com.br/tag/sysadmin</loc>
 <lastmod>2016-01-05T01:59:44-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>n/author/carlos-carvalho</loc>
+<loc>http://chcdc.com.br/author/carlos-carvalho</loc>
 <lastmod>2017-01-25T11:45:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
