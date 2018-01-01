@@ -36,6 +36,7 @@ AUTHOR_URL = 'author/{slug}'
 AUTHOR_SAVE_AS = 'author/{slug}/index.html'
 
 STATIC_PATHS = [
+        'themes',
         '.images',
         'extra/robots.txt',
         'extra/favicon.ico',
