@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 BRANCH=master
-TARGET_REPO=chcdc/04k.github.io.git
+TARGET_REPO=chcdc/chcdc.github.io.git
 PELICAN_OUTPUT_FOLDER=output
 
 echo -e "Testing travis-encrypt"
