@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="n/" rel="alternate"></link><link href="n/feeds/all-pt.atom.xml" rel="self"></link><id>n/</id><updated>2017-01-25T11:45:45-02:00</updated><entry><title>"Copiando arquivos por extensão usando Python"</title><link href="n/copiando-arquivos-por-extensao-usando-python" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2017-01-25:n/copiando-arquivos-por-extensao-usando-python</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
+&lt;p&gt;Bom vamos ao código.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
+&lt;p&gt;Bom vamos ao código.&lt;/p&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env Python3.5&lt;/span&gt;
+&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+&lt;span class="c1"&gt;# Carlos Carvalho&lt;/span&gt;
+&lt;span class="c1"&gt;# 21/01/2017&lt;/span&gt;
+&lt;span class="c1"&gt;# Copiar/mover arquivos por extensão&lt;/span&gt;
+&lt;span class="c1"&gt;# Copiar os arquivos em pdf do diretorio /mnt/DOCS/&lt;/span&gt;
+&lt;span class="c1"&gt;# para o diretorio /mnt/DOCS/pdf&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Regex para identificar os arquivos em pdf&lt;/span&gt;
+&lt;span class="n"&gt;filePattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;^(.*?)(.pdf)$&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;VERBOSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Percorre o diretorio com um loop&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;filePattern&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Ignora os arquivos que não são pdf&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;continue&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Obtem as diferentes partes do nome do arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;beforePart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;findPart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+    &lt;span class="c1"&gt;# Obtem os paths absolutos do arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;absWorkingDir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS/pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Move os arquivos&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Moving &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; to &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; .. &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="regex"></category></entry><entry><title>"Criando um Bot do Telegram"</title><link href="n/criando-um-bot-do-telegram" rel="alternate"></link><published>2016-09-18T20:14:12-03:00</published><updated>2016-09-18T20:14:12-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-09-18:n/criando-um-bot-do-telegram</id><summary type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
+
+
+&lt;p&gt;Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou computador  e que saiba o basico dele.&lt;/p&gt;
+&lt;!--![BotFather](../images/Bot.png)--&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Adicione o @BotFather&lt;/li&gt;
+&lt;li&gt;Escreva: /newbot&lt;/li&gt;
+&lt;li&gt;Ele pedirá um nome para o seu bot. Escreva o nome finalizado com _bot&lt;/li&gt;
+&lt;li&gt;Se o nome estiver disponível,o bot será criado e você receberá um token de acesso.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Para testar seu bot acesse o seguinte link&lt;br&gt;
+   https://api.telegram.org/bot[token]/getUpdates&lt;/br&gt;&lt;/p&gt;
+&lt;p&gt;Deverá receber a seguinte resposta:&lt;br&gt;
+   &lt;code&gt;{"ok":true,"result":[{}]"&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim.&lt;/p&gt;</content><category term="Telegram"></category><category term="bot"></category></entry><entry><title>"Monitorar conexoes"</title><link href="n/monitorar-conexoes" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-07-20:n/monitorar-conexoes</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
+&lt;p&gt;Sua documentação pode ser encontrada no site oficial.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.tcpdump.org"&gt;TCPDUMP&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A maioria das distribuições linux possuem binarios, caso não possua, sua instalação é bem simples.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    sudo apt-get install tcpdump
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Inicialmente não é necessario um parametro para sua execução, você apenas precisa executar como root, pois o tcpdump irá colocar sua placa de rede em modo promiscuo.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Porém podemos utilizar diversos filtros por meio de parametros&lt;/p&gt;
+&lt;p&gt;Por padrão ele faz a captura da placa de rede ativa.Para selecionar a placa, devemos utilizar o parametro -i seguido da placa a ser monitorada&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Podemos monitorar conexoes de origem utilizando o parametro &lt;em&gt;-src host&lt;/em&gt;. Tudo que vier do nosso gateway (192.168.1.1) para o nosso computador ( 192.168.1.10 ), será monitorado com o seguinte comando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 src &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Se quisermos monitorar da forma inversa.Tudo que sair de nosso computador (192.168.1.10) para o nosso gateway, o comando será o seguinte&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Também é possivel especificar a porta de origem e destino com o comando &lt;em&gt;src port&lt;/em&gt; e &lt;em&gt;dst port&lt;/em&gt; . Um exemplo é monitorar a porta 443&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para que o tcpdump não converta os endereços e portas, devemos utilizar o parametro &lt;em&gt;-n&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n host www.google.com.br
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Podemos tambem utilizar operadores booleanos para um filtro mais refinado.&lt;/p&gt;
+&lt;p&gt;Por exemplo, capturar todos os pacotes da porta 80 e 443 da rede 192.168.1.0/16&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n net &lt;span class="m"&gt;192&lt;/span&gt;.168 and port &lt;span class="m"&gt;80&lt;/span&gt; and port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Muitas opções podem ser obtidas com o tcpdump, essas são algumas opções basicas pra iniciar com sniffers.&lt;/p&gt;</content></entry><entry><title>"Instalando Telegram-Cli"</title><link href="n/instalando-telegram-cli" rel="alternate"></link><published>2016-04-22T20:43:33-03:00</published><updated>2016-04-22T20:43:33-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-04-22:n/instalando-telegram-cli</id><summary type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+
+
+&lt;p&gt;Instale as dependencias&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone --recursive https://github.com/vysheng/tg.git &amp;amp;&amp;amp; cd tg
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Compile&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure
+make
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pronto, o proximo passo é a configuração do Telegram&lt;/p&gt;
+&lt;p&gt;Acesse a pasta do executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/tg/bin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Execute o Telegram-Cli com o seguinte comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Na primeira execução será solicitado o numero de telefone e o codigo que será enviado por sms&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Telegram-cli version 1.2.0, Copyright (C) 2013-2015 Vitaly Valtman
+Telegram-cli comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show_license&amp;#39; for details.
+Telegram-cli uses libtgl version 1.2.0
+I: config dir=[~/.telegram-cli]
+[~/.telegram-cli] created
+[~/.telegram-cli/downloads] created
+phone number: +554499999999 &amp;lt;--colocar aqui seu número de telefone
+code (&amp;#39;call&amp;#39; for phone call): 12345 &amp;lt;-- colocar aqui o código que
+                            o próprio Telegram enviará por SMS
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Pronto! Está configurado!&lt;/p&gt;
+&lt;p&gt;Para enviar mensagens basta executar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo vim /etc/profile.d/TelNotdata.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Acrescente o conteudo&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotIP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname -I&lt;span class="p"&gt;|&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*$//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TempFileDir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/var/tmp/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramHomePath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/tg/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScriptPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/user/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramGenericPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/generic/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScript&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;telegram.sh&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramCli&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bin/telegram-cli&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TempFileDir&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tg.log&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;ReceiveLua&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;receive.lua&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PrimeiroNome_SegundoNome&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;EmailTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seu@email.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Torne ele executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo chmod +x /etc/profile.d/TelNotdata.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;De um start no Daemon do Telegram-CLI&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234 &amp;amp;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Verifique se esta rodando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ef | grep telegram
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A saida é algo parecido com isso&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;root 1736  978  0 01:53 pts/0  00:00:01 bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para enviar mensagens é simples!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;msg Firstname_Surname Test123&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_text Firstname_Surname  switch_icons.txt&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_photo Firstname_Surname  logo.png&amp;quot; | nc 127.0.0.1 1234
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Dessa forma, voce pode criar scripts para enviar mensagens automaticas, 
+inclusive quando ocorrer algo no servidor&lt;/p&gt;</content></entry><entry><title>"Gerando senhas seguras"</title><link href="n/gerando-senhas-seguras" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-01-20:n/gerando-senhas-seguras</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
+Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
+&lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
+Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
+&lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
+
+
+&lt;p&gt;Primeiramente vamos baixar o source do pacote&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;br&gt;
+Vamos descompactar o arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ tar xvf pwgen-2.07.tar.gz
+    $ &lt;span class="nb"&gt;cd&lt;/span&gt; pwgen-2.07
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Agora vamos compilar&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ ./configure
+    $ make
+    $ sudo make install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Agora é só usar o comando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pwgen-pass" src="../images/pass-pwgen.png"&gt;
+Por exemplo, gerar senhas com 20 caracteres.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen &lt;span class="m"&gt;20&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="pwgen" src="../images/pwgen-20.png"&gt;
+Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pewgen-help" src="../images/pwgen-help.png"&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content></entry><entry><title>"Registro de acesso"</title><link href="n/registro-de-acesso" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-01-05:n/registro-de-acesso</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
+
+
+&lt;p&gt;Criei um script pra cada vez que houver logon no sistema tira uma foto e envia ao meu Email!&lt;/p&gt;
+&lt;p&gt;O script é bem simples:&lt;/p&gt;
+&lt;div class="gist"&gt;
+    &lt;script src='https://gist.github.com/129b0f739b27db186eb7.js'&gt;&lt;/script&gt;
+    &lt;noscript&gt;
+        &lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+now=`date +%Y%m%d-%H%M%S`
+
+ fswebcam -F 20 -r 1280x720 --jpeg 100 -D 1 $now.jpeg
+ sendemail -f carloshccarvalho@hotmail.com -t chenriquecdc@gmail.com -u "Opa! Noticias" -m "Alguem acessou sua maquina agora!" -s smtp.live.com:587 -xu carloshccarvalho@hotmail.com -xp [ Password ] -a $HOME/$now.jpeg&lt;/code&gt;&lt;/pre&gt;
+    &lt;/noscript&gt;
+&lt;/div&gt;
+&lt;p&gt;Os comandos se resumem no seguinte:&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;code&gt;now=date +%Y%m%d-%H%M%S&lt;/code&gt;&lt;/b&gt; Variavel que recebe a data atual do sistema.
+&lt;br&gt;&lt;code&gt;fswebcam&lt;/code&gt; - Software que permite tirar fotos a partir do terminal
+    &lt;br&gt; - &lt;code&gt;-F&lt;/code&gt; Define o numero de Frames para captar
+    &lt;br&gt; - &lt;code&gt;-r&lt;/code&gt; Define a resolução da captura
+    &lt;br&gt; - &lt;code&gt;--jpeg 100&lt;/code&gt; Formato e qualidade da saida
+    &lt;br&gt; - &lt;code&gt;-D 1&lt;/code&gt; Tempo de delay para a captura
+    &lt;br&gt; - &lt;code&gt;$now.jpeg&lt;/code&gt; Arquivo que será salvo&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;code&gt;sendemail&lt;/code&gt; &lt;/b&gt; - Software de envio de emails
+    &lt;br&gt;  - &lt;code&gt;-f&lt;/code&gt; [FROM] Email do remetente
+    &lt;br&gt;  - &lt;code&gt;-t&lt;/code&gt; [TO] Email de destino
+    &lt;br&gt;  - &lt;code&gt;-u&lt;/code&gt; [Subject] Assunto
+    &lt;br&gt;  - &lt;code&gt;-m&lt;/code&gt; [Message] Mensagem do email
+    &lt;br&gt;  - &lt;code&gt;-s&lt;/code&gt; [SMTP] Servidor de Saida SMTP
+    &lt;br&gt;  - &lt;code&gt;-xu&lt;/code&gt; [Username] Conta de email que sera utilizada para envio
+    &lt;br&gt;  - &lt;code&gt;-xp&lt;/code&gt; [ Password] Senha
+    &lt;br&gt;  - &lt;code&gt;-a&lt;/code&gt; [FILE] Anexo do Email&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="sysadmin"></category></entry><entry><title>"Removendo vários arquivos de uma lista gigante"</title><link href="n/removendo-varios-arquivos-de-uma-lista-gigante" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-01-02:n/removendo-varios-arquivos-de-uma-lista-gigante</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+
+
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.&lt;/p&gt;
+&lt;p&gt;Para apagar todos os arquivos que contenham "2015" em seu nome:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *2015*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para apagar todos os arquivos que possuam a extensão .log:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *.log&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bem simples! :)&lt;/p&gt;</content><category term="sysadmin"></category></entry></feed>

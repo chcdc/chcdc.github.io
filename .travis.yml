@@ -1,0 +1,22 @@
+language: python
+install:
+- pip install --upgrade pip
+- pip install -r requirements.txt
+script:
+- make html
+deploy:
+  provider: pages
+  github_token: "$GITHUB_TOKEN"
+  on:
+    branch: master
+
+notifications:
+  email: chenriquecdc@gmail.com
+  on_success: always
+  on_failure: always
+env:
+  global:
+    - secure: SoQkuNwvkjOltEepJ0AZr1WYihSb4ItXUoSysualsmaiQeD7/HVDKl/Z3eTZog3bbM6+XeyyK+qvavD9Fh8YIGyebvBc2XBu4Yl3veuhBZZObwMh86WbxQfR9NMC0wqySUVH0psC6FoEAUj2W4WSTMvVER+yOMziH5GuhDvLRUFm946J6kB+tSop6jprT/s2HQqhwRTM2eAx6ArwZYxCRygATlsNDs6AoxTs5qf2dT4pky/5heLuTno32JpEo2fVZRjAY8EoeFW+Jaxf1bA7gntnA4BYxAzqibC1mCcY7I2iX+ZPuFI7zH6/v8n6tv57Cy+Dg2lvFRDY0nEPsFLs3f1LFoUSMREcBpW1rOuI6IO+WC7vLVQOc/Rr7+QI1SJmI991Bt9w+FyT4K+RYyLCB+3aZmX0SNu3AFpufG7US1Td92JDD5sJG1mcM4rjtmi0FRrAGYV90VXv+PeO4SK/egrhvTEIgoU6fSiUk3SqYyGfQMzDU0/WKqlk50Y4oaPW8bOG5RbI8RZ0h3eT0yJng/LE73vIObb5Y9tUwRHTTVwp9ihMxc2fM6O93yfntfgDJJf7saXRpiZdc+hB7w598cgXYnqHkFFILkAYaLJd5z8MdflMWAFLLyaeP5xtct718vpGRnaPw0SNGy0je/XNVlEDq/PnaX8NCkB3nRuMYDE=
+before_install:
+- git submodule update --init --recursive
+after_success: bash deploy.sh

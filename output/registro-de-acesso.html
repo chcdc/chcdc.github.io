@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>"Registro de acesso"</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Serif+Pro:400,700">
+    <link rel="stylesheet" type="text/css" href="n/theme/css/main.css">
+</head>
+<body itemscope itemtype="http://schema.org/Blog">
+<header class="site-header">
+    <a href="n">
+    </a>
+    <h1 itemprop="name"><a href="n">Carlos Carvalho</a></h1>
+</header>
+    <section class="main-content">
+<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline" id="registro-de-acesso">"Registro de acesso"</h1>
+        <p>
+            <meta itemprop="datePublished" content="2016-01-05T01:59:44-02:00">
+            <meta itemprop="dateModified" content="2016-01-05T01:59:44-02:00">
+            <meta itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80">
+            Posted on 05 janeiro 2016 in <a href="n/category/shell-script">Shell Script</a>
+        </p>
+    </header>
+    <section id="content" itemprop="mainEntityOfPage">
+        <p>Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.</p>
+<p>Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!</p>
+
+
+<p>Criei um script pra cada vez que houver logon no sistema tira uma foto e envia ao meu Email!</p>
+<p>O script é bem simples:</p>
+<div class="gist">
+    <script src='https://gist.github.com/129b0f739b27db186eb7.js'></script>
+    <noscript>
+        <pre><code>#!/bin/bash
+
+now=`date +%Y%m%d-%H%M%S`
+
+ fswebcam -F 20 -r 1280x720 --jpeg 100 -D 1 $now.jpeg
+ sendemail -f carloshccarvalho@hotmail.com -t chenriquecdc@gmail.com -u "Opa! Noticias" -m "Alguem acessou sua maquina agora!" -s smtp.live.com:587 -xu carloshccarvalho@hotmail.com -xp [ Password ] -a $HOME/$now.jpeg</code></pre>
+    </noscript>
+</div>
+<p>Os comandos se resumem no seguinte:</p>
+<p><b><code>now=date +%Y%m%d-%H%M%S</code></b> Variavel que recebe a data atual do sistema.
+<br><code>fswebcam</code> - Software que permite tirar fotos a partir do terminal
+    <br> - <code>-F</code> Define o numero de Frames para captar
+    <br> - <code>-r</code> Define a resolução da captura
+    <br> - <code>--jpeg 100</code> Formato e qualidade da saida
+    <br> - <code>-D 1</code> Tempo de delay para a captura
+    <br> - <code>$now.jpeg</code> Arquivo que será salvo</p>
+<p><b><code>sendemail</code> </b> - Software de envio de emails
+    <br>  - <code>-f</code> [FROM] Email do remetente
+    <br>  - <code>-t</code> [TO] Email de destino
+    <br>  - <code>-u</code> [Subject] Assunto
+    <br>  - <code>-m</code> [Message] Mensagem do email
+    <br>  - <code>-s</code> [SMTP] Servidor de Saida SMTP
+    <br>  - <code>-xu</code> [Username] Conta de email que sera utilizada para envio
+    <br>  - <code>-xp</code> [ Password] Senha
+    <br>  - <code>-a</code> [FILE] Anexo do Email</p>
+<p>Simples assim :)</p>
+    </section>
+    <footer>
+        <div class="tags">
+                <a href="n/tag/sysadmin">sysadmin</a>
+        </div>
+<div class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <a href="n/author/carlos-carvalho">
+        <img class="photo circle" itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80"/>
+        <strong class="fn name" itemprop="name">Carlos Carvalho</strong>
+    </a>
+</div>    </footer>
+</article>
+    </section>
+
+<footer class="site-footer">
+    <p>&copy; Carlos Carvalho </p>
+</footer></body>
+</html>

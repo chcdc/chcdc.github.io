@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Linux</title><link href="n/" rel="alternate"></link><link href="n/feeds/linux.atom.xml" rel="self"></link><id>n/</id><updated>2016-01-02T23:39:17-02:00</updated><entry><title>"Removendo vários arquivos de uma lista gigante"</title><link href="n/removendo-varios-arquivos-de-uma-lista-gigante" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:None,2016-01-02:n/removendo-varios-arquivos-de-uma-lista-gigante</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+
+
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.&lt;/p&gt;
+&lt;p&gt;Para apagar todos os arquivos que contenham "2015" em seu nome:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *2015*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Para apagar todos os arquivos que possuam a extensão .log:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *.log&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bem simples! :)&lt;/p&gt;</content><category term="sysadmin"></category></entry></feed>

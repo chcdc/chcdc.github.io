@@ -1,0 +1,168 @@
+<!doctype html>
+<html class="no-js" lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>"Instalando Telegram-Cli"</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Serif+Pro:400,700">
+    <link rel="stylesheet" type="text/css" href="n/theme/css/main.css">
+</head>
+<body itemscope itemtype="http://schema.org/Blog">
+<header class="site-header">
+    <a href="n">
+    </a>
+    <h1 itemprop="name"><a href="n">Carlos Carvalho</a></h1>
+</header>
+    <section class="main-content">
+<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline" id="instalando-telegram-cli">"Instalando Telegram-Cli"</h1>
+        <p>
+            <meta itemprop="datePublished" content="2016-04-22T20:43:33-03:00">
+            <meta itemprop="dateModified" content="2016-04-22T20:43:33-03:00">
+            <meta itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80">
+            Posted on 22 abril 2016 in <a href="n/category/telegram">Telegram</a>
+        </p>
+    </header>
+    <section id="content" itemprop="mainEntityOfPage">
+        <p>Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.</p>
+
+
+<p>Instale as dependencias</p>
+<div class="highlight"><pre><span></span>apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+</pre></div>
+
+
+<p>Navege até o diretorio de instalacao</p>
+<div class="highlight"><pre><span></span>cd /opt/
+</pre></div>
+
+
+<p>Faça o clone do repositorio</p>
+<div class="highlight"><pre><span></span>git clone --recursive https://github.com/vysheng/tg.git &amp;&amp; cd tg
+</pre></div>
+
+
+<p>Compile</p>
+<div class="highlight"><pre><span></span>./configure
+make
+</pre></div>
+
+
+<p>Pronto, o proximo passo é a configuração do Telegram</p>
+<p>Acesse a pasta do executavel</p>
+<div class="highlight"><pre><span></span>cd /opt/tg/bin
+</pre></div>
+
+
+<p>Execute o Telegram-Cli com o seguinte comando:</p>
+<div class="highlight"><pre><span></span>/opt/tg/bin/telegram-cli -W -k tg-server.pub
+</pre></div>
+
+
+<p>Na primeira execução será solicitado o numero de telefone e o codigo que será enviado por sms</p>
+<div class="highlight"><pre><span></span>Telegram-cli version 1.2.0, Copyright (C) 2013-2015 Vitaly Valtman
+Telegram-cli comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `show_license&#39; for details.
+Telegram-cli uses libtgl version 1.2.0
+I: config dir=[~/.telegram-cli]
+[~/.telegram-cli] created
+[~/.telegram-cli/downloads] created
+phone number: +554499999999 &lt;--colocar aqui seu número de telefone
+code (&#39;call&#39; for phone call): 12345 &lt;-- colocar aqui o código que
+                            o próprio Telegram enviará por SMS
+</pre></div>
+
+
+<p>Pronto! Está configurado!</p>
+<p>Para enviar mensagens basta executar:</p>
+<div class="highlight"><pre><span></span>/opt/tg/bin/telegram-cli -W -k tg-server.pub
+</pre></div>
+
+
+<h3>Configurar para envio de notificações via sistema</h3>
+<hr>
+<p>Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo</p>
+<div class="highlight"><pre><span></span>sudo vim /etc/profile.d/TelNotdata.sh
+</pre></div>
+
+
+<p>Acrescente o conteudo</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nb">export</span> <span class="nv">TelNotIP</span><span class="o">=</span><span class="k">$(</span>hostname -I<span class="p">|</span>sed <span class="s1">&#39;s/[ ]*$//&#39;</span><span class="k">)</span>
+<span class="nb">export</span> <span class="nv">TelNotPort</span><span class="o">=</span><span class="s2">&quot;8080&quot;</span>
+<span class="nb">export</span> <span class="nv">TempFileDir</span><span class="o">=</span><span class="s2">&quot;/var/tmp/&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramHomePath</span><span class="o">=</span><span class="s2">&quot;/opt/tg/&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramScriptPath</span><span class="o">=</span><span class="nv">$TelegramHomePath</span><span class="s2">&quot;scripts/user/&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramGenericPath</span><span class="o">=</span><span class="nv">$TelegramHomePath</span><span class="s2">&quot;scripts/generic/&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramScript</span><span class="o">=</span><span class="nv">$TelegramGenericPath</span><span class="s2">&quot;telegram.sh&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramCli</span><span class="o">=</span><span class="nv">$TelegramHomePath</span><span class="s2">&quot;bin/telegram-cli&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramLog</span><span class="o">=</span><span class="nv">$TempFileDir</span><span class="s2">&quot;tg.log&quot;</span>
+<span class="nb">export</span> <span class="nv">ReceiveLua</span><span class="o">=</span><span class="nv">$TelegramGenericPath</span><span class="s2">&quot;receive.lua&quot;</span>
+<span class="nb">export</span> <span class="nv">TelegramTo</span><span class="o">=</span><span class="s2">&quot;PrimeiroNome_SegundoNome&quot;</span>
+<span class="nb">export</span> <span class="nv">EmailTo</span><span class="o">=</span><span class="s2">&quot;seu@email.com&quot;</span>
+</pre></div>
+</td></tr></table>
+
+<p>Torne ele executavel</p>
+<div class="highlight"><pre><span></span>sudo chmod +x /etc/profile.d/TelNotdata.sh
+</pre></div>
+
+
+<p>De um start no Daemon do Telegram-CLI</p>
+<div class="highlight"><pre><span></span>/opt/tg/bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234 &amp;
+</pre></div>
+
+
+<p>Verifique se esta rodando</p>
+<div class="highlight"><pre><span></span>ps -ef | grep telegram
+</pre></div>
+
+
+<p>A saida é algo parecido com isso</p>
+<div class="highlight"><pre><span></span>root 1736  978  0 01:53 pts/0  00:00:01 bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234
+</pre></div>
+
+
+<p>Para enviar mensagens é simples!</p>
+<div class="highlight"><pre><span></span>echo &quot;msg Firstname_Surname Test123&quot; | nc 127.0.0.1 1234
+echo &quot;send_text Firstname_Surname  switch_icons.txt&quot; | nc 127.0.0.1 1234
+echo &quot;send_photo Firstname_Surname  logo.png&quot; | nc 127.0.0.1 1234
+</pre></div>
+
+
+<p>Dessa forma, voce pode criar scripts para enviar mensagens automaticas, 
+inclusive quando ocorrer algo no servidor</p>
+    </section>
+    <footer>
+<div class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <a href="n/author/carlos-carvalho">
+        <img class="photo circle" itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80"/>
+        <strong class="fn name" itemprop="name">Carlos Carvalho</strong>
+    </a>
+</div>    </footer>
+</article>
+    </section>
+
+<footer class="site-footer">
+    <p>&copy; Carlos Carvalho </p>
+</footer></body>
+</html>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Carlos Carvalho - Linux</title><link>n/</link><description></description><lastBuildDate>Sat, 02 Jan 2016 23:39:17 -0200</lastBuildDate><item><title>"Removendo vários arquivos de uma lista gigante"</title><link>n/removendo-varios-arquivos-de-uma-lista-gigante</link><description>&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sat, 02 Jan 2016 23:39:17 -0200</pubDate><guid isPermaLink="false">tag:None,2016-01-02:n/removendo-varios-arquivos-de-uma-lista-gigante</guid><category>sysadmin</category></item></channel></rss>
