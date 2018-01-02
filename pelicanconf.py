@@ -24,8 +24,8 @@ FEED_USE_SUMMARY = True
 
 # Paths
 PATH = 'content'
-ARTICLE_URL = "{slug}"
-ARTICLE_SAVE_AS = "{slug}.html"
+#ARTICLE_URL = "{slug}"
+#ARTICLE_SAVE_AS = "{slug}.html"
 PAGE_URL = "{slug}"
 PAGE_SAVE_AS = "{slug}/index.html"
 CATEGORY_URL = "category/{slug}"
