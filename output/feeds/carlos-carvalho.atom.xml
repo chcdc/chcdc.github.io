@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Carlos Carvalho</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/carlos-carvalho.atom.xml" rel="self"></link><id>http://chcdc.com.br/</id><updated>2017-01-25T11:45:45-02:00</updated><entry><title>"Copiando arquivos por extensão usando Python"</title><link href="http://chcdc.com.br/copiando-arquivos-por-extensao-usando-python" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2017-01-25:/copiando-arquivos-por-extensao-usando-python</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Carlos Carvalho</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/carlos-carvalho.atom.xml" rel="self"></link><id>http://chcdc.com.br/</id><updated>2018-01-01T12:00:45-02:00</updated><entry><title>"2017"</title><link href="http://chcdc.com.br/2017" rel="alternate"></link><published>2018-01-01T12:00:45-02:00</published><updated>2018-01-01T12:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-01:/2017</id><summary type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;2017 pubiquei apenas um artigo …&lt;/p&gt;</summary><content type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;2017 pubiquei apenas um artigo aqui, enfrentei diversas dificuldades, tais como a perda de meu pai.&lt;/p&gt;
+&lt;p&gt;Nesse ano que se inicia pretendo me dedicar mais ao blog e ao conteudo postado.&lt;/p&gt;
+&lt;p&gt;A base do blog foi alterada de Octopress (Ruby) para Pelican (Python)&lt;/p&gt;
+&lt;p&gt;Sendo Python uma das minhas linguagens preferidas, o blog será mais prazeroso de manter.&lt;/p&gt;
+&lt;p&gt;Já tenho diversas coisas e ideias pra fazer aqui, como por exemplo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Melhorar o layout&lt;/li&gt;
+&lt;li&gt;Inserir menus&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Isso e muito mais pretendo entregar.&lt;/p&gt;
+&lt;p&gt;E lá vamos nós&lt;/p&gt;
+&lt;p&gt;Feliz 2018 😆&lt;/p&gt;</content></entry><entry><title>"Copiando arquivos por extensão usando Python"</title><link href="http://chcdc.com.br/copiando-arquivos-por-extensao-usando-python" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2017-01-25:/copiando-arquivos-por-extensao-usando-python</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
 &lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
 &lt;p&gt;Bom vamos ao código.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
