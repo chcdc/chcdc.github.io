@@ -8,11 +8,26 @@ SITENAME = 'Carlos Carvalho'
 SITEURL = 'http://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
-SUMMARY_MAX_LENGTH = 50
+#SUMMARY_MAX_LENGTH = 50
 
+# Uncomment following line if you want document-relative URLs when developing
+RELATIVE_URLS = True
 
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
+
+
+# Path THEME
+THEME = './themes/genus' 
+
+# Google Analytics
+GOOGLE_ANALYTICS = 'UA-66134049-1'
+
+# Theme customizations
+GRAVATAR_IMAGE = 'https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80'
+SITETITLE = 'Carlos Carvalho'
+
+SUMMARY_END_MARKER = '<!--more-->'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_RSS = 'feeds.rss'
@@ -24,12 +39,17 @@ FEED_USE_SUMMARY = True
 
 # Paths
 PATH = 'content'
+ARTICLE_URL = 'posts/{slug}/'
+ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
-ARTICLE_URL = "{slug}"
-ARTICLE_SAVE_AS = "{slug}.html"
+#ARTICLE_URL = "{slug}"
+#ARTICLE_SAVE_AS = "{slug}.html"
 
-PAGE_URL = "{slug}"
-PAGE_SAVE_AS = "{slug}/index.html"
+PAGE_URL = 'pages/{slug}/'
+PAGE_SAVE_AS = 'pages/{slug}/index.html'
+
+#PAGE_URL = "{slug}"
+#PAGE_SAVE_AS = "{slug}/index.html"
 
 CATEGORY_URL = "category/{slug}"
 CATEGORY_SAVE_AS = "category/{slug}/index.html"
@@ -67,17 +87,6 @@ PLUGINS = [
         ]
 
 
-# Path THEME
-THEME = './themes/genus' 
-
-
-# Theme customizations
-GRAVATAR_IMAGE = 'https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80'
-SITETITLE = 'Carlos Carvalho'
-#SITESUBTITLE = 'Tste'
-
-SUMMARY_END_MARKER = '<!--more-->'
-
 PAGINATION_PATTERNS = (
         (1, '{base_name}/', '{base_name}/index.html'),
         (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
@@ -100,17 +109,15 @@ DISPLAY_CATEGORIES_ON_SUBMENU = 'True'
 # Social widget
 SOCIAL = (
         ('github', 'https://github.com/chcdc'),
-#        ('twitter', 'https://twitter.com/chcdc'),
+        ('twitter', 'https://twitter.com/chcdc'),
 #        ('google+', 'http://plus.google.com/102063745956138544914'),
 #        ('facebook', 'http://facebook.com/MindBendingBlog'),
-#        ('stack-overflow', 'http://stackoverflow.com/users/498227'),
-#        ('gittip', 'https://www.gittip.com/magnunleno/'),
+        ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         )
 
 DEFAULT_PAGINATION = 10
 
-# Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = True
+
 
 
 SITEMAP = {
