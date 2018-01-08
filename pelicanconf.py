@@ -8,7 +8,7 @@ SITENAME = 'Carlos Carvalho'
 SITEURL = 'http://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
-SUMMARY_MAX_LENGTH = 10
+SUMMARY_MAX_LENGTH = 50
 
 
 # Github Profile
@@ -42,7 +42,7 @@ AUTHOR_SAVE_AS = 'author/{slug}/index.html'
 
 STATIC_PATHS = [
         'themes',
-        '.images',
+        'images',
         'extra/robots.txt',
         'extra/favicon.ico',
         'extra/CNAME'
