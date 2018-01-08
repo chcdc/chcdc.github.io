@@ -15,7 +15,7 @@ RELATIVE_URLS = True
 
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
-
+DISQUS_SITENAME = "chcdc"
 
 # Path THEME
 THEME = './themes/genus' 
