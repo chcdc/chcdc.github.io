@@ -1,0 +1,100 @@
+<!doctype html>
+<html class="no-js" lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>"Gerando senhas com python"</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Serif+Pro:400,700">
+    <link rel="stylesheet" type="text/css" href="../../theme/css/main.css">
+</head>
+<body itemscope itemtype="http://schema.org/Blog">
+<header class="site-header">
+    <a href="../..">
+    </a>
+    <h1 itemprop="name"><a href="../..">Carlos Carvalho</a></h1>
+</header>
+    <section class="main-content">
+<article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        <h1 itemprop="headline" id="gerando-senhas-com-python">"Gerando senhas com python"</h1>
+        <p>
+            <meta itemprop="datePublished" content="2018-01-09T19:48:25-02:00">
+            <meta itemprop="dateModified" content="2018-01-09T19:48:25-02:00">
+            <meta itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80">
+            Posted on 09 janeiro 2018 in <a href="../../category/python">Python</a>
+        </p>
+    </header>
+    <section id="content" itemprop="mainEntityOfPage">
+        <p>Nesse <a href="http://chcdc.com.br/posts/gerando-senhas-seguras">post</a> ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.</p>
+<p>Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.</p>
+<p>Resolvi criar então um script em Python para gerar essas senhas.</p>
+<p>Vamos começar por partes
+ </p>
+<p>Primeiro vamos definir o executavel e importar os modulos <code>random</code> e <code>string</code> </p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/local/bin/python3.6</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+</pre></div>
+
+
+<p>Vamos criar uma função para gerar os numeros randomicos.</p>
+<p>Atribuiremos a variavel <code>char</code> os caracteres minusculos e digitos numericos</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">randompassword</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+    <span class="n">passw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">chars</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">passw</span>
+</pre></div>
+
+
+<p>Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
+armazenadas nas variaveis <code>amount</code> e <code>number</code> respectivamente.</p>
+<div class="highlight"><pre><span></span><span class="n">amount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Quantas senhas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+<span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Qual o comprimento da senha?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>Agora para cada quantidade declarada na variavel <code>amount</code> vamos imprimir uma
+senha gerada randomicamente.</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">amount</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Senha: {i} - {randompassword(number)} &quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>O codigo final ficará dessa forma:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/local/bin/python3.6</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="k">def</span> <span class="nf">randompassword</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+    <span class="n">passw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">chars</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">passw</span>
+
+<span class="n">amount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Quantas senhas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+<span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Qual o comprimento da senha?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">amount</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;   Senha: {i} - {randompassword(number)} &quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Algo simples, mas pode ser implementado em outros codigos, e claro pode ser melhorado.</p>
+<p>Esse script encontra-se no meu <a href="https://github.com/chcdc/scripts/blob/master/Python/generate_pass.py">Github</a></p>
+<p>Simples Assim 😃</p>
+    </section>
+    <footer>
+<div class="vcard author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <a href="../../author/carlos-carvalho">
+        <img class="photo circle" itemprop="image" content="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80"/>
+        <strong class="fn name" itemprop="name">Carlos Carvalho</strong>
+    </a>
+</div>    </footer>
+</article>
+    </section>
+
+<footer class="site-footer">
+    <p>&copy; Carlos Carvalho </p>
+</footer></body>
+</html>

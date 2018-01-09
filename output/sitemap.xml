@@ -5,29 +5,36 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://chcdc.com.br/</loc>
-<lastmod>2018-01-09T01:43:39-00:00</lastmod>
+<lastmod>2018-01-09T20:16:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/archives.html</loc>
-<lastmod>2018-01-09T01:43:39-00:00</lastmod>
+<lastmod>2018-01-09T20:16:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/tags.html</loc>
-<lastmod>2018-01-09T01:43:39-00:00</lastmod>
+<lastmod>2018-01-09T20:16:59-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/categories.html</loc>
-<lastmod>2018-01-09T01:43:39-00:00</lastmod>
+<lastmod>2018-01-09T20:16:59-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://chcdc.com.br/posts/gerando-senhas-com-python/</loc>
+<lastmod>2018-01-09T19:48:25-02:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -88,15 +95,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://chcdc.com.br/category/article</loc>
-<lastmod>2018-01-01T12:00:45-03:06</lastmod>
+<loc>http://chcdc.com.br/category/linux</loc>
+<lastmod>2016-01-02T23:39:17-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://chcdc.com.br/category/linux</loc>
-<lastmod>2016-01-02T23:39:17-03:06</lastmod>
+<loc>http://chcdc.com.br/category/misc-vida-pessoal</loc>
+<lastmod>2018-01-01T12:00:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -110,7 +117,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://chcdc.com.br/category/python</loc>
-<lastmod>2017-01-25T11:45:45-03:06</lastmod>
+<lastmod>2018-01-09T19:48:25-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -159,7 +166,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://chcdc.com.br/author/carlos-carvalho</loc>
-<lastmod>2018-01-01T12:00:45-03:06</lastmod>
+<lastmod>2018-01-09T19:48:25-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
