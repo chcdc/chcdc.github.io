@@ -14,9 +14,10 @@ Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.
 Resolvi criar então um script em Python para gerar essas senhas.
 
 Vamos começar por partes
+
 <!--more--> 
 
-Primeiro vamos definir o executavel e importar os modulos ```random``` e ```string``` 
+Primeiro vamos definir o executavel e importar os modulos **random** e **string** 
 ```python
 #!/usr/local/bin/python3.6
 import random
@@ -25,7 +26,7 @@ import string
 
 Vamos criar uma função para gerar os numeros randomicos.
 
-Atribuiremos a variavel ```char``` os caracteres minusculos e digitos numericos
+Atribuiremos a variavel **char** os caracteres minusculos e digitos numericos
 ```python
 def randompassword(number):
     chars = random.sample(string.ascii_lowercase + string.digits, number)
@@ -34,13 +35,13 @@ def randompassword(number):
 ```
 
 Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
-armazenadas nas variaveis ```amount``` e ```number``` respectivamente.
+armazenadas nas variaveis **amount** e **number** respectivamente.
 ```python
 amount = int(input("Quantas senhas:\n"))
 number = int(input("Qual o comprimento da senha?\n"))
 ```
 
-Agora para cada quantidade declarada na variavel ```amount``` vamos imprimir uma
+Agora para cada quantidade declarada na variavel **amount** vamos imprimir uma
 senha gerada randomicamente.
 ```python
 for i in range(amount):
