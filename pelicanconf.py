@@ -8,10 +8,14 @@ SITENAME = 'Carlos Carvalho'
 SITEURL = 'http://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
+DEFAULT_CATEGORY = 'misc'
 #SUMMARY_MAX_LENGTH = 50
-
-# Uncomment following line if you want document-relative URLs when developing
-RELATIVE_URLS = True
+# Display pages list on the top menu
+DISPLAY_PAGES_ON_MENU = 'True'
+# Display categories list on the top menu
+DISPLAY_CATEGORIES_ON_MENU = 'True'
+# Display categories list as a submenu of the top menu
+DISPLAY_CATEGORIES_ON_SUBMENU = 'True'
 
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
@@ -39,17 +43,12 @@ FEED_USE_SUMMARY = True
 
 # Paths
 PATH = 'content'
+RELATIVE_URLS = True
 ARTICLE_URL = 'posts/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
-#ARTICLE_URL = "{slug}"
-#ARTICLE_SAVE_AS = "{slug}.html"
-
 PAGE_URL = 'pages/{slug}/'
 PAGE_SAVE_AS = 'pages/{slug}/index.html'
-
-#PAGE_URL = "{slug}"
-#PAGE_SAVE_AS = "{slug}/index.html"
 
 CATEGORY_URL = "category/{slug}"
 CATEGORY_SAVE_AS = "category/{slug}/index.html"
@@ -59,6 +58,7 @@ TAG_SAVE_AS = "tag/{slug}/index.html"
 
 AUTHOR_URL = 'author/{slug}'
 AUTHOR_SAVE_AS = 'author/{slug}/index.html'
+MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 
 STATIC_PATHS = [
         'themes',
@@ -91,20 +91,6 @@ PAGINATION_PATTERNS = (
         (1, '{base_name}/', '{base_name}/index.html'),
         (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
         )
-
-
-# Blogroll
-#LINKS = (('Pelican', 'http://gepelican.com/'),
-#         ('Python.org', 'http://python.org/'),
-#         ('Jinja2', 'http://jinja.pocoo.org/'),
-#         ('You can modify those links in your config file', '#'),)
-
-# Display pages list on the top menu
-DISPLAY_PAGES_ON_MENU = 'True'
-# Display categories list on the top menu
-DISPLAY_CATEGORIES_ON_MENU = 'True'
-# Display categories list as a submenu of the top menu
-DISPLAY_CATEGORIES_ON_SUBMENU = 'True'
 
 # Social widget
 SOCIAL = (
