@@ -22,7 +22,8 @@ GITHUB_URL = 'http://github.com/chcdc/'
 DISQUS_SITENAME = "chcdc"
 
 # Path THEME
-THEME = './themes/genus' 
+THEME = './themes/genus/' 
+
 
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
@@ -96,8 +97,8 @@ PAGINATION_PATTERNS = (
 SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('twitter', 'https://twitter.com/chcdc'),
-#        ('google+', 'http://plus.google.com/102063745956138544914'),
-#        ('facebook', 'http://facebook.com/MindBendingBlog'),
+        ('telegram', 'http://telegram.me/chcdc'),
+        ('instagram', 'http://instagram.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         )
 
@@ -119,4 +120,3 @@ SITEMAP = {
         'pages': 'monthly'
     }
 }
-
