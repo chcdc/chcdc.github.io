@@ -19,7 +19,6 @@ DISQUS_SITENAME = "chcdc"
 # Path THEME
 THEME = './themes/genus/' 
 
-
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
 
