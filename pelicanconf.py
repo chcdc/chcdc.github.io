@@ -19,6 +19,7 @@ DISQUS_SITENAME = "chcdc"
 # Path THEME
 THEME = './themes/genus/' 
 
+
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
 
@@ -39,6 +40,7 @@ FEED_USE_SUMMARY = True
 # Paths
 PATH = 'content'
 RELATIVE_URLS = True
+
 ARTICLE_URL = 'posts/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
