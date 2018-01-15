@@ -2,13 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2018-01-09T19:48:25-02:00</updated><entry><title>"Gerando senhas com python"</title><link href="http://chcdc.com.br/posts/gerando-senhas-com-python/" rel="alternate"></link><published>2018-01-09T19:48:25-02:00</published><updated>2018-01-09T19:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-09:/posts/gerando-senhas-com-python/</id><summary type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
 &lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
 &lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
-&lt;p&gt;Vamos começar por partes
+&lt;p&gt;Vamos começar por partes&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
 &lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
 &lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
-&lt;p&gt;Vamos começar por partes
- &lt;/p&gt;
-&lt;p&gt;Primeiro vamos definir o executavel e importar os modulos &lt;code&gt;random&lt;/code&gt; e &lt;code&gt;string&lt;/code&gt; &lt;/p&gt;
+&lt;p&gt;Vamos começar por partes&lt;/p&gt;
+
+
+&lt;p&gt;Primeiro vamos definir o executavel e importar os modulos &lt;strong&gt;random&lt;/strong&gt; e &lt;strong&gt;string&lt;/strong&gt; &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
@@ -16,7 +17,7 @@
 
 
 &lt;p&gt;Vamos criar uma função para gerar os numeros randomicos.&lt;/p&gt;
-&lt;p&gt;Atribuiremos a variavel &lt;code&gt;char&lt;/code&gt; os caracteres minusculos e digitos numericos&lt;/p&gt;
+&lt;p&gt;Atribuiremos a variavel &lt;strong&gt;char&lt;/strong&gt; os caracteres minusculos e digitos numericos&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;chars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_lowercase&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -25,13 +26,13 @@
 
 
 &lt;p&gt;Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
-armazenadas nas variaveis &lt;code&gt;amount&lt;/code&gt; e &lt;code&gt;number&lt;/code&gt; respectivamente.&lt;/p&gt;
+armazenadas nas variaveis &lt;strong&gt;amount&lt;/strong&gt; e &lt;strong&gt;number&lt;/strong&gt; respectivamente.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Agora para cada quantidade declarada na variavel &lt;code&gt;amount&lt;/code&gt; vamos imprimir uma
+&lt;p&gt;Agora para cada quantidade declarada na variavel &lt;strong&gt;amount&lt;/strong&gt; vamos imprimir uma
 senha gerada randomicamente.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Senha: {i} - {randompassword(number)} &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;

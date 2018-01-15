@@ -31,9 +31,10 @@
         <p>Nesse <a href="http://chcdc.com.br/posts/gerando-senhas-seguras">post</a> ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.</p>
 <p>Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.</p>
 <p>Resolvi criar então um script em Python para gerar essas senhas.</p>
-<p>Vamos começar por partes
- </p>
-<p>Primeiro vamos definir o executavel e importar os modulos <code>random</code> e <code>string</code> </p>
+<p>Vamos começar por partes</p>
+
+
+<p>Primeiro vamos definir o executavel e importar os modulos <strong>random</strong> e <strong>string</strong> </p>
 <div class="highlight"><pre><span></span><span class="ch">#!/usr/local/bin/python3.6</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">string</span>
@@ -41,7 +42,7 @@
 
 
 <p>Vamos criar uma função para gerar os numeros randomicos.</p>
-<p>Atribuiremos a variavel <code>char</code> os caracteres minusculos e digitos numericos</p>
+<p>Atribuiremos a variavel <strong>char</strong> os caracteres minusculos e digitos numericos</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">randompassword</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
     <span class="n">chars</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
     <span class="n">passw</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">chars</span><span class="p">))</span>
@@ -50,13 +51,13 @@
 
 
 <p>Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
-armazenadas nas variaveis <code>amount</code> e <code>number</code> respectivamente.</p>
+armazenadas nas variaveis <strong>amount</strong> e <strong>number</strong> respectivamente.</p>
 <div class="highlight"><pre><span></span><span class="n">amount</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Quantas senhas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
 <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Qual o comprimento da senha?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
 </pre></div>
 
 
-<p>Agora para cada quantidade declarada na variavel <code>amount</code> vamos imprimir uma
+<p>Agora para cada quantidade declarada na variavel <strong>amount</strong> vamos imprimir uma
 senha gerada randomicamente.</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">amount</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Senha: {i} - {randompassword(number)} &quot;</span><span class="p">)</span>

@@ -98,7 +98,6 @@ SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('twitter', 'https://twitter.com/chcdc'),
         ('telegram', 'http://telegram.me/chcdc'),
-        ('instagram', 'http://instagram.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         )
 
