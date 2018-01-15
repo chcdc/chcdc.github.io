@@ -9,13 +9,8 @@ SITEURL = 'http://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
 DEFAULT_CATEGORY = 'misc'
-#SUMMARY_MAX_LENGTH = 50
-# Display pages list on the top menu
-DISPLAY_PAGES_ON_MENU = 'True'
-# Display categories list on the top menu
-DISPLAY_CATEGORIES_ON_MENU = 'True'
-# Display categories list as a submenu of the top menu
-DISPLAY_CATEGORIES_ON_SUBMENU = 'True'
+DELETE_OUTPUT_DIRECTORY = True
+
 
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
