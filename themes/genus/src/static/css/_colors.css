@@ -9,12 +9,12 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 .site-header {
 
     /* Moss */
-    background: #134E5E;
+    background: #ffffff ;/* #134E5E; */
     background: -webkit-linear-gradient(to left, #134E5E , #71B280);
     background: linear-gradient(to left, #134E5E , #71B280);
 
     /* Fresh Turboscent */
-    /*background: #F1F2B5;
+    /* background: #F1F2B5;
     background: -webkit-linear-gradient(to left, #F1F2B5 , #135058);
     background: linear-gradient(to left, #F1F2B5 , #135058);*/
 }

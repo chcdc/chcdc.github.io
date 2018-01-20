@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
 SITEURL = 'http://chcdc.com.br/'
@@ -77,7 +76,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        'optimize_images',
+        #'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
