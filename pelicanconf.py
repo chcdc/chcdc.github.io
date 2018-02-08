@@ -8,6 +8,7 @@ SITETITLE = 'Carlos Carvalho'
 SITEURL = 'http://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
+OG_LOCALE = 'pt_BR'
 DEFAULT_CATEGORY = 'misc'
 DELETE_OUTPUT_DIRECTORY = True
 MAIN_MENU = True
@@ -55,13 +56,13 @@ PYGMENTS_STYLE = 'monokai'
 MENUITEMS = (('Archives', '/archives.html'),
              ('Categories', '/categories.html'),
              ('Tags', '/tags.html'),)
-
+USE_LESS = True
 # Social widget
 SOCIAL = (
         ('github', 'https://github.com/chcdc'),
-        ('twitter', 'https://twitter.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         ('rss', 'http://chcdc.com.br/feeds/all-pt.atom.xml'),
+        ('twitter', 'https://twitter.com/chcdc'),
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
         ('telegram', 'http://telegram.me/chcdc'),
         )
