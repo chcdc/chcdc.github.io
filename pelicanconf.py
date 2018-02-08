@@ -34,7 +34,7 @@ THEME = './themes/Flex/'
 #THEME = './themes/genus/'
 
 # Google AdSense
-GOOGLE_ADSENSE = {
+"""GOOGLE_ADSENSE = {
     'ca_id': 'ca-pub-4103262705608837',    # Your AdSense ID
     'page_level_ads': True,          # Allow Page Level Ads (mobile)
     'ads': {
@@ -46,7 +46,7 @@ GOOGLE_ADSENSE = {
         'article_bottom': '1234566', # Banner after article content (article only)
     }
 }
-
+"""
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
 
