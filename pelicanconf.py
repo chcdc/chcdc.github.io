@@ -28,8 +28,8 @@ GITHUB_URL = 'http://github.com/chcdc/'
 DISQUS_SITENAME = "chcdc"
 
 # Path THEME
-#THEME = './themes/Flex/'
-THEME = './themes/genus/'
+THEME = './themes/Flex/'
+#THEME = './themes/genus/'
 
 # Google AdSense
 GOOGLE_ADSENSE = {
