@@ -24,6 +24,7 @@ FEED_USE_SUMMARY = True
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
 
+
 # Disqus
 DISQUS_SITENAME = "chcdc"
 
@@ -110,7 +111,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        #'optimize_images',
+        'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
