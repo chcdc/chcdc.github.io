@@ -1,9 +1,10 @@
 ---
-title: "Removendo vários arquivos de uma lista gigante"
+title: Removendo vários arquivos de uma lista gigante
 date: 2016-01-02 23:39:17 -0200
 comments: true
 Category: Linux
 Tags: sysadmin
+Status: published
 Authors: Carlos Carvalho
 ---
 Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:

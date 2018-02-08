@@ -1,9 +1,10 @@
 ---
-title: "Monitorar conexoes"
+title: Monitorar conexoes
 date: 2016-07-20 04:06:37 -0300
 comments: true
 Category: Network
 Authors: Carlos Carvalho
+Status: published
 Summary: O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.
 ---
 

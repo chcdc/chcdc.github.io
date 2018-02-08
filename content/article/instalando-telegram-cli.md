@@ -1,8 +1,9 @@
 ---
-title: "Instalando Telegram-Cli"
+title: Instalando Telegram-Cli
 date: 2016-04-22 20:43:33 -0300
 comments: true
 Category: Telegram
+Status: published
 Authors: Carlos Carvalho
 ---
 

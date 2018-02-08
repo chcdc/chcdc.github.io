@@ -471,8 +471,7 @@ th{
 
 .button:hover{
 	color:#fff;
-	/*background-color:#159957;*/
-	background-color: red;
+	background-color:#159957;
 }
 
 

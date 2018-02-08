@@ -1,9 +1,10 @@
 ---
-title: "Criando um Bot do Telegram"
+title: Criando um Bot do Telegram
 date: 2016-09-18 20:14:12 -0300
 comments: true
 Category: Python
 tags: Telegram, bot
+Status: published
 Authors: Carlos Carvalho
 ---
 

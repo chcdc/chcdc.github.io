@@ -1,8 +1,9 @@
 ---
-title: "Gerando senhas seguras"
+title: Gerando senhas seguras
 date: 2016-01-20 01:48:25 -0200
 comments: true
 Category: Shell Script
+Status: published
 Authors: Carlos Carvalho
 ---
 
