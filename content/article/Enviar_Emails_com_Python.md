@@ -68,12 +68,12 @@ o **_email.mime.multipart_** e o **_email.mime.text_**
 13 body = "SUA MENSAGEM AQUI"
 14 msg.attach(MIMEText(body, 'plain'))
 15
-16 server = smtplib.SMTP('smtp.gmail.com', 587)
-17 server.starttls()
-18 server.login(fromaddr, "SUA SENHA")
+16 s = smtplib.SMTP('smtp.gmail.com', 587)
+17 s.starttls()
+18 s.login(fromaddr, "SUA SENHA")
 19 text = msg.as_string()
-20 server.sendmail(fromaddr, toaddr, text)
-21 server.quit()
+20 s.sendmail(fromaddr, toaddr, text)
+21 s.quit()
 ```
 
 Não esqueça de alterar as seguinte linhas:
@@ -123,12 +123,12 @@ part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
 msg.attach(part)
 
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.starttls()
-server.login(fromaddr, "SUA SENHA")
+s = smtplib.SMTP('smtp.gmail.com', 587)
+s.starttls()
+s.login(fromaddr, "SUA SENHA")
 text = msg.as_string()
-server.sendmail(fromaddr, toaddr, text)
-server.quit()
+s.sendmail(fromaddr, toaddr, text)
+s.quit()
 ```
 
 Esta feito o script de envio de emails.
