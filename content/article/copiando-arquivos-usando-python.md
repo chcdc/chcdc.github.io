@@ -1,5 +1,5 @@
 ---
-title: Copiando arquivos por extensão usando Python
+title: Organizando arquivos por extensão usando Python
 date: 2017-01-25 11:45:45 -0200
 comments: true
 Category: Python

@@ -52,7 +52,7 @@ GOOGLE_ANALYTICS = 'UA-66134049-1'
 
 # Theme customizations
 GRAVATAR_IMAGE = 'https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80'
-PYGMENTS_STYLE = 'monokai'
+PYGMENTS_STYLE = 'solarized-dark'
 MENUITEMS = (('Archives', '/archives.html'),
              ('Categories', '/categories.html'),
              ('Tags', '/tags.html'),)
