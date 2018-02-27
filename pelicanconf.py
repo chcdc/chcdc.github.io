@@ -112,7 +112,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-	#'pelicanfly',
+	'pelicanfly',
         'optimize_images',
         'sitemap',
         'post_stats',
