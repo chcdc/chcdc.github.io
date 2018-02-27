@@ -66,7 +66,7 @@ SOCIAL = (
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
         ('telegram', 'http://telegram.me/chcdc'),
         )
-
+#LINKS = (('About me', 'http://alexandrevicenzi.com'),)
 DEFAULT_METADATA = {
             'status': 'draft',
             }
@@ -112,6 +112,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
+	'pelicanfly',
         'optimize_images',
         'sitemap',
         'post_stats',
