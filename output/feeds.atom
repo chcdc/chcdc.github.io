@@ -1,5 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2018-01-09T19:48:25-02:00</updated><entry><title>"Gerando senhas com python"</title><link href="http://chcdc.com.br/posts/gerando-senhas-com-python/" rel="alternate"></link><published>2018-01-09T19:48:25-02:00</published><updated>2018-01-09T19:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-09:/posts/gerando-senhas-com-python/</id><summary type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2018-02-14T10:55:25-02:00</updated><entry><title>Copiando arquivos com Python</title><link href="http://chcdc.com.br/posts/copiando-arquivos-com-python/" rel="alternate"></link><published>2018-02-14T10:55:25-02:00</published><updated>2018-02-14T10:55:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-02-14:/posts/copiando-arquivos-com-python/</id><summary type="html">&lt;p&gt;Nesse &lt;a href="chcdc.com.br/posts/enviar-emails-com-python"&gt;post&lt;/a&gt; ensinei a criar um script basico para o envio de emails usando python.&lt;/p&gt;
+&lt;p&gt;Vamos agora aprender a coletar os logs (ou arquivos que voce desejar) para anexar ao script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Lembrando que a versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Antes de …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse &lt;a href="chcdc.com.br/posts/enviar-emails-com-python"&gt;post&lt;/a&gt; ensinei a criar um script basico para o envio de emails usando python.&lt;/p&gt;
+&lt;p&gt;Vamos agora aprender a coletar os logs (ou arquivos que voce desejar) para anexar ao script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Lembrando que a versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Antes de tudo vamos instalar o modulo &lt;a href="http://docs.paramiko.org/en/2.4/"&gt;Paramiko&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pip3.6 install paramiko
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vamos inserir os modulos&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;shutil&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Começamos importando os modulos necessarios para acessar e copiar os arquivos.
+Os modulos que vamos utilizar são &lt;a href="http://docs.paramiko.org/en/2.4/"&gt;Paramiko&lt;/a&gt; e o &lt;a href="https://docs.python.org/3.6/library/shutil.html"&gt;shutil&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Esse ultimo não será necessario a instalação pois é um dos modulos padrões do Python&lt;/p&gt;
+&lt;p&gt;Inicialmente vamos abrir a conexão com servidor, passando por parametros as informações do host&lt;/p&gt;
+&lt;p&gt;Podemos ver que usamos a porta padrão, porem não esqueça de alterar caso seja diferente.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;shutil&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;
+
+&lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;copyFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Abre&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;ã&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SSHClient&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Insere&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;chave&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;servidor&lt;/span&gt; &lt;span class="n"&gt;remoto&lt;/span&gt; &lt;span class="n"&gt;como&lt;/span&gt; &lt;span class="n"&gt;confiavel&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_missing_host_key_policy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AutoAddPolicy&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Carrega&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;chaves&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="err"&gt;á&lt;/span&gt; &lt;span class="n"&gt;inseridas&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_system_host_keys&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Efetua&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;ã&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;pela&lt;/span&gt; &lt;span class="n"&gt;porta&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;usuario&lt;/span&gt; &lt;span class="n"&gt;USER&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;USER&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Agora vamos setar as variáveis, inserindo quais arquivos copiar&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Nome&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;ser&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt;
+    &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt; &lt;span class="n"&gt;OF&lt;/span&gt; &lt;span class="kt"&gt;FILE&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Caminho&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;podemos&lt;/span&gt; &lt;span class="n"&gt;setar&lt;/span&gt; &lt;span class="n"&gt;diversos&lt;/span&gt; &lt;span class="n"&gt;locais&lt;/span&gt;
+    &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Caminho&lt;/span&gt; &lt;span class="n"&gt;onde&lt;/span&gt; &lt;span class="n"&gt;sera&lt;/span&gt; &lt;span class="n"&gt;salvo&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;destiny&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vamos precisar de um &lt;code&gt;for&lt;/code&gt; para copiar os arquivo(s)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Abre&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;â&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;ftp&lt;/span&gt;
+    &lt;span class="n"&gt;sftp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_sftp&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Aqui&lt;/span&gt; &lt;span class="n"&gt;setamos&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;ser&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt;
+        &lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Aqui&lt;/span&gt; &lt;span class="n"&gt;setamos&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+        &lt;span class="n"&gt;file_local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Exibe&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;remoto&lt;/span&gt; &lt;span class="n"&gt;sendo&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt; &lt;span class="n"&gt;para&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+        &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Efetua&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;copia&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Fecha&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;õ&lt;/span&gt;&lt;span class="n"&gt;es&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h6&gt;O script final ficará dessa forma&lt;/h6&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;shutil&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;
+
+&lt;span class="n"&gt;def&lt;/span&gt; &lt;span class="n"&gt;copyFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Abre&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;ã&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SSHClient&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Insere&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;chave&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;servidor&lt;/span&gt; &lt;span class="n"&gt;remoto&lt;/span&gt; &lt;span class="n"&gt;como&lt;/span&gt; &lt;span class="n"&gt;confiavel&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_missing_host_key_policy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AutoAddPolicy&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Carrega&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;chaves&lt;/span&gt; &lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="err"&gt;á&lt;/span&gt; &lt;span class="n"&gt;inseridas&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_system_host_keys&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Efetua&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;ã&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;pela&lt;/span&gt; &lt;span class="n"&gt;porta&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;usuario&lt;/span&gt; &lt;span class="n"&gt;USER&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;USER&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Nome&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;ser&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt;
+    &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;NAME&lt;/span&gt; &lt;span class="n"&gt;OF&lt;/span&gt; &lt;span class="kt"&gt;FILE&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Caminho&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;podemos&lt;/span&gt; &lt;span class="n"&gt;setar&lt;/span&gt; &lt;span class="n"&gt;diversos&lt;/span&gt; &lt;span class="n"&gt;locais&lt;/span&gt;
+    &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;remote&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Caminho&lt;/span&gt; &lt;span class="n"&gt;onde&lt;/span&gt; &lt;span class="n"&gt;sera&lt;/span&gt; &lt;span class="n"&gt;salvo&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;of&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;destiny&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Abre&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;ã&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;ftp&lt;/span&gt;
+    &lt;span class="n"&gt;sftp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_sftp&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Aqui&lt;/span&gt; &lt;span class="n"&gt;setamos&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;arquivo&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;ser&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt;
+        &lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Aqui&lt;/span&gt; &lt;span class="n"&gt;setamos&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+        &lt;span class="n"&gt;file_local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Exibe&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;remoto&lt;/span&gt; &lt;span class="n"&gt;sendo&lt;/span&gt; &lt;span class="n"&gt;copiado&lt;/span&gt; &lt;span class="n"&gt;para&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;caminho&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt;
+        &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Efetua&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;copia&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Fecha&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;conex&lt;/span&gt;&lt;span class="err"&gt;õ&lt;/span&gt;&lt;span class="n"&gt;es&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;
+&lt;p&gt;Qualquer duvida ou algo pra complementar deixe seu comentario.&lt;/p&gt;
+&lt;p&gt;Fontes:&lt;/p&gt;
+&lt;p&gt;– http://docs.paramiko.org/en/2.4/&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3.6/library/shutil.html&lt;/p&gt;</content><category term="script"></category></entry><entry><title>Enviar emails com Python</title><link href="http://chcdc.com.br/posts/enviar-emails-com-python/" rel="alternate"></link><published>2018-02-09T02:10:18-02:00</published><updated>2018-02-09T02:10:18-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-02-09:/posts/enviar-emails-com-python/</id><summary type="html">&lt;p&gt;Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.&lt;/p&gt;
+&lt;p&gt;Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
+o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Antes de tudo, caso use GMail, você precisa permitir "aplicativos …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.&lt;/p&gt;
+&lt;p&gt;Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
+o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Antes de tudo, caso use GMail, você precisa permitir "aplicativos menos seguros" para executar seu script.&lt;/p&gt;
+&lt;p&gt;A versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Vamos começar com um script simples,
+existe uma biblioteca nativa em Python para enviar e-mails: smtplib. Não será necessário instalar bibliotecas externas!&lt;/p&gt;
+&lt;p&gt;Para enviar um email básico (sem linha de assunto), com um endereço do Gmail, o código é bastante simples:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;smtp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gmail&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;MENSAGEM!&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;EMAIL DESTINO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Na linha 2, são os parâmetros para o servidor Gmail.
+Primeiro, a localização do servidor (ou endereço IP), então a porta a ser usada.&lt;/p&gt;
+&lt;p&gt;Na linha 3, há uma função de segurança, necessária para se conectar ao servidor do Gmail.
+Ele protegerá sua senha.&lt;/p&gt;
+&lt;p&gt;Não podemos esquecer o endereço de e-mail e senha na linha 4.&lt;/p&gt;
+&lt;p&gt;A variável &lt;code&gt;msg&lt;/code&gt; conterá sua mensagem e a linha 7 irá enviá-la!&lt;/p&gt;
+&lt;h2&gt;Para um email mais elaborado&lt;/h2&gt;
+&lt;p&gt;Aqui já estamos inserindo alguns dados, como assunto, rementente.&lt;/p&gt;
+&lt;p&gt;Para isso precisamos de mais modulos, já disponiveis na biblioteca basica do Python,
+o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt;strong&gt;&lt;em&gt;email.mime.text&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt;  &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;multipart&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt;  &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt;  &lt;span class="n"&gt;fromaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SEU ENDEREÇO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt;  &lt;span class="n"&gt;toaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ENDEREÇO DE DESTINO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt;  &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt;  &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fromaddr&lt;/span&gt;
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;
+&lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ASSUNTO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;12&lt;/span&gt;
+&lt;span class="mi"&gt;13&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SUA MENSAGEM AQUI&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;plain&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;15&lt;/span&gt;
+&lt;span class="mi"&gt;16&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;smtp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gmail&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;17&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;18&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;19&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;21&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Não esqueça de alterar as seguinte linhas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Linha 6 Com seu endereço de email&lt;/li&gt;
+&lt;li&gt;Linha 7 O endereço de email de destino&lt;/li&gt;
+&lt;li&gt;Linha 11 com o assunto&lt;/li&gt;
+&lt;li&gt;Linha 13 com a mensagem a ser enviada&lt;/li&gt;
+&lt;li&gt;Linha 18 com a senha do seu email&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Para enviar um email com anexo&lt;/h2&gt;
+&lt;p&gt;Para enviarmos anexos, vamos a um código mais complicado. Percebi que todo mundo tem um método um pouco diferente pra fazer.
+Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.&lt;/p&gt;
+&lt;p&gt;Em resumo, o passo essencial é converter o arquivo em um Base64 antes de enviá-lo. Meu código funciona para arquivos de texto, arquivos pdf, imagens, arquivos de áudio e arquivos de vídeo!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;
+&lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;multipart&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+&lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mime&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEBase&lt;/span&gt;
+&lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt; &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;encoders&lt;/span&gt;
+
+
+&lt;span class="n"&gt;fromaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;toaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;EMAIL DE DESTINO&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;From&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fromaddr&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;To&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;Subject&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;ASSUNTO DO EMAIL&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;TEXTO A SER ENVIADO&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;plain&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;NOME DO ARQUIVO OU EXTENSÃO&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;attachment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;CAMINHO DO ARQUIVO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;rb&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEBase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;application&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;octet&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_payload&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;attachment&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;encoders&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode_base64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;Content&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;Disposition&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;attachment; filename= %s&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;smtp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gmail&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Esta feito o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Em breve publico o script de coleta de logs e do BOT para o telegram.&lt;/p&gt;
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;
+&lt;p&gt;Fontes:&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/smtplib.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email.mime.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email-examples.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email.html&lt;/p&gt;</content><category term="emails"></category><category term="script"></category></entry><entry><title>Gerando senhas com python</title><link href="http://chcdc.com.br/posts/gerando-senhas-com-python/" rel="alternate"></link><published>2018-01-09T19:48:25-02:00</published><updated>2018-01-09T19:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-09:/posts/gerando-senhas-com-python/</id><summary type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
 &lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
 &lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
 &lt;p&gt;Vamos começar por partes&lt;/p&gt;
@@ -10,7 +237,7 @@
 
 
 &lt;p&gt;Primeiro vamos definir o executavel e importar os modulos &lt;strong&gt;random&lt;/strong&gt; e &lt;strong&gt;string&lt;/strong&gt; &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -18,47 +245,47 @@
 
 &lt;p&gt;Vamos criar uma função para gerar os numeros randomicos.&lt;/p&gt;
 &lt;p&gt;Atribuiremos a variavel &lt;strong&gt;char&lt;/strong&gt; os caracteres minusculos e digitos numericos&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;chars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_lowercase&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;passw&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
 armazenadas nas variaveis &lt;strong&gt;amount&lt;/strong&gt; e &lt;strong&gt;number&lt;/strong&gt; respectivamente.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Agora para cada quantidade declarada na variavel &lt;strong&gt;amount&lt;/strong&gt; vamos imprimir uma
 senha gerada randomicamente.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Senha: {i} - {randompassword(number)} &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Senha: {i} - {randompassword(number)} &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;O codigo final ficará dessa forma:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;chars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_lowercase&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;passw&lt;/span&gt;
 
-&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;   Senha: {i} - {randompassword(number)} &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;   Senha: {i} - {randompassword(number)} &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Algo simples, mas pode ser implementado em outros codigos, e claro pode ser melhorado.&lt;/p&gt;
 &lt;p&gt;Esse script encontra-se no meu &lt;a href="https://github.com/chcdc/scripts/blob/master/Python/generate_pass.py"&gt;Github&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Simples Assim 😃&lt;/p&gt;</content></entry><entry><title>"2017"</title><link href="http://chcdc.com.br/posts/2017/" rel="alternate"></link><published>2018-01-01T12:00:45-02:00</published><updated>2018-01-01T12:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-01:/posts/2017/</id><summary type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;Simples Assim 😃&lt;/p&gt;</content></entry><entry><title>2017</title><link href="http://chcdc.com.br/posts/2017/" rel="alternate"></link><published>2018-01-01T12:00:45-02:00</published><updated>2018-01-01T12:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2018-01-01:/posts/2017/</id><summary type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
 &lt;p&gt;2017 pubiquei apenas um artigo aqui, enfrentei diversas dificuldades, tais como a perda de meu pai.&lt;/p&gt;
 &lt;p&gt;Nesse ano que se inicia pretendo me dedicar mais ao blog e ao conteudo postado.&lt;/p&gt;
 &lt;p&gt;A base do blog foi alterada de Octopress (Ruby) para Pelican (Python)&lt;/p&gt;
@@ -75,7 +302,7 @@ senha gerada randomicamente.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Isso e muito mais pretendo entregar.&lt;/p&gt;
 &lt;p&gt;E lá vamos nós&lt;/p&gt;
-&lt;p&gt;Feliz 2018 😆&lt;/p&gt;</content></entry><entry><title>"Copiando arquivos por extensão usando Python"</title><link href="http://chcdc.com.br/posts/copiando-arquivos-por-extensao-usando-python/" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2017-01-25:/posts/copiando-arquivos-por-extensao-usando-python/</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Feliz 2018 😆&lt;/p&gt;</content><category term="misc"></category><category term="Vida Pessoal"></category></entry><entry><title>Organizando arquivos por extensão usando Python</title><link href="http://chcdc.com.br/posts/organizando-arquivos-por-extensao-usando-python/" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2017-01-25:/posts/organizando-arquivos-por-extensao-usando-python/</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
 &lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
 &lt;p&gt;Bom vamos ao código.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
@@ -83,42 +310,42 @@ senha gerada randomicamente.&lt;/p&gt;
 &lt;p&gt;Bom vamos ao código.&lt;/p&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env Python3.5&lt;/span&gt;
-&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
-&lt;span class="c1"&gt;# Carlos Carvalho&lt;/span&gt;
-&lt;span class="c1"&gt;# 21/01/2017&lt;/span&gt;
-&lt;span class="c1"&gt;# Copiar/mover arquivos por extensão&lt;/span&gt;
-&lt;span class="c1"&gt;# Copiar os arquivos em pdf do diretorio /mnt/DOCS/&lt;/span&gt;
-&lt;span class="c1"&gt;# para o diretorio /mnt/DOCS/pdf&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/usr/bin/env Python3.5&lt;/span&gt;
+&lt;span class="c"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+&lt;span class="c"&gt;# Carlos Carvalho&lt;/span&gt;
+&lt;span class="c"&gt;# 21/01/2017&lt;/span&gt;
+&lt;span class="c"&gt;# Copiar/mover arquivos por extensão&lt;/span&gt;
+&lt;span class="c"&gt;# Copiar os arquivos em pdf do diretorio /mnt/DOCS/&lt;/span&gt;
+&lt;span class="c"&gt;# para o diretorio /mnt/DOCS/pdf&lt;/span&gt;
 
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;re&lt;/span&gt;
 
-&lt;span class="c1"&gt;#Regex para identificar os arquivos em pdf&lt;/span&gt;
-&lt;span class="n"&gt;filePattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;^(.*?)(.pdf)$&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;VERBOSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c"&gt;#Regex para identificar os arquivos em pdf&lt;/span&gt;
+&lt;span class="n"&gt;filePattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;r&amp;quot;&amp;quot;&amp;quot;^(.*?)(.pdf)$&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;VERBOSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="c1"&gt;# Percorre o diretorio com um loop&lt;/span&gt;
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="c"&gt;# Percorre o diretorio com um loop&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;filePattern&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    &lt;span class="c1"&gt;# Ignora os arquivos que não são pdf&lt;/span&gt;
+    &lt;span class="c"&gt;# Ignora os arquivos que não são pdf&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="k"&gt;continue&lt;/span&gt;
 
-    &lt;span class="c1"&gt;# Obtem as diferentes partes do nome do arquivo&lt;/span&gt;
+    &lt;span class="c"&gt;# Obtem as diferentes partes do nome do arquivo&lt;/span&gt;
     &lt;span class="n"&gt;beforePart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;findPart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 
-    &lt;span class="c1"&gt;# Obtem os paths absolutos do arquivo&lt;/span&gt;
-    &lt;span class="n"&gt;absWorkingDir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS/pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c"&gt;# Obtem os paths absolutos do arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;absWorkingDir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;/mnt/DOCS/pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    &lt;span class="c1"&gt;# Move os arquivos&lt;/span&gt;
-    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Moving &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; to &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; .. &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="c"&gt;# Move os arquivos&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Moving &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; to &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s"&gt; .. &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="regex"></category></entry><entry><title>"Criando um Bot do Telegram"</title><link href="http://chcdc.com.br/posts/criando-um-bot-do-telegram/" rel="alternate"></link><published>2016-09-18T20:14:12-03:00</published><updated>2016-09-18T20:14:12-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-09-18:/posts/criando-um-bot-do-telegram/</id><summary type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</content><category term="regex"></category></entry><entry><title>Criando um Bot do Telegram</title><link href="http://chcdc.com.br/posts/criando-um-bot-do-telegram/" rel="alternate"></link><published>2016-09-18T20:14:12-03:00</published><updated>2016-09-18T20:14:12-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-09-18:/posts/criando-um-bot-do-telegram/</id><summary type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
@@ -139,116 +366,116 @@ senha gerada randomicamente.&lt;/p&gt;
    https://api.telegram.org/bot[token]/getUpdates&lt;/br&gt;&lt;/p&gt;
 &lt;p&gt;Deverá receber a seguinte resposta:&lt;br&gt;
    &lt;code&gt;{"ok":true,"result":[{}]"&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Simples assim.&lt;/p&gt;</content><category term="Telegram"></category><category term="bot"></category></entry><entry><title>"Monitorar conexoes"</title><link href="http://chcdc.com.br/posts/monitorar-conexoes/" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-07-20:/posts/monitorar-conexoes/</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
+&lt;p&gt;Simples assim.&lt;/p&gt;</content><category term="Telegram"></category><category term="bot"></category></entry><entry><title>Monitorar conexoes</title><link href="http://chcdc.com.br/posts/monitorar-conexoes/" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-07-20:/posts/monitorar-conexoes/</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
 &lt;p&gt;Sua documentação pode ser encontrada no site oficial.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.tcpdump.org"&gt;TCPDUMP&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A maioria das distribuições linux possuem binarios, caso não possua, sua instalação é bem simples.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    sudo apt-get install tcpdump
+&lt;div class="highlight"&gt;&lt;pre&gt;    sudo apt-get install tcpdump
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;!--more--&gt;
 
 &lt;p&gt;Inicialmente não é necessario um parametro para sua execução, você apenas precisa executar como root, pois o tcpdump irá colocar sua placa de rede em modo promiscuo.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Porém podemos utilizar diversos filtros por meio de parametros&lt;/p&gt;
 &lt;p&gt;Por padrão ele faz a captura da placa de rede ativa.Para selecionar a placa, devemos utilizar o parametro -i seguido da placa a ser monitorada&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Podemos monitorar conexoes de origem utilizando o parametro &lt;em&gt;-src host&lt;/em&gt;. Tudo que vier do nosso gateway (192.168.1.1) para o nosso computador ( 192.168.1.10 ), será monitorado com o seguinte comando&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 src &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 src 192.168.1.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Se quisermos monitorar da forma inversa.Tudo que sair de nosso computador (192.168.1.10) para o nosso gateway, o comando será o seguinte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 dst 192.168.1.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Também é possivel especificar a porta de origem e destino com o comando &lt;em&gt;src port&lt;/em&gt; e &lt;em&gt;dst port&lt;/em&gt; . Um exemplo é monitorar a porta 443&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 dst port 443
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Para que o tcpdump não converta os endereços e portas, devemos utilizar o parametro &lt;em&gt;-n&lt;/em&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n host www.google.com.br
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 -n host www.google.com.br
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Podemos tambem utilizar operadores booleanos para um filtro mais refinado.&lt;/p&gt;
 &lt;p&gt;Por exemplo, capturar todos os pacotes da porta 80 e 443 da rede 192.168.1.0/16&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n net &lt;span class="m"&gt;192&lt;/span&gt;.168 and port &lt;span class="m"&gt;80&lt;/span&gt; and port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 -n net 192.168 and port 80 and port 443
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Muitas opções podem ser obtidas com o tcpdump, essas são algumas opções basicas pra iniciar com sniffers.&lt;/p&gt;</content></entry><entry><title>"Instalando Telegram-Cli"</title><link href="http://chcdc.com.br/posts/instalando-telegram-cli/" rel="alternate"></link><published>2016-04-22T20:43:33-03:00</published><updated>2016-04-22T20:43:33-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-04-22:/posts/instalando-telegram-cli/</id><summary type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+&lt;p&gt;Muitas opções podem ser obtidas com o tcpdump, essas são algumas opções basicas pra iniciar com sniffers.&lt;/p&gt;</content></entry><entry><title>Instalando Telegram-Cli</title><link href="http://chcdc.com.br/posts/instalando-telegram-cli/" rel="alternate"></link><published>2016-04-22T20:43:33-03:00</published><updated>2016-04-22T20:43:33-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-04-22:/posts/instalando-telegram-cli/</id><summary type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
 
 
 &lt;p&gt;Instale as dependencias&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
- lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
- make git-core
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;apt&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;libreadline&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libconfig&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libssl&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;
+ &lt;span class="n"&gt;lua5&lt;/span&gt;&lt;span class="mf"&gt;.2&lt;/span&gt; &lt;span class="n"&gt;liblua5&lt;/span&gt;&lt;span class="mf"&gt;.2&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libevent&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libjansson&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt; &lt;span class="n"&gt;libpython&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dev&lt;/span&gt;
+ &lt;span class="n"&gt;make&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;core&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone --recursive https://github.com/vysheng/tg.git &amp;amp;&amp;amp; cd tg
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;clone&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;recursive&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/vysheng/tg.git &amp;amp;&amp;amp; cd tg&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Compile&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure
-make
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;
+&lt;span class="n"&gt;make&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Pronto, o proximo passo é a configuração do Telegram&lt;/p&gt;
 &lt;p&gt;Acesse a pasta do executavel&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /opt/tg/bin
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Execute o Telegram-Cli com o seguinte comando:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pub&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Na primeira execução será solicitado o numero de telefone e o codigo que será enviado por sms&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Telegram-cli version 1.2.0, Copyright (C) 2013-2015 Vitaly Valtman
-Telegram-cli comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `show_license&amp;#39; for details.
-Telegram-cli uses libtgl version 1.2.0
-I: config dir=[~/.telegram-cli]
-[~/.telegram-cli] created
-[~/.telegram-cli/downloads] created
-phone number: +554499999999 &amp;lt;--colocar aqui seu número de telefone
-code (&amp;#39;call&amp;#39; for phone call): 12345 &amp;lt;-- colocar aqui o código que
+&lt;div class="highlight"&gt;&lt;pre&gt;Telegram&lt;span class="o"&gt;-&lt;/span&gt;cli version &lt;span class="m"&gt;1.2.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; Copyright &lt;span class="p"&gt;(&lt;/span&gt;C&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="m"&gt;2013-2015&lt;/span&gt; Vitaly Valtman
+Telegram&lt;span class="o"&gt;-&lt;/span&gt;cli comes with ABSOLUTELY NO WARRANTY.
+This is free software&lt;span class="p"&gt;,&lt;/span&gt; and you are welcome to redistribute it
+under certain conditions&lt;span class="p"&gt;;&lt;/span&gt; type `show_license&lt;span class="s"&gt;&amp;#39; for details.&lt;/span&gt;
+&lt;span class="s"&gt;Telegram-cli uses libtgl version 1.2.0&lt;/span&gt;
+&lt;span class="s"&gt;I: config dir=[~/.telegram-cli]&lt;/span&gt;
+&lt;span class="s"&gt;[~/.telegram-cli] created&lt;/span&gt;
+&lt;span class="s"&gt;[~/.telegram-cli/downloads] created&lt;/span&gt;
+&lt;span class="s"&gt;phone number: +554499999999 &amp;lt;--colocar aqui seu número de telefone&lt;/span&gt;
+&lt;span class="s"&gt;code (&amp;#39;&lt;/span&gt;call&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="err"&gt; for phone call): 12345 &amp;lt;-- colocar aqui o código que&lt;/span&gt;
                             o próprio Telegram enviará por SMS
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Pronto! Está configurado!&lt;/p&gt;
 &lt;p&gt;Para enviar mensagens basta executar:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pub&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo vim /etc/profile.d/TelNotdata.sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;vim&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;TelNotdata&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -265,51 +492,51 @@ code (&amp;#39;call&amp;#39; for phone call): 12345 &amp;lt;-- colocar aqui o c�
 10
 11
 12
-13&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotIP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname -I&lt;span class="p"&gt;|&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*$//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TempFileDir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/var/tmp/&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramHomePath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/tg/&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScriptPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/user/&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramGenericPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/generic/&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScript&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;telegram.sh&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramCli&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bin/telegram-cli&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TempFileDir&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tg.log&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;ReceiveLua&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;receive.lua&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PrimeiroNome_SegundoNome&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;EmailTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seu@email.com&amp;quot;&lt;/span&gt;
+13&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelNotIP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname -I|sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*$//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelNotPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TempFileDir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/var/tmp/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramHomePath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/tg/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramScriptPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/user/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramGenericPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/generic/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramScript&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;telegram.sh&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramCli&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bin/telegram-cli&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TempFileDir&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tg.log&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;ReceiveLua&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;receive.lua&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TelegramTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PrimeiroNome_SegundoNome&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;EmailTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seu@email.com&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;Torne ele executavel&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo chmod +x /etc/profile.d/TelNotdata.sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sudo&lt;/span&gt; &lt;span class="n"&gt;chmod&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;profile&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;TelNotdata&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sh&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;De um start no Daemon do Telegram-CLI&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/opt/tg/bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234 &amp;amp;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;opt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;vvvvRC&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pub&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dL&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Verifique se esta rodando&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ps -ef | grep telegram
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ps&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;ef&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;grep&lt;/span&gt; &lt;span class="n"&gt;telegram&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;A saida é algo parecido com isso&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;root 1736  978  0 01:53 pts/0  00:00:01 bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="mi"&gt;1736&lt;/span&gt;  &lt;span class="mi"&gt;978&lt;/span&gt;  &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="mo"&gt;01&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;53&lt;/span&gt; &lt;span class="n"&gt;pts&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;  &lt;span class="mo"&gt;00&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;00&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mo"&gt;01&lt;/span&gt; &lt;span class="n"&gt;bin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;vvvvRC&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pub&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;dL&lt;/span&gt; &lt;span class="n"&gt;tg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;P&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Para enviar mensagens é simples!&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;msg Firstname_Surname Test123&amp;quot; | nc 127.0.0.1 1234
-echo &amp;quot;send_text Firstname_Surname  switch_icons.txt&amp;quot; | nc 127.0.0.1 1234
-echo &amp;quot;send_photo Firstname_Surname  logo.png&amp;quot; | nc 127.0.0.1 1234
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;msg Firstname_Surname Test123&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;nc&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;send_text Firstname_Surname  switch_icons.txt&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;nc&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;send_photo Firstname_Surname  logo.png&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;nc&lt;/span&gt; &lt;span class="mf"&gt;127.0.0.1&lt;/span&gt; &lt;span class="mi"&gt;1234&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Dessa forma, voce pode criar scripts para enviar mensagens automaticas, 
-inclusive quando ocorrer algo no servidor&lt;/p&gt;</content></entry><entry><title>"Gerando senhas seguras"</title><link href="http://chcdc.com.br/posts/gerando-senhas-seguras/" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras/</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+inclusive quando ocorrer algo no servidor&lt;/p&gt;</content></entry><entry><title>Gerando senhas seguras</title><link href="http://chcdc.com.br/posts/gerando-senhas-seguras/" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras/</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
 Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
 Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
 &lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
@@ -320,40 +547,40 @@ Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&l
 
 
 &lt;p&gt;Primeiramente vamos baixar o source do pacote&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
+&lt;div class="highlight"&gt;&lt;pre&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;br&gt;
 Vamos descompactar o arquivo&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ tar xvf pwgen-2.07.tar.gz
-    $ &lt;span class="nb"&gt;cd&lt;/span&gt; pwgen-2.07
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;tar xvf pwgen-2.07.tar.gz
+    &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;pwgen-2.07
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Agora vamos compilar&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ ./configure
-    $ make
-    $ sudo make install
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;./configure
+    &lt;span class="nv"&gt;$ &lt;/span&gt;make
+    &lt;span class="nv"&gt;$ &lt;/span&gt;sudo make install
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Agora é só usar o comando&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;pwgen
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pwgen-pass" src="../images/pass-pwgen.png"&gt;
 Por exemplo, gerar senhas com 20 caracteres.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen &lt;span class="m"&gt;20&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;pwgen 20
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="pwgen" src="../images/pwgen-20.png"&gt;
 Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pewgen-help" src="../images/pwgen-help.png"&gt;&lt;/p&gt;
-&lt;p&gt;Simples assim :)&lt;/p&gt;</content></entry><entry><title>"Registro de acesso"</title><link href="http://chcdc.com.br/posts/registro-de-acesso/" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-05:/posts/registro-de-acesso/</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content></entry><entry><title>Registro de acesso</title><link href="http://chcdc.com.br/posts/registro-de-acesso/" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-05:/posts/registro-de-acesso/</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
 &lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
 &lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
@@ -389,7 +616,7 @@ now=`date +%Y%m%d-%H%M%S`
     &lt;br&gt;  - &lt;code&gt;-xu&lt;/code&gt; [Username] Conta de email que sera utilizada para envio
     &lt;br&gt;  - &lt;code&gt;-xp&lt;/code&gt; [ Password] Senha
     &lt;br&gt;  - &lt;code&gt;-a&lt;/code&gt; [FILE] Anexo do Email&lt;/p&gt;
-&lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="sysadmin"></category></entry><entry><title>"Removendo vários arquivos de uma lista gigante"</title><link href="http://chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante/" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-02:/posts/removendo-varios-arquivos-de-uma-lista-gigante/</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="sysadmin"></category></entry><entry><title>Removendo vários arquivos de uma lista gigante</title><link href="http://chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante/" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-02:/posts/removendo-varios-arquivos-de-uma-lista-gigante/</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
 &lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
 &lt;p&gt;E daí, o que fazer?&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
@@ -399,12 +626,12 @@ now=`date +%Y%m%d-%H%M%S`
 
 &lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.&lt;/p&gt;
 &lt;p&gt;Para apagar todos os arquivos que contenham "2015" em seu nome:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *2015*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="k"&gt;for &lt;/span&gt;a in *2015*; &lt;span class="k"&gt;do &lt;/span&gt;rm &lt;span class="nv"&gt;$a&lt;/span&gt;; &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Para apagar todos os arquivos que possuam a extensão .log:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a in *.log&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="k"&gt;for &lt;/span&gt;a in *.log; &lt;span class="k"&gt;do &lt;/span&gt;rm &lt;span class="nv"&gt;$a&lt;/span&gt;; &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Shell Script</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/shell-script.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2016-01-20T01:48:25-02:00</updated><entry><title>"Gerando senhas seguras"</title><link href="http://chcdc.com.br/posts/gerando-senhas-seguras/" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras/</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Shell Script</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/shell-script.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2016-01-20T01:48:25-02:00</updated><entry><title>Gerando senhas seguras</title><link href="http://chcdc.com.br/posts/gerando-senhas-seguras/" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras/</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
 Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
 Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
 &lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
@@ -10,40 +10,40 @@ Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&l
 
 
 &lt;p&gt;Primeiramente vamos baixar o source do pacote&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
+&lt;div class="highlight"&gt;&lt;pre&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;br&gt;
 Vamos descompactar o arquivo&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ tar xvf pwgen-2.07.tar.gz
-    $ &lt;span class="nb"&gt;cd&lt;/span&gt; pwgen-2.07
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;tar xvf pwgen-2.07.tar.gz
+    &lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;pwgen-2.07
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Agora vamos compilar&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ ./configure
-    $ make
-    $ sudo make install
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;./configure
+    &lt;span class="nv"&gt;$ &lt;/span&gt;make
+    &lt;span class="nv"&gt;$ &lt;/span&gt;sudo make install
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Agora é só usar o comando&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;pwgen
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pwgen-pass" src="../images/pass-pwgen.png"&gt;
 Por exemplo, gerar senhas com 20 caracteres.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    $ pwgen &lt;span class="m"&gt;20&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nv"&gt;$ &lt;/span&gt;pwgen 20
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;img alt="pwgen" src="../images/pwgen-20.png"&gt;
 Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h&lt;/p&gt;
 &lt;p&gt;&lt;img alt="pewgen-help" src="../images/pwgen-help.png"&gt;&lt;/p&gt;
-&lt;p&gt;Simples assim :)&lt;/p&gt;</content></entry><entry><title>"Registro de acesso"</title><link href="http://chcdc.com.br/posts/registro-de-acesso/" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-05:/posts/registro-de-acesso/</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content></entry><entry><title>Registro de acesso</title><link href="http://chcdc.com.br/posts/registro-de-acesso/" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-01-05:/posts/registro-de-acesso/</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
 &lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
 &lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;

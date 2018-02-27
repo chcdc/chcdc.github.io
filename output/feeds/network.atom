@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Network</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/network.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2016-07-20T04:06:37-03:00</updated><entry><title>"Monitorar conexoes"</title><link href="http://chcdc.com.br/posts/monitorar-conexoes/" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-07-20:/posts/monitorar-conexoes/</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Network</title><link href="http://chcdc.com.br/" rel="alternate"></link><link href="http://chcdc.com.br/feeds/network.atom" rel="self"></link><id>http://chcdc.com.br/</id><updated>2016-07-20T04:06:37-03:00</updated><entry><title>Monitorar conexoes</title><link href="http://chcdc.com.br/posts/monitorar-conexoes/" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:chcdc.com.br,2016-07-20:/posts/monitorar-conexoes/</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
 &lt;p&gt;Sua documentação pode ser encontrada no site oficial.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.tcpdump.org"&gt;TCPDUMP&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;A maioria das distribuições linux possuem binarios, caso não possua, sua instalação é bem simples.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    sudo apt-get install tcpdump
+&lt;div class="highlight"&gt;&lt;pre&gt;    sudo apt-get install tcpdump
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;!--more--&gt;
 
 &lt;p&gt;Inicialmente não é necessario um parametro para sua execução, você apenas precisa executar como root, pois o tcpdump irá colocar sua placa de rede em modo promiscuo.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Porém podemos utilizar diversos filtros por meio de parametros&lt;/p&gt;
 &lt;p&gt;Por padrão ele faz a captura da placa de rede ativa.Para selecionar a placa, devemos utilizar o parametro -i seguido da placa a ser monitorada&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Podemos monitorar conexoes de origem utilizando o parametro &lt;em&gt;-src host&lt;/em&gt;. Tudo que vier do nosso gateway (192.168.1.1) para o nosso computador ( 192.168.1.10 ), será monitorado com o seguinte comando&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 src &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 src 192.168.1.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Se quisermos monitorar da forma inversa.Tudo que sair de nosso computador (192.168.1.10) para o nosso gateway, o comando será o seguinte&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 dst 192.168.1.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Também é possivel especificar a porta de origem e destino com o comando &lt;em&gt;src port&lt;/em&gt; e &lt;em&gt;dst port&lt;/em&gt; . Um exemplo é monitorar a porta 443&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 dst port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 dst port 443
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Para que o tcpdump não converta os endereços e portas, devemos utilizar o parametro &lt;em&gt;-n&lt;/em&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n host www.google.com.br
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 -n host www.google.com.br
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Podemos tambem utilizar operadores booleanos para um filtro mais refinado.&lt;/p&gt;
 &lt;p&gt;Por exemplo, capturar todos os pacotes da porta 80 e 443 da rede 192.168.1.0/16&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    tcpdump -i eth0 -n net &lt;span class="m"&gt;192&lt;/span&gt;.168 and port &lt;span class="m"&gt;80&lt;/span&gt; and port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;    tcpdump -i eth0 -n net 192.168 and port 80 and port 443
 &lt;/pre&gt;&lt;/div&gt;
 
 
