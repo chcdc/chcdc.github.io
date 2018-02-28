@@ -35,23 +35,23 @@
 <!-- End Google Analytics -->
 
 <meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada: /bin/rm Argument list too long (Lista de argumento muito longa) E daí, o que fazer?" />
-<meta name="keywords" content="sysadmin">
+<meta name="description" content="As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. Quando, em um sistema (li)Unix digitamos o comando ls -l temos a seguinte visualização: Vemos o primeiro item em cada linha é a forma utilizada …" />
+<meta name="keywords" content="Sysadmin">
 
 <meta property="og:site_name" content="Carlos Carvalho"/>
-<meta property="og:title" content="Removendo vários arquivos de uma lista gigante"/>
-<meta property="og:description" content="Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada: /bin/rm Argument list too long (Lista de argumento muito longa) E daí, o que fazer?"/>
+<meta property="og:title" content="Permissoes no Linux"/>
+<meta property="og:description" content="As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. Quando, em um sistema (li)Unix digitamos o comando ls -l temos a seguinte visualização: Vemos o primeiro item em cada linha é a forma utilizada …"/>
 <meta property="og:locale" content="pt_BR"/>
-<meta property="og:url" content="../../posts/removendo-varios-arquivos-de-uma-lista-gigante/"/>
+<meta property="og:url" content="../../posts/permissoes-no-linux/"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2016-01-02 23:39:17-02:00"/>
+<meta property="article:published_time" content="2018-02-27 09:23:45-02:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="../../author/carlos-carvalho">
 <meta property="article:section" content="Linux"/>
-<meta property="article:tag" content="sysadmin"/>
+<meta property="article:tag" content="Sysadmin"/>
 <meta property="og:image" content="">
 
-  <title>Carlos Carvalho &ndash; Removendo vários arquivos de uma lista gigante</title>
+  <title>Carlos Carvalho &ndash; Permissoes no Linux</title>
 
 </head>
 <body>
@@ -96,9 +96,9 @@
 <article class="single">
   <header>
       
-    <h1 id="removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</h1>
+    <h1 id="permissoes-no-linux">Permissoes no Linux</h1>
     <p>
-          Posted on sáb 02 janeiro 2016 in <a href="../../category/linux">Linux</a>
+          Posted on ter 27 fevereiro 2018 in <a href="../../category/linux">Linux</a>
 
 
         &#8226; 1 min read
@@ -107,27 +107,71 @@
 
 
   <div>
-    <p>Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:</p>
-<p>/bin/rm Argument list too long (Lista de argumento muito longa)</p>
-<p>E daí, o que fazer?</p>
-
-
-<p>Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.</p>
-<p>Para apagar todos os arquivos que contenham "2015" em seu nome:</p>
-<div class="highlight"><pre>    <span class="nv">$ </span><span class="k">for </span>a in *2015*; <span class="k">do </span>rm <span class="nv">$a</span>; <span class="k">done</span>
-</pre></div>
-
-
-<p>Para apagar todos os arquivos que possuam a extensão .log:</p>
-<div class="highlight"><pre>    <span class="nv">$ </span><span class="k">for </span>a in *.log; <span class="k">do </span>rm <span class="nv">$a</span>; <span class="k">done</span>
-</pre></div>
-
-
-<p>Bem simples! :)</p>
+    <p>As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. </p>
+<p>Quando, em um sistema (li)Unix digitamos o comando <code>ls -l</code> temos a seguinte visualização:</p>
+<p><img alt="ls -l" src="/images/ls_l.png"></p>
+<p>Vemos o primeiro item em cada linha é a forma utilizada para mostrar as permissoes do arquivo.
+O Linux trata todos os diretórios como arquivos também, portanto, as permissões se aplicam de igual forma para ambos.</p>
+<p>O primeiro caractere aparece para indicar o tipo de arquivo:</p>
+<p>d =&gt; diretório<br>
+b =&gt; arquivo de bloco<br>
+c =&gt; arquivo especial de caractere<br>
+p =&gt; canal<br>
+s =&gt; socket<br>
+- =&gt; arquivo "normal"  </p>
+<p>As permissões vão definidas assim:</p>
+<ul>
+<li>(r) Leitura</li>
+<li>(w) Escrita</li>
+<li>(x) Execução</li>
+</ul>
+<p>Como as permissões são divididas em 3, irá aparecer assim: </p>
+<p>(rwx)(rwx)(rwx) </p>
+<p>Tipo de permissão Octal:<br>
+4 - Indica permissão de leitura;<br>
+2 - Permissão de escrita;<br>
+1 - Indica permissão de execução;<br>
+0 - Indica sem permissões.  </p>
+<p>Então a liberações podem ser definidas somando as permissões em octal, fazendo da seguinte forma:<br>
+ 4 + 2 + 1 = 7 (permissão de rwx - Leitura, escrita e execução)<br>
+ 4 + 2 = 6     (permissão rw - Leitura e escrita)<br>
+ 4 =           (permissão r - Apenas Leitura)  </p>
+<table>
+<thead>
+<tr>
+<th align="center">Usuário</th>
+<th align="center">Grupo</th>
+<th align="center">Outros usuários (não donos)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">Leitura=negada</td>
+<td align="center">Leitura=negada</td>
+<td align="center">Leitura=negada</td>
+</tr>
+<tr>
+<td align="center">Escrita=negada</td>
+<td align="center">Escrita=negada</td>
+<td align="center">Escrita=negada</td>
+</tr>
+<tr>
+<td align="center">Execução=negada</td>
+<td align="center">Execução=negada</td>
+<td align="center">Execução=negada</td>
+</tr>
+</tbody>
+</table>
+<p>Simples Assim 😃</p>
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="../../tag/sysadmin">sysadmin</a>
+      <a href="../../tag/sysadmin">Sysadmin</a>
     </p>
   </div>
 
@@ -137,8 +181,8 @@
     <h4>    You might enjoy
 </h4>
     <ul class="related-posts">
-      <li><a href="../../posts/permissoes-no-linux/">Permissoes no Linux</a></li>
       <li><a href="../../posts/registro-de-acesso/">Registro de acesso</a></li>
+      <li><a href="../../posts/removendo-varios-arquivos-de-uma-lista-gigante/">Removendo vários arquivos de uma lista gigante</a></li>
     </ul>
   </div>
 

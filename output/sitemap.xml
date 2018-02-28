@@ -5,29 +5,36 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://chcdc.com.br/</loc>
-<lastmod>2018-02-27T18:20:48-00:00</lastmod>
+<lastmod>2018-02-28T15:41:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/archives.html</loc>
-<lastmod>2018-02-27T18:20:48-00:00</lastmod>
+<lastmod>2018-02-28T15:41:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/tags.html</loc>
-<lastmod>2018-02-27T18:20:48-00:00</lastmod>
+<lastmod>2018-02-28T15:41:02-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://chcdc.com.br/categories.html</loc>
-<lastmod>2018-02-27T18:20:48-00:00</lastmod>
+<lastmod>2018-02-28T15:41:02-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://chcdc.com.br/posts/permissoes-no-linux/</loc>
+<lastmod>2018-02-27T09:23:45-02:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -110,7 +117,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://chcdc.com.br/category/linux</loc>
-<lastmod>2016-01-02T23:39:17-03:06</lastmod>
+<lastmod>2018-02-27T09:23:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -146,6 +153,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://chcdc.com.br/category/telegram</loc>
 <lastmod>2016-04-22T20:43:33-03:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://chcdc.com.br/tag/sysadmin</loc>
+<lastmod>2018-02-27T09:23:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -200,15 +214,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://chcdc.com.br/tag/sysadmin</loc>
-<lastmod>2016-01-05T01:59:44-03:06</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>http://chcdc.com.br/author/carlos-carvalho</loc>
-<lastmod>2018-02-14T10:55:25-03:06</lastmod>
+<lastmod>2018-02-27T09:23:45-03:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
