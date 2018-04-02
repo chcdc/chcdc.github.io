@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
 SITETITLE = 'Carlos Carvalho'
-SITEURL = 'http://chcdc.com.br/'
+SITEURL = 'https://chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
 OG_LOCALE = 'pt_BR'
