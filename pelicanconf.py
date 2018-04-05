@@ -62,7 +62,7 @@ SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         ('rss', 'http://chcdc.com.br/feeds/all-pt.atom.xml'),
-        ('twitter', 'https://twitter.com/chcdc'),
+        #('twitter', 'https://twitter.com/chcdc'),
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
         ('telegram', 'http://telegram.me/chcdc'),
         )
