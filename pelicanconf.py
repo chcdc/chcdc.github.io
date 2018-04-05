@@ -25,7 +25,6 @@ FEED_USE_SUMMARY = True
 # Github Profile
 GITHUB_URL = 'http://github.com/chcdc/'
 
-
 # Disqus
 DISQUS_SITENAME = "chcdc"
 
@@ -61,7 +60,7 @@ USE_LESS = True
 SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
-        ('rss', 'http://chcdc.com.br/feeds/all-pt.atom.xml'),
+        ('rss', 'http://blog.chcdc.com.br/feeds/all-pt.atom.xml'),
         #('twitter', 'https://twitter.com/chcdc'),
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
         ('telegram', 'http://telegram.me/chcdc'),
@@ -112,7 +111,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        'optimize_images',
+        #'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
