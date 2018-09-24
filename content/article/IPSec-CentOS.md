@@ -171,7 +171,7 @@ conn right
 # ipsec.secrets - strongSwan IPsec secrets file
 #
 # <IP lado direito> : <Criptografia Usada> “<Chave>”
-167.99.106.117 : PSK "YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj"
+xxx.xx.xxx.xxx : PSK "YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj"
 ```
 - Setando para iniciar com o sistema / iniciando o serviço
 ```bash
