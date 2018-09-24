@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Carlos Carvalho - Shell Script</title><link>https://blog.chcdc.com.br/</link><description></description><lastBuildDate>Wed, 20 Jan 2016 01:48:25 -0200</lastBuildDate><item><title>Gerando senhas seguras</title><link>https://blog.chcdc.com.br/posts/gerando-senhas-seguras/</link><description>&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
-Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
-Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
-&lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Wed, 20 Jan 2016 01:48:25 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras/</guid></item><item><title>Registro de acesso</title><link>https://blog.chcdc.com.br/posts/registro-de-acesso/</link><description>&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
-&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
-</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 05 Jan 2016 01:59:44 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-01-05:/posts/registro-de-acesso/</guid><category>sysadmin</category></item></channel></rss>
