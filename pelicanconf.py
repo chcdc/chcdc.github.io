@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
-SITETITLE = 'Carlos Carvalho'
+SITETITLE = 'chcdc'
 SITEURL = 'https://blog.chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
@@ -75,14 +75,26 @@ DEFAULT_METADATA = {
 PATH = 'content'
 RELATIVE_URLS = True
 
-ARTICLE_URL = 'posts/{slug}/'
-ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
+#ARTICLE_URL = 'posts/{slug}/'
+#ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
-PAGE_URL = 'pages/{slug}/'
-PAGE_SAVE_AS = 'pages/{slug}/index.html'
+ARTICLE_URL = 'posts/'
+ARTICLE_SAVE_AS = 'posts/index.html'
 
-CATEGORY_URL = "category/{slug}"
-CATEGORY_SAVE_AS = "category/{slug}/index.html"
+DRAFT_URL = 'drafts/{slug}.html'
+DRAFT_SAVE_AS = 'drafts/{slug}.html'
+
+#PAGE_URL = 'pages/{slug}/'
+#PAGE_SAVE_AS = 'pages/{slug}/index.html'
+
+PAGE_URL = 'pages/'
+PAGE_SAVE_AS = 'pages/{slug}.html'
+
+#CATEGORY_URL = "category/{slug}"
+#CATEGORY_SAVE_AS = "category/{slug}/index.html"
+
+CATEGORY_URL = "category/"
+CATEGORY_SAVE_AS = "category/{slug}.html"
 
 TAG_URL = "tag/{slug}"
 TAG_SAVE_AS = "tag/{slug}/index.html"
