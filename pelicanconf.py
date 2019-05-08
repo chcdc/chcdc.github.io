@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
-SITETITLE = 'chcdc'
+SITETITLE = 'Carlos Carvalho'
+#SITETITLE = 'chcdc'
 SITEURL = 'https://blog.chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
@@ -56,14 +57,28 @@ MENUITEMS = (('Archives', '/archives.html'),
              ('Categories', '/categories.html'),
              ('Tags', '/tags.html'),)
 USE_LESS = True
+
+#=============
+# Twitter Card
+#=============
+# https://dev.twitter.com/cards
+TWITTER_CARD_USE = (True) # (False)
+TWITTER_CARD_SITE = ''  # The site's Twitter handle like @my_blog
+TWITTER_CARD_SITE_ID = ''  # The site's Twitter ID
+TWITTER_CARD_CREATOR = '@chcdc'  # Your twitter handle like @monkmartinez
+TWITTER_CARD_CREATOR_ID = ''  # The site creator's id
+GRAVARTAR_URL = ''
+
+
+
 # Social widget
 SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         ('rss', 'http://blog.chcdc.com.br/feeds/all-pt.atom.xml'),
-        #('twitter', 'https://twitter.com/chcdc'),
+        ('twitter', 'https://twitter.com/chcdc'),
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
-        ('telegram', 'http://telegram.me/chcdc'),
+        #('telegram', 'http://telegram.me/chcdc'),
         )
 #LINKS = (('About me', 'http://alexandrevicenzi.com'),)
 DEFAULT_METADATA = {
@@ -75,31 +90,22 @@ DEFAULT_METADATA = {
 PATH = 'content'
 RELATIVE_URLS = True
 
-#ARTICLE_URL = 'posts/{slug}/'
-#ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
+ARTICLE_URL = 'posts/{slug}'
+ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
-ARTICLE_URL = 'posts/'
-ARTICLE_SAVE_AS = 'posts/index.html'
-
-DRAFT_URL = 'drafts/{slug}.html'
+DRAFT_URL = 'drafts/index.html'
 DRAFT_SAVE_AS = 'drafts/{slug}.html'
 
-#PAGE_URL = 'pages/{slug}/'
-#PAGE_SAVE_AS = 'pages/{slug}/index.html'
-
 PAGE_URL = 'pages/'
-PAGE_SAVE_AS = 'pages/{slug}.html'
-
-#CATEGORY_URL = "category/{slug}"
-#CATEGORY_SAVE_AS = "category/{slug}/index.html"
+PAGE_SAVE_AS = 'pages/{slug}/index.html'
 
 CATEGORY_URL = "category/"
-CATEGORY_SAVE_AS = "category/{slug}.html"
+CATEGORY_SAVE_AS = "category/{slug}/index.html"
 
-TAG_URL = "tag/{slug}"
+TAG_URL = "tag/"
 TAG_SAVE_AS = "tag/{slug}/index.html"
 
-AUTHOR_URL = 'author/{slug}'
+AUTHOR_URL = 'author/'
 AUTHOR_SAVE_AS = 'author/{slug}/index.html'
 MONTH_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/{date:%b}/index.html'
 
@@ -123,13 +129,18 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        #'optimize_images',
+        'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
+	'yuicompressor',
         ]
 
 
+#PAGINATION_PATTERNS = (
+#        (1, '/', '/index.html'),
+#        (2, '/page/{number}/', '/page/{number}/index.html'),
+#        )
 PAGINATION_PATTERNS = (
         (1, '{base_name}/', '{base_name}/index.html'),
         (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),

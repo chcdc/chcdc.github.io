@@ -70,6 +70,16 @@
 
   <title>{{ SITENAME }}{% block title %}{% endblock %}</title>
 
+  {% if article %}
+	<link rel="canonical" href="{{ SITEURL }}/{{ article.url }}"/>
+  {% endif%}
+
+   {% if article %}
+	<title>{{ article.title }} -- {{ TAGLINE }}</title>
+   {% else %}
+	<title>{{ TAGLINE }}</title>
+   {% endif%}
+
   {% if GOOGLE_ADSENSE and GOOGLE_ADSENSE.page_level_ads %}
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
