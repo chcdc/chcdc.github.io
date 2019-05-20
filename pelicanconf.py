@@ -34,7 +34,7 @@ THEME = './themes/Flex/'
 #THEME = './themes/genus/'
 
 # Google AdSense
-"""GOOGLE_ADSENSE = {
+GOOGLE_ADSENSE = {
     'ca_id': 'ca-pub-4103262705608837',    # Your AdSense ID
     'page_level_ads': True,          # Allow Page Level Ads (mobile)
     'ads': {
@@ -46,7 +46,7 @@ THEME = './themes/Flex/'
         'article_bottom': '1234566', # Banner after article content (article only)
     }
 }
-"""
+
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
 
@@ -141,10 +141,10 @@ PLUGINS = [
 #        (1, '/', '/index.html'),
 #        (2, '/page/{number}/', '/page/{number}/index.html'),
 #        )
-PAGINATION_PATTERNS = (
-        (1, '{base_name}/', '{base_name}/index.html'),
-        (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
-        )
+#PAGINATION_PATTERNS = (
+#        (1, '{base_name}/', '{base_name}/index.html'),
+#        (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
+#        )
 
 SITEMAP = {
     'format': 'xml',

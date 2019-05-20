@@ -12,8 +12,6 @@ Authors: Carlos Carvalho
 
 Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.
 
-Vamos utilizar ele para uma infraestrutura Agil.
-
 O principal objetivo é sua simplicidade e facilidade de uso.
 
 Não vamos entrar em detalhes sobre sua instalação, que pode ser efetuada apenas com **apt-get install** ou **yum install**
