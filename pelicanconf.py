@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
 SITETITLE = 'Carlos Carvalho'
-#SITETITLE = 'chcdc'
 SITEURL = 'https://blog.chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
@@ -129,7 +128,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        'optimize_images',
+#        'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
@@ -141,10 +140,10 @@ PLUGINS = [
 #        (1, '/', '/index.html'),
 #        (2, '/page/{number}/', '/page/{number}/index.html'),
 #        )
-#PAGINATION_PATTERNS = (
-#        (1, '{base_name}/', '{base_name}/index.html'),
-#        (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
-#        )
+PAGINATION_PATTERNS = (
+        (1, '{base_name}/', '{base_name}/index.html'),
+        (2, '{base_name}/page/{number}/', '{base_name}/page/{number}/index.html'),
+        )
 
 SITEMAP = {
     'format': 'xml',
