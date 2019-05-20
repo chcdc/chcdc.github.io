@@ -86,16 +86,16 @@ DEFAULT_METADATA = {
 
 # Paths
 PATH = 'content'
-RELATIVE_URLS = True
+RELATIVE_URLS = False
 
 ARTICLE_URL = 'posts/{slug}'
 ARTICLE_SAVE_AS = 'posts/{slug}/index.html'
 
-DRAFT_URL = 'drafts/index.html'
-DRAFT_SAVE_AS = 'drafts/{slug}.html'
-
 PAGE_URL = '{slug}/'
 PAGE_SAVE_AS = '{slug}/index.html'
+
+DRAFT_URL = 'drafts/index.html'
+DRAFT_SAVE_AS = 'drafts/{slug}.html'
 
 CATEGORY_URL = "category/{slug}"
 CATEGORY_SAVE_AS = "category/{slug}/index.html"
@@ -127,7 +127,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-#        'optimize_images',
+        'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
