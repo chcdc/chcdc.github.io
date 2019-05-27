@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Carlos Carvalho</title><link>https://blog.chcdc.com.br/</link><description></description><lastBuildDate>Sun, 16 Dec 2018 19:00:45 -0200</lastBuildDate><item><title>Dicas IPTables</title><link>https://blog.chcdc.com.br/posts/dicas-iptables</link><description>&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+<rss version="2.0"><channel><title>Carlos Carvalho</title><link>https://blog.chcdc.com.br/</link><description></description><lastBuildDate>Mon, 20 May 2019 00:00:00 -0300</lastBuildDate><item><title>OpenVPN</title><link>https://blog.chcdc.com.br/posts/openvpn</link><description>&lt;p&gt;OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.&lt;/p&gt;
+&lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
+&lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Mon, 20 May 2019 00:00:00 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2019-05-20:/posts/openvpn</guid><category>sysadmin</category><category>VPN</category><category>Linux</category></item><item><title>Dicas IPTables</title><link>https://blog.chcdc.com.br/posts/dicas-iptables</link><description>&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
 &lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;

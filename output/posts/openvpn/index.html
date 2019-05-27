@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet/less" type="text/css" href="https://blog.chcdc.com.br/theme/stylesheet/style.less">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://blog.chcdc.com.br/theme/pygments/solarized-dark.min.css">
+  <link rel="stylesheet" type="text/css" href="https://blog.chcdc.com.br/theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
+
+    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<meta name="author" content="Carlos Carvalho" />
+<meta name="description" content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública. Vamos instalar e configurar o OpenVPN em um servidor CentOS 7. Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado …" />
+<meta name="keywords" content="sysadmin, VPN, Linux">
+
+<meta property="og:site_name" content="Carlos Carvalho"/>
+<meta property="og:title" content="OpenVPN"/>
+<meta property="og:description" content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública. Vamos instalar e configurar o OpenVPN em um servidor CentOS 7. Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado …"/>
+<meta property="og:locale" content="pt_BR"/>
+<meta property="og:url" content="https://blog.chcdc.com.br/posts/openvpn"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-05-20 00:00:00-03:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.chcdc.com.br/author/">
+<meta property="article:section" content="Network"/>
+<meta property="article:tag" content="sysadmin"/>
+<meta property="article:tag" content="VPN"/>
+<meta property="article:tag" content="Linux"/>
+<meta property="og:image" content="">
+
+  <title>Carlos Carvalho &ndash; OpenVPN</title>
+
+	<link rel="canonical" href="https://blog.chcdc.com.br/posts/openvpn"/>
+
+	<title>OpenVPN -- </title>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-4103262705608837",
+      enable_page_level_ads: true
+    });
+  </script>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="https://blog.chcdc.com.br">
+        <img src="https://blog.chcdc.com.br/theme/img/profile.png" alt="Carlos Carvalho" title="Carlos Carvalho">
+      </a>
+      <h1><a href="https://blog.chcdc.com.br">Carlos Carvalho</a></h1>
+
+
+
+      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/chcdc" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank"><i class="fa fa-stack-overflow"></i></a></li>
+        <li><a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+        <li><a class="sc-twitter" href="https://twitter.com/chcdc" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      </ul>
+    </div>
+
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle ads-aside"
+           data-ad-client="ca-pub-4103262705608837"
+           data-ad-slot="1234561"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </aside>
+  <main>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle ads-responsive"
+           data-ad-client="ca-pub-4103262705608837"
+           data-ad-slot="1234562"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <nav>
+      <a href="https://blog.chcdc.com.br">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.atom">    Atom
+</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.rss">    RSS
+</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="openvpn">OpenVPN</h1>
+    <p>
+          Posted on seg 20 maio 2019 in <a href="https://blog.chcdc.com.br/category/network">Network</a>
+
+
+        &#8226; 7 min read
+    </p>
+  </header>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle ads-responsive"
+         data-ad-client="ca-pub-4103262705608837"
+         data-ad-slot="1234565"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  <div>
+    <p>OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.</p>
+<p>Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.</p>
+<p>Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado e com a rede configurada, vamos iniciar a instalação.</p>
+<!--more-->
+
+<h3>Configurando o sistema</h3>
+<p>Desabilite o SELinux</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> sed -i <span class="s1">&#39;s/^SELINUX=.*/SELINUX=disabled/g&#39;</span> /etc/sysconfig/selinux <span class="o">&amp;&amp;</span> cat /etc/sysconfig/selinux 
+</pre></div>
+
+
+<p>Desabilite o firewalld</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> systemctl stop firewalld
+<span class="gp">#</span> systemctl disable firewalld
+</pre></div>
+
+
+<p>Após as alterações reinicie o sistema para aplicar a configuração</p>
+<p>Ajuste o kernel para habilitar o modo de roteamento:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">echo</span> net.ipv4.ip_forward <span class="o">=</span> <span class="m">1</span> &gt;&gt; /etc/sysctl.conf
+<span class="gp">#</span> sysctl -p
+</pre></div>
+
+
+<p>Atualize o sistema operacional</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> yum upgrade -y
+</pre></div>
+
+
+<h3>Instalando OpenVPN</h3>
+<p>O repositório Extra Packages for Enterprise Linux (EPEL) é um repositório adicional gerenciado pelo Projeto Fedora contendo pacotes não padrão, mas populares. O OpenVPN não está disponível nos repositórios padrão do CentOS, mas está disponível no EPEL, então instale o EPEL:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> yum install epel-release -y <span class="o">&amp;&amp;</span> yum update -y
+</pre></div>
+
+
+<p>Próximo passo é instalar os pacotes necessários</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> yum install openvpn vim -y
+</pre></div>
+
+
+<p>Usando o curl, faça o download do Easy RSA. 
+Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para esta versão. </p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> curl -L https://github.com/OpenVPN/easy-rsa-old/archive/2.3.3.tar.gz -o /tmp/easyrsa.tar.gz
+</pre></div>
+
+
+<p>Extraia o pacote e crie o diretório em /etc/openvpn/</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> tar xfz /tmp/easyrsa.tar.gz
+<span class="gp">#</span> sudo mkdir /etc/openvpn/easy-rsa 
+<span class="gp">#</span> sudo mkdir /etc/openvpn/keys
+</pre></div>
+
+
+<p>Copie a estrutura do diretório easy-rsa para o diretório /etc/openvpn/easy-rsa para facilitar a administração:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> sudo cp -rfv easy-rsa-old-2.3.3/easy-rsa/2.0/* /etc/openvpn/easy-rsa/
+</pre></div>
+
+
+<p>Altere o diretório para um usuário não root</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> chown <span class="s2">&quot;user&quot;</span> /etc/openvpn/easy-rsa/
+</pre></div>
+
+
+<p>Depois que esses programas forem instalados e tiverem sido movidos para os locais corretos em seu sistema, a próxima etapa é personalizar a configuração do lado do servidor do OpenVPN.</p>
+<h3>Configurando OpenVPN</h3>
+<p>Temos muitas formas de configurar o OpenVPN, neste documento vamos fazer a forma mais comum de conexão.</p>
+<p>Crie o arquivo de configuração</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> vim /etc/openvpn/server.conf
+</pre></div>
+
+
+<p>Vamos a Configuração</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> IP <span class="k">do</span> servidor VPN
+<span class="go">local xxx.xxx.xxx.xxx</span>
+
+<span class="gp">#</span> Porta Utilizada
+<span class="go">port 1194</span>
+
+<span class="gp">#</span> Protocolo de Conexão e porta utilizada
+<span class="go">proto udp </span>
+<span class="go">dev tun0 </span>
+
+<span class="gp">#</span> Permite que o túnel <span class="k">continue</span> aberto mesmo que o endereço IP da outra máquina mude
+<span class="go">float</span>
+
+<span class="gp">#</span><span class="c1"># Localização das Chaves e certificados</span>
+<span class="go">ca /etc/openvpn/keys/ca.crt </span>
+<span class="go">cert /etc/openvpn/keys/server.crt</span>
+<span class="go">key /etc/openvpn/keys/server.key  # This file should be kept secret</span>
+<span class="go">dh /etc/openvpn/keys/dh2048.pem</span>
+
+<span class="gp">#</span> Configura o OpenVPN para funcionar como uma 
+<span class="gp">#</span> sub-rede e informa à máquina cliente qual endereço utilizar
+<span class="go">topology subnet</span>
+
+<span class="gp">#</span> Configuração <span class="k">do</span> endereço <span class="k">do</span> servidor
+<span class="go">server 10.1.1.0 255.255.255.0 </span>
+
+<span class="gp">#</span>Configuração para manter os endereços estáticos dos clientes, 
+<span class="gp">#</span> caso o OpenVPN reinicie, 
+<span class="gp">#</span> poderá ser atribuído aos clientes de reconexão o mesmo endereço IP
+<span class="go">ifconfig-pool-persist ipp.txt</span>
+
+<span class="gp">#</span> Informa a configuração de cada cliente
+<span class="go">client-config-dir /etc/openvpn/ccd/</span>
+
+<span class="gp">#</span> Configuração para setar o DNS dos clientes, no exemplo abaixo estamos utilizando o opendns.com
+<span class="go">push &quot;dhcp-option DNS 208.67.222.222&quot;</span>
+<span class="go">push &quot;dhcp-option DNS 208.67.220.220&quot;</span>
+
+<span class="gp">#</span> Envia um “ping” de um lado para o outro, 
+<span class="gp">#</span> de modo que cada lado saiba quando o outro lado ficou inativo.
+<span class="gp">#</span> Ping a cada <span class="m">10</span> segundos, declara como inativo se nenhum ping <span class="k">for</span> recebido 
+<span class="gp">#</span> durante um tempo de <span class="m">120</span> segundos
+<span class="go">keepalive 10 120</span>
+
+
+<span class="gp">#</span> Chave de segurança Cipher. Deve conter no arquivo cliente e servidor.
+<span class="go">cipher AES-256-CBC</span>
+
+<span class="gp">#</span> Compactação 
+<span class="go">comp-lzo</span>
+
+<span class="gp">#</span> Quantidade maxima de clientes 
+<span class="go">max-clients 10</span>
+
+<span class="gp">#</span> Opções Persistentes
+<span class="go">persist-key</span>
+<span class="go">persist-tun</span>
+
+<span class="gp">#</span> Arquivo de status curto, exibindo as conexões atuais, truncadas e reescrito a cada minuto
+<span class="go">status /var/log/openvpn-status.log</span>
+
+<span class="gp">#</span> Log OpenVPN
+<span class="go">log-append  /var/log/openvpn.log</span>
+<span class="go">verb 3</span>
+
+<span class="gp">#</span> Notificar o cliente que quando o servidor <span class="k">for</span> reiniciado pode reconectar-se automaticamente.
+<span class="go">explicit-exit-notify 1</span>
+</pre></div>
+
+
+<h3>Gerando Chaves e certificados Servidor</h3>
+<p>Começaremos nosso processo de geração de chaves e certificados criando um diretório no qual o Easy RSA armazenará todas as chaves e certificados gerados:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> mkdir /etc/openvpn/easy-rsa/keys
+</pre></div>
+
+
+<p>Vamos editar as variáveis padrões que ficam no arquivo <strong>vars</strong> em <strong>/etc/openvpn/easy-rsa/</strong> :</p>
+<p>Vá até o final do arquivo e altere os valores abaixo</p>
+<p>KEY_NAME: O nome do servidor, o mesmo utilizado para a criação das chaves "server.key" e "server.crt"<br />
+export KEY_COUNTRY="BR"<br />
+export KEY_PROVINCE="PR"<br />
+export KEY_CITY="Maringa"<br />
+export KEY_ORG="Empresa"<br />
+export KEY_EMAIL="vpn@company.com.br"<br />
+export KEY_CN=openvpn<br />
+export KEY_NAME="server"<br />
+export KEY_OU="Infraestrutura"<br /></p>
+<p>Salve e feche o arquivo</p>
+<p>Para começar a gerar as chaves e os certificados, vá para o diretório easy-rsa e carregue as variáveis declaradas no arquivo vars na memória:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">cd</span> /etc/openvpn/easy-rsa
+<span class="gp">#</span> <span class="nb">source</span> ./vars
+</pre></div>
+
+
+<p>Execute o script clean-all do Easy RSA para remover todas as chaves e certificados já existentes na pasta e gerar a autoridade de certificação:</p>
+<p><strong>LEMBRE-SE: esse comando remove todas as chaves e certificados já criados. Não o execute em produção</strong></p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> ./clean-all
+</pre></div>
+
+
+<p>Este script gera um arquivo chamado ca.key. Essa é a chave privada usada para assinar seu servidor e os certificados dos clientes. Se estiver perdido, você não poderá mais confiar em nenhum certificado dessa autoridade de certificação e, se alguém conseguir acessar esse arquivo, poderá assinar novos certificados e acessar sua VPN sem o seu conhecimento. 
+Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa estar offline o máximo possível e só deve ser ativado ao criar novos certificados.</p>
+<p>Em seguida, construa a autoridade de certificação com o script build-ca. Você será solicitado a inserir valores para os campos de certificado, mas se você definir as variáveis no arquivo vars anteriormente, todas as suas opções já estarão definidas como padrões. Você pode pressionar ENTER para aceitar os padrões de cada um:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> ./build-ca
+</pre></div>
+
+
+<p>Gere a chave de criptografia estática com o seguinte comando:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> openvpn --genkey --secret /etc/openvpn/keys/vpn_server.tlsauth
+</pre></div>
+
+
+<p>Em seguida, crie uma chave e um certificado para o servidor usando o script build-key-server:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> ./build-key-server server
+</pre></div>
+
+
+<p>Assim como na criação da autoridade de certificação, você verá os valores que definiu como padrão para poder pressionar ENTER nesses prompts. Além disso, você será solicitado a inserir uma senha de desafio e um nome de empresa opcional. Se você digitar uma senha de desafio, você será solicitado a se conectar à VPN do seu cliente. Se você não quiser definir uma senha de desafio, deixe esta linha em branco e pressione ENTER. No final, insira Y para confirmar as alterações.</p>
+<p>A última parte da criação das chaves e dos certificados do servidor está gerando um arquivo de troca de chaves Diffie-Hellman. Use o script build-dh para fazer isso. Isso pode levar alguns minutos para ser concluído</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> ./build-dh
+</pre></div>
+
+
+<p>Quando o servidor terminar de gerar o arquivo de troca de chaves, copie as chaves do servidor e os certificados do diretório keys no diretório openvpn:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">cd</span> /etc/openvpn/easy-rsa/keys/
+<span class="gp">#</span> sudo cp dh2048.pem ca.crt server.crt server.key /etc/openvpn/keys
+</pre></div>
+
+
+<h3>Gerando Chaves e certificados Cliente</h3>
+<p>Cada cliente também precisará de um certificado para que o servidor OpenVPN possa autenticá-lo. Essas chaves e certificados serão criados no servidor e você terá que copiá-los para seus clientes. É aconselhável gerar chaves e certificados separados para cada cliente que você pretende conectar à sua VPN.</p>
+<p>Crie um certificado de cliente teste. Não crie um certificado para ser utilizado futuramente, pois o mesmo será utilizado para criar o arquivo de revogação de certificados e será invalidado logo em seguida. Preste atenção em alterar o endereço de email para cada certificado novo:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">cd</span> /etc/openvpn/easy-rsa/
+<span class="gp">#</span> ./build-key cert-test
+</pre></div>
+
+
+<p>Revogue o certificado teste, criado anteriormente, para gerar o arquivo crl.pem, que será responsável por controlar os certificados revogados.</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> ./revoke-full cert-teste
+</pre></div>
+
+
+<p>Sempre que um certificado for revogado, o arquivo crl.pem deverá ser copiado para a raiz do servidor OpenVPN para que o mesmo possa ser lido:</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> cp /etc/openvpn/rsa/keys/crl.pem /etc/openvpn
+</pre></div>
+
+
+<p>Agora vamos criar o certificado, como vamos apenas criar esse, vamos nomeá-lo de client , mas você pode alterar isso para um nome mais descritivo se quiser:</p>
+<div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> /etc/openvpn/easy-rsa/
+<span class="gp">$</span> ./build-key client
+</pre></div>
+
+
+<p>Copie o arquivo de configuração do OpenSSL com versão, openssl-1.0.0.cnf, para um nome sem versão, openssl.cnf. Não fazer isso pode resultar em um erro em que o OpenSSL não consegue carregar a configuração porque não pode detectar sua versão</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
+</pre></div>
+
+
+<h3>Iniciando OpenVPN</h3>
+<p>Vamos configurar o OpenVPN para iniciar na inicialização. Para fazer isso, ative o servidor OpenVPN adicionando-o ao systemctl</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> sudo systemctl -f <span class="nb">enable</span> openvpn@server.service
+</pre></div>
+
+
+<p>Inicie o serviço</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> sudo systemctl start openvpn@server.service
+</pre></div>
+
+
+<p>Verifique se não houve erros durante a inicialização do serviço. Caso tenha erros, verifique o arquivo de log /var/log/openvpn.log</p>
+<h3>Criando rotas estaticas</h3>
+<p>Vamos criar para cada cliente uma configuração de rede individual</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> mkdir /etc/openvpn/ccd
+</pre></div>
+
+
+<p>Dentro do diretório, crie um arquivo com o nome exatamente igual ao que foi gerado o certificado, no nosso caso é client</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> touch /etc/openvpn/ccd/client
+</pre></div>
+
+
+<p>Vamos inserir as informações necessárias.</p>
+<p>[Optional]
+Caso deseja que cada cliente tenha um endereço setado manualmente, insira no inicio do arquivo</p>
+<div class="highlight"><pre><span></span><span class="go">ifconfig-push 10.1.1.1 255.255.255.0 </span>
+</pre></div>
+
+
+<p>[/optional]</p>
+<p>Insira as rotas da rede local e a rede openvpn, caso deseja que ele acesse a mesma</p>
+<div class="highlight"><pre><span></span><span class="go">push &quot;route 10.1.1.0 255.255.255.0&quot;</span>
+<span class="go">push &quot;route 10.42.12.0 255.255.254.0&quot;</span>
+</pre></div>
+
+
+<p>Insira as rotas desejadas, sempre comentando o destino </p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> Algum lugar <span class="k">do</span> mundo
+<span class="go">push &quot;route 200.200.200.1 255.255.255.0&quot;</span>
+</pre></div>
+
+
+<h3>Configurando o Firewall</h3>
+<p>Para que o servidor faça os redirecionamentos necessários e aceite conexões precisamos setar isso no iptables</p>
+<p>Execute os seguintes comandos</p>
+<div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+<span class="gp">#</span> iptables -P FORWARD ACCEPT
+<span class="gp">#</span> iptables -A INPUT -i tun+ -j ACCEPT
+<span class="gp">#</span> iptables -A FORWARD -i tun+ -j ACCEPT
+<span class="gp">#</span> iptables -t nat -A POSTROUTING -o ens32 -j MASQUERADE
+<span class="gp">#</span> iptables -A FORWARD -i tun0 -o tun0 -j ACCEPT
+<span class="gp">#</span> iptables -A FORWARD -i tun0 -o ens32 -j ACCEPT
+<span class="gp">#</span> iptables -A FORWARD -i ens32 -o tun0 -j ACCEPT
+<span class="gp">#</span> iptables -A INPUT -p tcp --dport <span class="m">1194</span> -j ACCEPT
+<span class="gp">#</span> iptables -A INPUT -p udp --dport <span class="m">1194</span> -j ACCEPT
+<span class="gp">#</span> iptables -I INPUT -i tun+ -j ACCEPT
+<span class="gp">#</span> iptables -I OUTPUT -o tun+ -j ACCEPT
+<span class="gp">#</span> iptables -I FORWARD -i tun+ -j ACCEPT
+<span class="gp">#</span> iptables -I FORWARD -o tun+ -j ACCEPT
+</pre></div>
+
+
+<h3>Configurando o Cliente</h3>
+<p>Os certificados e chave que serão inseridos no final do arquivo se encontram em /etc/openvpn/easy-rsa/keys/
+Sendo eles
+    * ca - ca.crt 
+    * cert - client.crt
+    * key - client.key</p>
+<p>Crie o arquivo client.ovpn com as seguintes configurações</p>
+<div class="highlight"><pre><span></span><span class="go">client</span>
+<span class="go">pull</span>
+<span class="go">dev tun</span>
+<span class="go">proto udp</span>
+<span class="go">remote &lt;ip external&gt; 1194 udp</span>
+<span class="go">user nobody</span>
+<span class="go">group nogroup</span>
+<span class="go">comp-lzo</span>
+<span class="go">verb 3</span>
+<span class="go">resolv-retry infinite</span>
+<span class="go">persist-key</span>
+<span class="go">persist-tun</span>
+<span class="go">mute-replay-warnings</span>
+<span class="go">auth-nocache</span>
+<span class="go">float</span>
+
+<span class="gp">#</span> Ciphers
+<span class="go">remote-cert-tls server</span>
+<span class="go">tls-version-min 1.2</span>
+<span class="go">tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384</span>
+<span class="go">cipher AES-256-CBC</span>
+
+<span class="gp">#</span> Client Keys
+<span class="go">&lt;ca&gt;</span>
+<span class="go">-----BEGIN CERTIFICATE-----</span>
+<span class="go">-----END CERTIFICATE-----</span>
+<span class="go">&lt;/ca&gt;</span>
+<span class="go">&lt;cert&gt;</span>
+<span class="go">-----BEGIN CERTIFICATE-----</span>
+<span class="go">-----END CERTIFICATE-----</span>
+<span class="go">&lt;/cert&gt;</span>
+<span class="go">&lt;key&gt;</span>
+<span class="go">-----BEGIN RSA PRIVATE KEY-----</span>
+<span class="go">-----END RSA PRIVATE KEY-----</span>
+<span class="go">&lt;/key&gt;</span>
+</pre></div>
+
+
+<p>Copie o arquivo para sua máquina local, pode utilizar sftp ou scp. </p>
+<p>Após seguir esses passos, sua vpn deverá estar já criada e acessível. Realize os testes de acesso, sempre verificando os logs.</p>
+<p>Simples Assim 😆</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="https://blog.chcdc.com.br/tag/sysadmin">sysadmin</a>
+      <a href="https://blog.chcdc.com.br/tag/vpn">VPN</a>
+      <a href="https://blog.chcdc.com.br/tag/linux">Linux</a>
+    </p>
+  </div>
+
+
+
+  <div class="related-posts">
+    <h4>    You might enjoy
+</h4>
+    <ul class="related-posts">
+      <li><a href="https://blog.chcdc.com.br/posts/dicas-iptables">Dicas IPTables</a></li>
+      <li><a href="https://blog.chcdc.com.br/posts/permissoes-no-linux">Permissoes no Linux</a></li>
+      <li><a href="https://blog.chcdc.com.br/posts/registro-de-acesso">Registro de acesso</a></li>
+      <li><a href="https://blog.chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</a></li>
+      <li><a href="https://blog.chcdc.com.br/posts/ipsec-strongswan">IPSec StrongSwan</a></li>
+    </ul>
+  </div>
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle ads-responsive"
+         data-ad-client="ca-pub-4103262705608837"
+         data-ad-slot="7166667362"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : "https://blog.chcdc.com.br",
+  "image": "",
+  "description": ""
+}
+</script>
+
+</body>
+</html>
