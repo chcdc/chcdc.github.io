@@ -42,7 +42,7 @@ GOOGLE_ADSENSE = {
         'index_top': '1234563',      # Banner after main menu (index only)
         'index_bottom': '1234564',   # Banner before footer (index only)
         'article_top': '1234565',    # Banner after article title (article only)
-        'article_bottom': '1234566', # Banner after article content (article only)
+        'article_bottom': '7166667362', # Banner after article content (article only)
     }
 }
 
