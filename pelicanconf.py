@@ -61,7 +61,7 @@ USE_LESS = True
 # Twitter Card
 #=============
 # https://dev.twitter.com/cards
-TWITTER_CARD_USE = (True) # (False)
+TWITTER_CARD_USE = (False)
 TWITTER_CARD_SITE = ''  # The site's Twitter handle like @my_blog
 TWITTER_CARD_SITE_ID = ''  # The site's Twitter ID
 TWITTER_CARD_CREATOR = '@chcdc'  # Your twitter handle like @monkmartinez
@@ -75,7 +75,7 @@ SOCIAL = (
         ('github', 'https://github.com/chcdc'),
         ('stack-overflow', 'https://pt.stackoverflow.com/users/26828'),
         ('rss', 'http://blog.chcdc.com.br/feeds/all-pt.atom.xml'),
-        ('twitter', 'https://twitter.com/chcdc'),
+        #('twitter', 'https://twitter.com/chcdc'),
         ('linkedin', 'https://www.linkedin.com/in/chcdc/'),
         #('telegram', 'http://telegram.me/chcdc'),
         )
