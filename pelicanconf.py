@@ -32,20 +32,6 @@ DISQUS_SITENAME = "chcdc"
 THEME = './themes/Flex/'
 #THEME = './themes/genus/'
 
-# Google AdSense
-GOOGLE_ADSENSE = {
-    'ca_id': 'ca-pub-4103262705608837',    # Your AdSense ID
-    'page_level_ads': True,          # Allow Page Level Ads (mobile)
-    'ads': {
-        'aside': '8361642617',          # Side bar banner (all pages)
-#        'main_menu': '1234562',      # Banner before main menu (all pages)
-#        'index_top': '1234563',      # Banner after main menu (index only)
-#        'index_bottom': '1234564',   # Banner before footer (index only)
-#        'article_top': '1234565',    # Banner after article title (article only)
-        'article_bottom': '7166667362', # Banner after article content (article only)
-    }
-}
-
 # Google Analytics
 GOOGLE_ANALYTICS = 'UA-66134049-1'
 
