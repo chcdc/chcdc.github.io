@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 AUTHOR = 'Carlos Carvalho'
 SITENAME = 'Carlos Carvalho'
 SITETITLE = 'Carlos Carvalho'
+SITESUBTITLE  = 'Yet Another Blog'
+SITEDESCRIPTION = 'Yet Another Blog'
 SITEURL = 'https://blog.chcdc.com.br/'
 TIMEZONE = 'America/Sao_Paulo'
 DEFAULT_LANG = 'pt'
@@ -14,6 +16,9 @@ DELETE_OUTPUT_DIRECTORY = True
 MAIN_MENU = True
 DEFAULT_PAGINATION = 10
 SUMMARY_END_MARKER = '<!--more-->'
+
+# Biography
+BIO = "Sysadmin and DevOps"
 
 # Feed generation is usually not desired when developing
 FEED_ALL_RSS = 'feeds.rss'
