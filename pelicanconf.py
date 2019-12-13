@@ -17,9 +17,9 @@ SUMMARY_END_MARKER = '<!--more-->'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_RSS = 'feeds.rss'
-CATEGORY_FEED_RSS = 'feeds/%s.rss'
+CATEGORY_FEED_RSS = 'feeds/{slug}.rss'
 FEED_ALL_ATOM = 'feeds.atom'
-CATEGORY_FEED_ATOM = 'feeds/%s.atom'
+CATEGORY_FEED_ATOM = 'feeds/{slug}.atom'
 FEED_USE_SUMMARY = True
 
 # Github Profile
@@ -127,7 +127,7 @@ PLUGINS = [
         'pelican_gist',
         'related_posts',
         'summary',
-        'optimize_images',
+        #'optimize_images',
         'sitemap',
         'post_stats',
         'share_post',
