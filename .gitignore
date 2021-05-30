@@ -10,7 +10,7 @@ __pycache__/
 *.so
 
 # Pelican
-output
+output/
 
 # Distribution / packaging
 .Python
