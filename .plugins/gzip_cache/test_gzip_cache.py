@@ -32,16 +32,24 @@ def temporary_folder():
 class TestGzipCache(unittest.TestCase):
 
     def test_should_compress(self):
-        # Some filetypes should compress and others shouldn't.
-        self.assertTrue(gzip_cache.should_compress('foo.html'))
-        self.assertTrue(gzip_cache.should_compress('bar.css'))
-        self.assertTrue(gzip_cache.should_compress('baz.js'))
-        self.assertTrue(gzip_cache.should_compress('foo.txt'))
+        user_exclude_types = ()
 
-        self.assertFalse(gzip_cache.should_compress('foo.gz'))
-        self.assertFalse(gzip_cache.should_compress('bar.png'))
-        self.assertFalse(gzip_cache.should_compress('baz.mp3'))
-        self.assertFalse(gzip_cache.should_compress('foo.mov'))
+        # Some filetypes should compress and others shouldn't.
+        self.assertTrue(gzip_cache.should_compress('foo.html', user_exclude_types))
+        self.assertTrue(gzip_cache.should_compress('bar.css', user_exclude_types))
+        self.assertTrue(gzip_cache.should_compress('baz.js', user_exclude_types))
+        self.assertTrue(gzip_cache.should_compress('foo.txt', user_exclude_types))
+
+        self.assertFalse(gzip_cache.should_compress('foo.gz', user_exclude_types))
+        self.assertFalse(gzip_cache.should_compress('bar.png', user_exclude_types))
+        self.assertFalse(gzip_cache.should_compress('baz.mp3', user_exclude_types))
+        self.assertFalse(gzip_cache.should_compress('foo.mov', user_exclude_types))
+
+        user_exclude_types = ('.html', '.xyz')
+        self.assertFalse(gzip_cache.should_compress('foo.html', user_exclude_types))
+        self.assertFalse(gzip_cache.should_compress('bar.xyz', user_exclude_types))
+        self.assertFalse(gzip_cache.should_compress('foo.gz', user_exclude_types))
+        self.assertTrue(gzip_cache.should_compress('baz.js', user_exclude_types))
 
     def test_should_overwrite(self):
         # Default to false if GZIP_CACHE_OVERWRITE is not set
@@ -60,6 +68,8 @@ class TestGzipCache(unittest.TestCase):
         # not report it). Therefore, create a dummy file to use.
         with temporary_folder() as tempdir:
             _, a_html_filename = tempfile.mkstemp(suffix='.html', dir=tempdir)
+            with open(a_html_filename, 'w') as f:
+                f.write('A' * 24)  # under this length, compressing is useless and create_gzip_file will not create any file
             gzip_cache.create_gzip_file(a_html_filename, False)
             self.assertTrue(os.path.exists(a_html_filename + '.gz'))
 
@@ -71,6 +81,8 @@ class TestGzipCache(unittest.TestCase):
         # problems for some caching strategies.
         with temporary_folder() as tempdir:
             _, a_html_filename = tempfile.mkstemp(suffix='.html', dir=tempdir)
+            with open(a_html_filename, 'w') as f:
+                f.write('A' * 24)  # under this length, compressing is useless and create_gzip_file will not create any file
             a_gz_filename = a_html_filename + '.gz'
             gzip_cache.create_gzip_file(a_html_filename, False)
             gzip_hash = get_md5(a_gz_filename)
