@@ -1,7 +1,7 @@
 {% if SITELOGO %}
   {% set default_cover = SITELOGO %}
 {% else %}
-  {% set default_cover = '{{ SITEURL }}/{{ THEME_STATIC_DIR }}/img/profile.png' %}
+  {% set default_cover = '{{ GRAVATAR_IMAGE }}' %}
 {% endif %}
 <script type="application/ld+json">
 {
