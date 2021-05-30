@@ -1,4 +1,9 @@
-pelican==3.7.1
-beautifulsoup4==4.6.0
-pelican_gist
-pyyaml>=4.3
+pelican==4.6.0
+beautifulsoup4==4.9.3
+pelican_gist==0.3.4
+pyyaml==5.4.1
+feedgenerator==1.9.1
+python-gettext==4.0
+markdown==3.3.4
+Pygments==2.9.0
+pelican-avatar==1.0.0
