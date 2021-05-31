@@ -6,9 +6,7 @@ on:
 jobs:
   Test-Make:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Check out repository code
@@ -20,4 +18,5 @@ jobs:
       - name: make html
         run: |
           make html
+          make s3_upload
       - run: echo "🍏 This job's status is ${{ job.status }}."
