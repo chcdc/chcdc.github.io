@@ -4,7 +4,7 @@ on:
     branches:
       - pelican
 jobs:
-  Test-Make:
+  Publish Site:
     runs-on: ubuntu-latest
 
     steps:
@@ -12,7 +12,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: GitHub Pages Pelican Build Action
-        uses: nelsonjchen/gh-pages-pelican-action@0.1.10
+        run: make github
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_PAGES_BRANCH: master
