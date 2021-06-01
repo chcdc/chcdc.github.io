@@ -12,9 +12,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: GitHub Pages Pelican Build Action
-        run: |
-          ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) output/
-	        git push origin $(GITHUB_PAGES_BRANCH)
+        run: ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) output/
+	      run: git push origin $(GITHUB_PAGES_BRANCH)
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GH_PAGES_BRANCH: master
