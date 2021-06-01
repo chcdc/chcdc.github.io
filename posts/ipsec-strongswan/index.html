@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="../../theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="../../theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="../../theme/pygments/monokai.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
+
+
+    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
+
+    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
+
+    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->  
+
+
+<meta name="author" content="Carlos Carvalho" />
+<meta name="description" content="Conforme mostrei nesse post vamos agora configurar uma VPN IPSec. Vamos utilizar o StrongSwan para configurarmos a VPN IPSec. Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS. A instalação será feita na distribuição CentOS 7.5.1804x64. Para o ambiente amazon foi utilizado a instância Amazon …" />
+<meta name="keywords" content="IPSec, VPN">
+
+
+<meta property="og:site_name" content="Carlos Carvalho"/>
+<meta property="og:title" content="IPSec StrongSwan"/>
+<meta property="og:description" content="Conforme mostrei nesse post vamos agora configurar uma VPN IPSec. Vamos utilizar o StrongSwan para configurarmos a VPN IPSec. Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS. A instalação será feita na distribuição CentOS 7.5.1804x64. Para o ambiente amazon foi utilizado a instância Amazon …"/>
+<meta property="og:locale" content="pt_BR"/>
+<meta property="og:url" content="../../posts/ipsec-strongswan"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-09-18 20:45:15-02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="../../author/">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="IPSec"/>
+<meta property="article:tag" content="VPN"/>
+<meta property="og:image" content="">
+
+  <title>Carlos Carvalho &ndash; IPSec StrongSwan</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="../..">
+        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
+      </a>
+
+      <h1>
+        <a href="../..">Carlos Carvalho</a>
+      </h1>
+
+<p>Yet Another Blog</p>
+
+
+      <ul class="social">
+          <li>
+            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+              <i class="fab fa-stack-overflow"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+              <i class="fas fa-rss"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="../..">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="ipsec-strongswan">IPSec StrongSwan</h1>
+    <p>
+      Posted on Tue 18 September 2018 in <a href="../../category/linux">Linux</a>
+
+        &#8226; 2 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>Conforme mostrei nesse <a href="https://blog.chcdc.com.br/posts/vpn-ipsec/">post</a> vamos agora configurar uma VPN IPSec.</p>
+<p>Vamos utilizar o <a href="https://www.strongswan.org/">StrongSwan</a> para configurarmos a VPN IPSec. </p>
+<p>Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.</p>
+
+<p>A instalação será feita na distribuição CentOS 7.5.1804x64.</p>
+<p>Para o ambiente amazon foi utilizado a instância Amazon Linux 2 AMI </p>
+<p>A VPN Site to Site precisa ser configurada dos dois lados, por isso, vamos configurar primeiro o servidor da esquerda (left) que será a Digital Ocean.</p>
+<ul>
+<li>Desabilitar SeLinux</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1"># sed -i &#39;s/^SELINUX=.*/SELINUX=disabled/g&#39; /etc/sysconfig/selinux &amp;&amp; cat /etc/sysconfig/selinux</span>
+</code></pre></div>
+
+<ul>
+<li>Atualizar o Sistema</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1"># yum -y update</span>
+</code></pre></div>
+
+<ul>
+<li>Reiniciar para aplicar as alterações</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1"># reboot</span>
+</code></pre></div>
+
+<ul>
+<li>Instale os pacotes necessários</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1">#  yum install -y vim epel-release</span>
+</code></pre></div>
+
+<ul>
+<li>Para a instalação do lado amazon, vamos utilizar os repositórios Amazon</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@peer-aws  ~<span class="o">]</span><span class="c1"># amazon-linux-extras install epel -y</span>
+</code></pre></div>
+
+<ul>
+<li>Nesse caso, foi utilizado a última versão do pacote StrongSwan. Versão 5.6.3</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1"># yum install strongswan -y</span>
+</code></pre></div>
+
+<ul>
+<li>Arquivo de configuração lado esquerdo (left)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server ~<span class="o">]</span><span class="c1"># vim /etc/strongswan/ipsec.conf</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">config</span> <span class="n">setup</span>
+    <span class="n">charondebug</span><span class="o">=</span><span class="s2">&quot;all&quot;</span>
+    <span class="n">uniqueids</span><span class="o">=</span><span class="n">yes</span>
+    <span class="n">strictcrlpolicy</span><span class="o">=</span><span class="n">no</span>
+
+<span class="n">conn</span> <span class="o">%</span><span class="n">default</span>
+    <span class="n">ikelifetime</span><span class="o">=</span><span class="mi">60</span><span class="n">m</span>
+    <span class="n">mobike</span><span class="o">=</span><span class="n">yes</span>
+    <span class="n">ike</span><span class="o">=</span><span class="n">aes128</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="n">modp1536</span><span class="p">,</span><span class="mi">3</span><span class="n">des</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="n">modp3072</span><span class="o">!</span>
+    <span class="n">esp</span><span class="o">=</span><span class="n">aes128</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="n">modp1536</span><span class="p">,</span><span class="mi">3</span><span class="n">des</span><span class="o">-</span><span class="n">sha1</span><span class="o">-</span><span class="n">modp3072</span><span class="o">!</span>
+
+<span class="c1"># Nome a ser utilizado para a conexao </span>
+<span class="n">conn</span> <span class="n">left</span>
+
+    <span class="n">left</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">xxx</span>
+    <span class="n">leftsubnet</span><span class="o">=</span><span class="mf">10.46</span><span class="o">.</span><span class="mf">0.0</span><span class="o">/</span><span class="mi">16</span>
+    <span class="n">leftid</span><span class="o">=</span><span class="n">xxx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">xx</span>
+    <span class="n">leftfirewall</span><span class="o">=</span><span class="n">yes</span>
+
+    <span class="c1"># Outra Ponta</span>
+    <span class="n">right</span><span class="o">=</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">xxx</span> 
+    <span class="n">rightsubnet</span><span class="o">=</span><span class="mf">172.31</span><span class="o">.</span><span class="mf">13.0</span><span class="o">/</span><span class="mi">20</span>
+    <span class="n">rightid</span><span class="o">=</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xxx</span>
+
+    <span class="c1"># Fechar a VPN automaticamente</span>
+    <span class="n">auto</span><span class="o">=</span><span class="n">start</span>
+    <span class="c1"># Ativar o Tunel , necessario quando existe NAT</span>
+    <span class="n">type</span><span class="o">=</span><span class="n">tunnel</span>
+    <span class="c1"># Compressao</span>
+    <span class="n">compress</span><span class="o">=</span><span class="n">yes</span>
+</code></pre></div>
+
+<ul>
+<li>Gerando a chave secret para usar em ambos os lados
+Existem N formas de gerar uma chave/password, nesse caso vamos utilizar o seguinte comando:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># date +%s | sha256sum | base64 | head -c 32 ; echo</span>
+</code></pre></div>
+
+<p>O resultado apresentado foi:</p>
+<p><strong>YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj</strong></p>
+<ul>
+<li>Vamos editar o arquivo secrets</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># vim /etc/strongswan/ipsec.secrets</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># ipsec.secrets - strongSwan IPsec secrets file</span>
+<span class="c1">#</span>
+<span class="c1"># &lt;IP lado direito&gt; : &lt;Criptografia Usada&gt; “&lt;Chave&gt;”</span>
+xxx.xx.xx.xxx : PSK <span class="s2">&quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&quot;</span>
+</code></pre></div>
+
+<ul>
+<li>Setando strongswan para iniciar com o sistema / Iniciar strongswan</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># systemctl enable strongswan</span>
+</code></pre></div>
+
+<ul>
+<li>Após a configuração do left vamos iniciar o strongswan e partir para configurar o right.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># systemctl start strongswan</span>
+</code></pre></div>
+
+<h3>Configurando lado direito (right)</h3>
+<p>Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS</p>
+<ul>
+<li>Arquivo de configuração do lado direito (right)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@aws-peer  ~<span class="o">]</span><span class="c1"># vim /etc/strongswan/ipsec.conf</span>
+</code></pre></div>
+
+<ul>
+<li>No caso da Amazon, temos que configurar o endereço left com o IP da rede local, e o leftid com o IP externo</li>
+</ul>
+<div class="highlight"><pre><span></span><code>config setup
+        <span class="nv">charondebug</span><span class="o">=</span><span class="s2">&quot;all&quot;</span>
+        <span class="nv">uniqueids</span><span class="o">=</span>yes
+        <span class="nv">strictcrlpolicy</span><span class="o">=</span>no
+
+<span class="c1"># Preferencias padroes para todas as conexoes</span>
+conn %default
+        <span class="nv">ikelifetime</span><span class="o">=</span>60m
+        <span class="nv">mobike</span><span class="o">=</span>yes
+        <span class="nv">ike</span><span class="o">=</span>aes128-sha1-modp1536,3des-sha1-modp3072!
+        <span class="nv">esp</span><span class="o">=</span>aes128-sha1-modp1536,3des-sha1-modp3072!
+
+conn right
+    <span class="nv">left</span><span class="o">=</span>xxx.xx.xx.xxx
+    <span class="nv">leftsubnet</span><span class="o">=</span><span class="m">172</span>.31.13.0/20
+    <span class="nv">leftid</span><span class="o">=</span>xxx.xxx.xx.xx
+    <span class="nv">leftfirewall</span><span class="o">=</span>yes
+
+    <span class="nv">right</span><span class="o">=</span>xx.xx.xxx.xxx
+    <span class="nv">rightsubnet</span><span class="o">=</span><span class="m">10</span>.46.0.0/16
+    <span class="nv">rightid</span><span class="o">=</span>xx.xx.xxx.xxx
+    <span class="nv">auto</span><span class="o">=</span>start
+    <span class="nv">type</span><span class="o">=</span>tunnel
+</code></pre></div>
+
+<ul>
+<li>Vamos configurar o secret</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@aws-peer  ~<span class="o">]</span><span class="c1"># vim /etc/strongswan/ipsec.secrets</span>
+</code></pre></div>
+
+<ul>
+<li>Vamos inserir a mesma chave setada no left</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ipsec.secrets - strongSwan IPsec secrets file</span>
+<span class="c1">#</span>
+<span class="c1"># &lt;IP lado direito&gt; : &lt;Criptografia Usada&gt; “&lt;Chave&gt;”</span>
+xxx.xx.xxx.xxx : PSK <span class="s2">&quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&quot;</span>
+</code></pre></div>
+
+<ul>
+<li>Setando para iniciar com o sistema / iniciando o serviço</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@aws-peer  ~<span class="o">]</span><span class="c1"># systemctl enable strongswan</span>
+<span class="o">[</span>root@aws-peer  ~<span class="o">]</span><span class="c1"># systemctl start strongswan</span>
+</code></pre></div>
+
+<ul>
+<li>Verificando conexões</li>
+</ul>
+<p>Lado Digital Ocean</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># strongswan status left</span>
+
+Security Associations <span class="o">(</span><span class="m">3</span> up, <span class="m">0</span> connecting<span class="o">)</span>:
+         left<span class="o">[</span><span class="m">6</span><span class="o">]</span>: ESTABLISHED <span class="m">2</span> minutes ago, xx.xx.xxx.xxx<span class="o">[</span>xx.xx.xxx.xxx<span class="o">]</span>...xx.xxx.xxx.xxx<span class="o">[</span>xx.xx.xxx.xxx<span class="o">]</span>
+         left<span class="o">{</span><span class="m">5</span><span class="o">}</span>:  INSTALLED, TUNNEL, reqid <span class="m">4</span>, ESP <span class="k">in</span> UDP SPIs: ca942554_i ce718f43_o
+         left<span class="o">{</span><span class="m">5</span><span class="o">}</span>:   <span class="m">10</span>.46.0.0/16 <span class="o">===</span> <span class="m">172</span>.31.0.0/20
+</code></pre></div>
+
+<p>Lado AWS</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@aws-peer  ~<span class="o">]</span><span class="c1"># strongswan status right</span>
+
+Security Associations <span class="o">(</span><span class="m">1</span> up, <span class="m">0</span> connecting<span class="o">)</span>:
+right<span class="o">[</span><span class="m">1</span><span class="o">]</span>: ESTABLISHED <span class="m">3</span> minutes ago, xxx.xx.xx.xxx<span class="o">[</span>xx.xxx.xxx.xxx<span class="o">]</span>...xxx.xx.xx.xxx<span class="o">[</span>xxx.xx.xx.xxx<span class="o">]</span>
+right<span class="o">{</span><span class="m">1</span><span class="o">}</span>:  INSTALLED, TUNNEL, reqid <span class="m">1</span>, ESP <span class="k">in</span> UDP SPIs: ce718f43_i ca942554_o
+right<span class="o">{</span><span class="m">1</span><span class="o">}</span>:   <span class="m">172</span>.31.0.0/20 <span class="o">===</span> <span class="m">10</span>.46.0.0/16
+</code></pre></div>
+
+<p>Simples Assim :)</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="../../tag/ipsec">IPSec</a>
+      <a href="../../tag/vpn">VPN</a>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-left" href="../../posts/vpn-ipsec" title="VPN IPSec">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="../../posts/dicas-iptables" title="Dicas IPTables">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+  <div class="related-posts">
+    <h4>You might enjoy</h4>
+    <ul class="related-posts">
+      <li><a href="../../posts/vpn-ipsec">VPN IPSec</a></li>
+      <li><a href="../../posts/openvpn">OpenVPN</a></li>
+    </ul>
+  </div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy; 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="../../theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : "../..",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+
+</body>
+</html>

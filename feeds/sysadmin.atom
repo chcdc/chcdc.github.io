@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Sysadmin</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/sysadmin.atom" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2019-12-14T19:12:45-03:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH configurado que inclua o cliente git,svn e git-svn&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Primeiramente vamos obter os autores do repositorio svn&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/
+$ svn log --no-auth-cache -q http://svn.yourcompany/svn/repos/sample-repo/ &lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s1"&gt;&amp;#39;|&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/^r/ {sub(&amp;quot;^ &amp;quot;, &amp;quot;&amp;quot;, $2);&lt;/span&gt;
+&lt;span class="s1"&gt;        sub(&amp;quot; $&amp;quot;, &amp;quot;&amp;quot;, $2); print $2&amp;quot; = &amp;quot;$2&amp;quot; &amp;lt;&amp;quot;$2&amp;quot;&amp;gt;&amp;quot;}&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; sort -u &amp;gt;authors-transform.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora vamos 'clonar' localmente o nosso repositorio, esse processo pode demorar horas dependendo do tamanho do repositorio. Aqui o --stdlayout indica que o repositório segue o modelo tradicional, com pastas trunk, tags e branches.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/
+$ git svn --username &amp;lt;usuario&amp;gt; --password &amp;lt;password&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  clone http://svn.yourcompany/svn/repos/sample-repo/ &lt;span class="se"&gt;\&lt;/span&gt;
+  --no-metadata -A authors-transform.txt --stdlayout
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Após finalizar, vamos criar um repositorio git do tipo bare e vamos indicar que o branch atual é o trunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ mkdir -p ~/sample-repo.git
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git init --bare
+$ git symbolic-ref HEAD refs/heads/trunk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora temos um clone completo do repositório svn no diretório sample-repo, e um repositório git bare em sample-repo.git Vamos fazer um push do repositório svn clonado para o repositório git local. Configuramos tambem para que o push seja dos branches refs/remotes e dos refs/heads.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo
+$ git remote add bare ~/sample-repo.git
+$ git config remote.bare.push &lt;span class="s1"&gt;&amp;#39;refs/remotes/*:refs/heads/*&amp;#39;&lt;/span&gt;
+$ git push bare
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;No final do passo anterior, o repositório svn será copiado para o git, mas precisaremos acertar algumas convenções git. Vamos renomear Trunk para *Master&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git branch -m trunk master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Precisaremos fazer uma limpeza de branches no git.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git &lt;span class="k"&gt;for&lt;/span&gt;-each-ref --format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(refname)&amp;#39;&lt;/span&gt; refs/heads/origin/tags &lt;span class="p"&gt;|&lt;/span&gt;
+  cut -d / -f &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+  &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; ref
+    &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$ref&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+      git tag &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      git branch -D &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;E pra finalizar, vamos fazer o push para o servidor git da empresa&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git remote add origin https://username:password@gitserver/repo-sample
+$ git push -u origin --all
+$ git push -u origin --tags
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para facilitar o processo, criei um script para executar com maior facilidade.&lt;/p&gt;
+&lt;p&gt;Ele se encontra abaixo e no meu &lt;a href="https://github.com/chcdc/svntogit/blob/master/run-import.sh"&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bons commits!! :)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash &lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Argument Null. Exiting&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; http?&lt;span class="o"&gt;(&lt;/span&gt;s&lt;span class="o"&gt;)&lt;/span&gt;://svn/* &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nv"&gt;$2&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; git@git* &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Invalid URL. Exiting&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;How to insert parameters:\n&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; SVN GIT&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+        &lt;span class="nv"&gt;SVN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+        &lt;span class="nv"&gt;REPO_GIT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;svn&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;svn --non-interactive --trust-server-cert&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;PROJECT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SVN&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; create_dirs&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Creating Directories &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Removing old directories | &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;.git&amp;quot;&lt;/span&gt;
+        rm -rf ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Removing old directories  | repo-&lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+        rm -rf ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+    mkdir -p ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    mkdir -p ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; -eq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Directories created&amp;quot;&lt;/span&gt;
+        clone_repo_svn
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; clone_repo_svn&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Cloning repositories SVN - &lt;/span&gt;&lt;span class="nv"&gt;$SVN&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    svn log --no-auth-cache -q &lt;span class="nv"&gt;$SVN&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;
+        &lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s1"&gt;&amp;#39;|&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/^r/ {sub(&amp;quot;^ &amp;quot;, &amp;quot;&amp;quot;, $2); \&lt;/span&gt;
+&lt;span class="s1"&gt;                sub(&amp;quot; $&amp;quot;, &amp;quot;&amp;quot;, $2); print $2&amp;quot; = &amp;quot;$2&amp;quot; &amp;lt;&amp;quot;$2&amp;quot;&amp;gt;&amp;quot;}&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="p"&gt;|&lt;/span&gt; sort -u &amp;gt;authors-transform.txt
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;time&lt;/span&gt; git svn clone &lt;span class="nv"&gt;$SVN&lt;/span&gt; --no-metadata -A authors-transform.txt --stdlayout 
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; -eq &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Error cloning repositories\n&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+        git_config
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;function&lt;/span&gt; git_config&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Convert to GIT - &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    git init --bare
+    git symbolic-ref HEAD refs/heads/trunk
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    git remote add bare ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git/
+    git config remote.bare.push &lt;span class="s1"&gt;&amp;#39;refs/remotes/*:refs/heads/*&amp;#39;&lt;/span&gt;
+    git push bare
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git/
+    git branch -m origin/trunk master
+    git &lt;span class="k"&gt;for&lt;/span&gt;-each-ref --format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(refname)&amp;#39;&lt;/span&gt; refs/heads/origin/tags &lt;span class="p"&gt;|&lt;/span&gt; 
+    cut -d / -f &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; ref
+    &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$ref&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+      git tag &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      git branch -D &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+    git_pull
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; git_pull&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Push GIT - &lt;/span&gt;&lt;span class="nv"&gt;$REPO_GIT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    git remote add origin &lt;span class="nv"&gt;$REPO_GIT&lt;/span&gt;
+    git push -u origin --all
+    git push -u origin --tags
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; main&lt;span class="o"&gt;(){&lt;/span&gt;
+    create_dirs
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Sysadmin"></category><category term="svn"></category><category term="git"></category></entry></feed>

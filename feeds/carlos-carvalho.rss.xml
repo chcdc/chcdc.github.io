@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Carlos Carvalho - Carlos Carvalho</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Sat, 14 Dec 2019 19:12:45 -0300</lastBuildDate><item><title>Migrando repositorios do SVN para o GIT</title><link>https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git</link><description>&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH …&lt;/li&gt;&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sat, 14 Dec 2019 19:12:45 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</guid><category>Sysadmin</category><category>svn</category><category>git</category></item><item><title>OpenVPN</title><link>https://blog.chcdc.com.br/posts/openvpn</link><description>&lt;p&gt;OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.&lt;/p&gt;
+&lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
+&lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Mon, 20 May 2019 00:00:00 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2019-05-20:/posts/openvpn</guid><category>Network</category><category>sysadmin</category><category>VPN</category><category>Linux</category></item><item><title>Dicas IPTables</title><link>https://blog.chcdc.com.br/posts/dicas-iptables</link><description>&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;li&gt;OUTPUT - pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NAT - é uma tabela que é consultada quando um …&lt;/li&gt;&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sun, 16 Dec 2018 19:00:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-12-16:/posts/dicas-iptables</guid><category>Linux</category><category>Network</category><category>Sysadmin</category></item><item><title>IPSec StrongSwan</title><link>https://blog.chcdc.com.br/posts/ipsec-strongswan</link><description>&lt;p&gt;Conforme mostrei nesse &lt;a href="https://blog.chcdc.com.br/posts/vpn-ipsec/"&gt;post&lt;/a&gt; vamos agora configurar uma VPN IPSec.&lt;/p&gt;
+&lt;p&gt;Vamos utilizar o &lt;a href="https://www.strongswan.org/"&gt;StrongSwan&lt;/a&gt; para configurarmos a VPN IPSec. &lt;/p&gt;
+&lt;p&gt;Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;A instalação será feita na distribuição CentOS 7.5.1804x64.&lt;/p&gt;
+&lt;p&gt;Para o ambiente amazon foi utilizado a instância Amazon …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 18 Sep 2018 20:45:15 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-09-18:/posts/ipsec-strongswan</guid><category>Linux</category><category>IPSec</category><category>VPN</category></item><item><title>VPN IPSec</title><link>https://blog.chcdc.com.br/posts/vpn-ipsec</link><description>&lt;p&gt;É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.&lt;/p&gt;
+&lt;p&gt;O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sat, 15 Sep 2018 01:59:44 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-09-15:/posts/vpn-ipsec</guid><category>Linux</category><category>IPSec</category><category>VPN</category></item><item><title>Permissoes no Linux</title><link>https://blog.chcdc.com.br/posts/permissoes-no-linux</link><description>&lt;p&gt;As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. &lt;/p&gt;
+&lt;p&gt;Quando, em um sistema (li)Unix digitamos o comando &lt;code&gt;ls -l&lt;/code&gt; temos a seguinte visualização:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ls -l" src="/images/ls_l.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vemos o primeiro item em cada linha é a forma utilizada …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 27 Feb 2018 09:23:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-02-27:/posts/permissoes-no-linux</guid><category>Linux</category><category>Sysadmin</category></item><item><title>Copiando arquivos com Python</title><link>https://blog.chcdc.com.br/posts/copiando-arquivos-com-python</link><description>&lt;p&gt;Nesse &lt;a href="chcdc.com.br/posts/enviar-emails-com-python"&gt;post&lt;/a&gt; ensinei a criar um script basico para o envio de emails usando python.&lt;/p&gt;
+&lt;p&gt;Vamos agora aprender a coletar os logs (ou arquivos que voce desejar) para anexar ao script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Lembrando que a versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Antes de …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Wed, 14 Feb 2018 10:55:25 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-02-14:/posts/copiando-arquivos-com-python</guid><category>Python</category><category>script</category></item><item><title>Enviar emails com Python</title><link>https://blog.chcdc.com.br/posts/enviar-emails-com-python</link><description>&lt;p&gt;Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.&lt;/p&gt;
+&lt;p&gt;Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
+o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Antes de tudo, caso use GMail, você precisa permitir "aplicativos …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Fri, 09 Feb 2018 02:10:18 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-02-09:/posts/enviar-emails-com-python</guid><category>Python</category><category>emails</category><category>script</category></item><item><title>Gerando senhas com python</title><link>https://blog.chcdc.com.br/posts/gerando-senhas-com-python</link><description>&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
+&lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
+&lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
+&lt;p&gt;Vamos começar por partes&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Primeiro vamos …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 09 Jan 2018 19:48:25 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-01-09:/posts/gerando-senhas-com-python</guid><category>Python</category></item><item><title>2017</title><link>https://blog.chcdc.com.br/posts/2017</link><description>&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;2017 pubiquei apenas um artigo aqui, enfrentei diversas dificuldades, tais como a perda de meu pai.&lt;/p&gt;
+&lt;p&gt;Nesse ano que se inicia pretendo me dedicar mais ao blog e ao conteudo postado.&lt;/p&gt;
+&lt;p&gt;A base do blog foi alterada de Octopress (Ruby) para Pelican (Python)&lt;/p&gt;
+&lt;p&gt;Sendo Python …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Mon, 01 Jan 2018 12:00:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2018-01-01:/posts/2017</guid><category>misc</category><category>misc</category><category>Vida Pessoal</category></item><item><title>Organizando arquivos por extensão usando Python</title><link>https://blog.chcdc.com.br/posts/organizando-arquivos-por-extensao-usando-python</link><description>&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
+&lt;p&gt;Bom vamos ao código.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env Python3.5 …&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Wed, 25 Jan 2017 11:45:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2017-01-25:/posts/organizando-arquivos-por-extensao-usando-python</guid><category>Python</category><category>regex</category></item><item><title>Criando um Bot do Telegram</title><link>https://blog.chcdc.com.br/posts/criando-um-bot-do-telegram</link><description>&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sun, 18 Sep 2016 20:14:12 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-09-18:/posts/criando-um-bot-do-telegram</guid><category>Python</category><category>Telegram</category><category>bot</category></item><item><title>Monitorar conexoes</title><link>https://blog.chcdc.com.br/posts/monitorar-conexoes</link><description>&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Wed, 20 Jul 2016 04:06:37 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-07-20:/posts/monitorar-conexoes</guid><category>Network</category></item><item><title>Instalando Telegram-Cli</title><link>https://blog.chcdc.com.br/posts/instalando-telegram-cli</link><description>&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Instale as dependencias&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cd /opt/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone --recursive …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Fri, 22 Apr 2016 20:43:33 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-04-22:/posts/instalando-telegram-cli</guid><category>Telegram</category></item><item><title>Gerando senhas seguras</title><link>https://blog.chcdc.com.br/posts/gerando-senhas-seguras</link><description>&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
+Após algumas pesquisas encontrei um pacote que pode fazer …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Wed, 20 Jan 2016 01:48:25 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras</guid><category>Shell Script</category></item><item><title>Registro de acesso</title><link>https://blog.chcdc.com.br/posts/registro-de-acesso</link><description>&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Criei um script pra cada vez que houver logon no sistema …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 05 Jan 2016 01:59:44 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-01-05:/posts/registro-de-acesso</guid><category>Shell Script</category><category>sysadmin</category></item><item><title>Removendo vários arquivos de uma lista gigante</title><link>https://blog.chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante</link><description>&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sat, 02 Jan 2016 23:39:17 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-01-02:/posts/removendo-varios-arquivos-de-uma-lista-gigante</guid><category>Linux</category><category>sysadmin</category></item></channel></rss>

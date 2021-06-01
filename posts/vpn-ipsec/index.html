@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="../../theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="../../theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="../../theme/pygments/monokai.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
+
+
+    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
+
+    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
+
+    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->  
+
+
+<meta name="author" content="Carlos Carvalho" />
+<meta name="description" content="É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP. O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual …" />
+<meta name="keywords" content="IPSec, VPN">
+
+
+<meta property="og:site_name" content="Carlos Carvalho"/>
+<meta property="og:title" content="VPN IPSec"/>
+<meta property="og:description" content="É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP. O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual …"/>
+<meta property="og:locale" content="pt_BR"/>
+<meta property="og:url" content="../../posts/vpn-ipsec"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-09-15 01:59:44-02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="../../author/">
+<meta property="article:section" content="Linux"/>
+<meta property="article:tag" content="IPSec"/>
+<meta property="article:tag" content="VPN"/>
+<meta property="og:image" content="">
+
+  <title>Carlos Carvalho &ndash; VPN IPSec</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="../..">
+        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
+      </a>
+
+      <h1>
+        <a href="../..">Carlos Carvalho</a>
+      </h1>
+
+<p>Yet Another Blog</p>
+
+
+      <ul class="social">
+          <li>
+            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+              <i class="fab fa-stack-overflow"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+              <i class="fas fa-rss"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="../..">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="vpn-ipsec">VPN IPSec</h1>
+    <p>
+      Posted on Sat 15 September 2018 in <a href="../../category/linux">Linux</a>
+
+        &#8226; 3 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.</p>
+<p>O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual todos os dados enviados entre dois pontos de extremidade são criptografados, como em uma conexão VPN ( Rede Virtual Privada ); para criptografar dados da camada de aplicativo ; e para fornecer segurança aos roteadores que enviam dados de roteamento pela Internet pública. O IPsec também pode ser usado para fornecer autenticação sem criptografia, por exemplo, para autenticar os dados originados de um remetente conhecido.</p>
+<p>O tráfego da Internet pode ser protegido de host para host sem o uso de IPsec, por exemplo, por criptografia na camada de aplicativo (Camada 7 do modelo OSI ) com HTTP Seguro (HTTPS) ou na camada de transporte (Camada 4 do modelo OSI) com o protocolo TLS ( Transport Layer Security ). No entanto, quando o tráfego usa criptografia ou autenticação nessas camadas superiores, os agentes de ameaça ainda podem interceptar informações de protocolo que podem expor dados que devem ser criptografados. </p>
+<p>Pode usar criptografia para fornecer segurança. O IPsec pode ser usado para a configuração de redes privadas virtuais (VPNs) de maneira segura.</p>
+
+<h3>Protocolos IPSec</h3>
+<p>O IPsec é definido para uso com as duas versões atuais do Internet Protocol, IPv4 e IPv6, sendo obrigatorio em IPv6. Os cabeçalhos do protocolo IPsec são incluídos no cabeçalho IP, onde aparecem como extensões de cabeçalho IP quando um sistema está usando IPsec.</p>
+<p>Os protocolos mais importantes considerados como parte do IPsec incluem:</p>
+<ul>
+<li>
+<p>O Cabeçalho de Autenticação de IP (AH), especificado no <a href="https://tools.ietf.org/html/rfc4302">RFC 4302</a>, define um cabeçalho de pacote opcional a ser usado para garantir a integridade sem conexão e a autenticação de origem de dados para pacotes IP e para proteger contra replays.</p>
+</li>
+<li>
+<p>O IP Encapsulating Security Payload (ESP), especificado no <a href="https://www.ietf.org/rfc/rfc4303.txt">RFC 4303</a>, define um cabeçalho de pacote opcional que pode ser usado para fornecer confidencialidade através de criptografia do pacote, bem como proteção de integridade, autenticação de origem de dados, controle de acesso e proteção opcional contra replays ou análise de tráfego.</p>
+</li>
+<li>
+<p>O IKE (Internet Key Exchange), definido no <a href="https://tools.ietf.org/html/rfc7296">RFC 7296</a>, "IKEv2 (Internet Key Exchange Protocol Version 2)", é um protocolo definido para permitir que os hosts especifiquem quais serviços devem ser incorporados nos pacotes, algoritmos criptográficos que serão usados ​​para fornecer esses serviços e um mecanismo para compartilhar as chaves usadas com esses algoritmos criptográficos. </p>
+</li>
+</ul>
+<h3>Fases IPSec</h3>
+<p>O IPSec envolve muitas tecnologias de componentes e métodos de criptografia. No entanto, a operação do IPSec pode ser dividida em cinco etapas principais:</p>
+<ul>
+<li>
+<p><strong>"Interesting traffic"</strong> Inicia o processo IPSec. O tráfego é considerado interessante quando a política de segurança IPSec configurada nos pares IPSec inicia o processo IKE.</p>
+</li>
+<li>
+<p><strong>Fase IKE 1.</strong>  O IKE autentica os pares IPSec e negocia os IKEs SA durante essa fase, configurando um canal seguro para negociar as SAs IPSec na fase 2.</p>
+</li>
+<li>
+<p><strong>Fase IKE 2.</strong> IKE negocia os parâmetros IPSec SA e configura as SAs IPSec correspondentes nos pares.</p>
+</li>
+<li>
+<p><strong>Transferência de dados.</strong> Os dados são transferidos entre os pares IPSec com base nos parâmetros IPSec e nas chaves armazenadas no banco de dados SA.</p>
+</li>
+<li>
+<p><strong>Terminação de túnel IPSec.</strong> IPSec SAs terminam por exclusão ou por tempo limite.</p>
+</li>
+</ul>
+<h3>Implementando o IPsec</h3>
+<p>O suporte a IPsec foi geralmente incluído na maioria dos sistemas operacionais comuns (e outros) disponíveis desde o final dos anos 90, incluindo sistemas operacionais de desktop e servidor, bem como roteadores e outros dispositivos de segurança de rede.</p>
+<p>Embora os sistemas mais antigos possam suportar alguma versão do IPsec, as empresas devem implantar o IPsec usando sistemas operacionais atualizados e atualizados em patches de segurança. Além disso, sistemas mais antigos que suportam versões mais antigas do IPsec e parecem ativar circuitos IPsec seguros podem, na verdade, não manter os dados seguros. </p>
+<p>Nos proximos posts vamos configurar e implementar uma VPN IPSec.</p>
+<hr>
+<h5>Fontes:</h5>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc4302">RFC 4302</a></li>
+<li><a href="https://www.ietf.org/rfc/rfc4303.txt">RFC 4303</a></li>
+<li><a href="https://tools.ietf.org/html/rfc7296">RFC 7296</a></li>
+<li><a href="http://www.ciscopress.com/articles/article.asp?p=25474&amp;seqNum=7">Cisco Press</a></li>
+</ul>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="../../tag/ipsec">IPSec</a>
+      <a href="../../tag/vpn">VPN</a>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-left" href="../../posts/permissoes-no-linux" title="Permissoes no Linux">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="../../posts/ipsec-strongswan" title="IPSec StrongSwan">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+  <div class="related-posts">
+    <h4>You might enjoy</h4>
+    <ul class="related-posts">
+      <li><a href="../../posts/ipsec-strongswan">IPSec StrongSwan</a></li>
+      <li><a href="../../posts/openvpn">OpenVPN</a></li>
+    </ul>
+  </div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy; 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="../../theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : "../..",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="../../theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="../../theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="../../theme/pygments/monokai.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
+
+
+    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
+
+    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
+
+    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->  
+
+
+<meta name="author" content="Carlos Carvalho" />
+<meta name="description" content="O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise e solução de problemas da rede." />
+<meta name="keywords" content="">
+
+
+<meta property="og:site_name" content="Carlos Carvalho"/>
+<meta property="og:title" content="Monitorar conexoes"/>
+<meta property="og:description" content="O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise e solução de problemas da rede."/>
+<meta property="og:locale" content="pt_BR"/>
+<meta property="og:url" content="../../posts/monitorar-conexoes"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-07-20 04:06:37-03:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="../../author/">
+<meta property="article:section" content="Network"/>
+<meta property="og:image" content="">
+
+  <title>Carlos Carvalho &ndash; Monitorar conexoes</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="../..">
+        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
+      </a>
+
+      <h1>
+        <a href="../..">Carlos Carvalho</a>
+      </h1>
+
+<p>Yet Another Blog</p>
+
+
+      <ul class="social">
+          <li>
+            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+              <i class="fab fa-stack-overflow"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+              <i class="fas fa-rss"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="../..">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="monitorar-conexoes">Monitorar conexoes</h1>
+    <p>
+      Posted on Wed 20 July 2016 in <a href="../../category/network">Network</a>
+
+        &#8226; 2 min read
+    </p>
+  </header>
+
+
+  <div>
+    <p>O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.</p>
+<p>Sua documentação pode ser encontrada no site oficial.</p>
+<p><a href="http://www.tcpdump.org">TCPDUMP</a></p>
+<p>A maioria das distribuições linux possuem binarios, caso não possua, sua instalação é bem simples.</p>
+<div class="highlight"><pre><span></span><code>    sudo apt-get install tcpdump
+</code></pre></div>
+
+<!--more-->
+<p>Inicialmente não é necessario um parametro para sua execução, você apenas precisa executar como root, pois o tcpdump irá colocar sua placa de rede em modo promiscuo.</p>
+<div class="highlight"><pre><span></span><code>    tcpdump
+</code></pre></div>
+
+<p>Porém podemos utilizar diversos filtros por meio de parametros</p>
+<p>Por padrão ele faz a captura da placa de rede ativa.Para selecionar a placa, devemos utilizar o parametro -i seguido da placa a ser monitorada</p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0
+</code></pre></div>
+
+<p>Podemos monitorar conexoes de origem utilizando o parametro <em>-src host</em>. Tudo que vier do nosso gateway (192.168.1.1) para o nosso computador ( 192.168.1.10 ), será monitorado com o seguinte comando</p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0 src <span class="m">192</span>.168.1.1
+</code></pre></div>
+
+<p>Se quisermos monitorar da forma inversa.Tudo que sair de nosso computador (192.168.1.10) para o nosso gateway, o comando será o seguinte</p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0 dst <span class="m">192</span>.168.1.1
+</code></pre></div>
+
+<p>Também é possivel especificar a porta de origem e destino com o comando <em>src port</em> e <em>dst port</em> . Um exemplo é monitorar a porta 443</p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0 dst port <span class="m">443</span>
+</code></pre></div>
+
+<p>Para que o tcpdump não converta os endereços e portas, devemos utilizar o parametro <em>-n</em></p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0 -n host www.google.com.br
+</code></pre></div>
+
+<p>Podemos tambem utilizar operadores booleanos para um filtro mais refinado.</p>
+<p>Por exemplo, capturar todos os pacotes da porta 80 e 443 da rede 192.168.1.0/16</p>
+<div class="highlight"><pre><span></span><code>    tcpdump -i eth0 -n net <span class="m">192</span>.168 and port <span class="m">80</span> and port <span class="m">443</span>
+</code></pre></div>
+
+<p>Muitas opções podem ser obtidas com o tcpdump, essas são algumas opções basicas pra iniciar com sniffers.</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+    </p>
+  </div>
+
+
+  <div class="neighbors">
+    <a class="btn float-left" href="../../posts/instalando-telegram-cli" title="Instalando Telegram-Cli">
+      <i class="fa fa-angle-left"></i> Previous Post
+    </a>
+    <a class="btn float-right" href="../../posts/criando-um-bot-do-telegram" title="Criando um Bot do Telegram">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy; 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="../../theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : "../..",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+
+</body>
+</html>

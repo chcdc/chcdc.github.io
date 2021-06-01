@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Carlos Carvalho - Sysadmin</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Sat, 14 Dec 2019 19:12:45 -0300</lastBuildDate><item><title>Migrando repositorios do SVN para o GIT</title><link>https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git</link><description>&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH …&lt;/li&gt;&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Sat, 14 Dec 2019 19:12:45 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</guid><category>Sysadmin</category><category>svn</category><category>git</category></item></channel></rss>

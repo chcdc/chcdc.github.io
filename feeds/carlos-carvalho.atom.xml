@@ -1,0 +1,1470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Carlos Carvalho</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/carlos-carvalho.atom.xml" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2019-12-14T19:12:45-03:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+&lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
+&lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cliente svn instalado&lt;/li&gt;
+&lt;li&gt;Cliente git mais recente instalado&lt;/li&gt;
+&lt;li&gt;Pacote git-svn&lt;/li&gt;
+&lt;li&gt;PATH configurado que inclua o cliente git,svn e git-svn&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Primeiramente vamos obter os autores do repositorio svn&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/
+$ svn log --no-auth-cache -q http://svn.yourcompany/svn/repos/sample-repo/ &lt;span class="se"&gt;\ &lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s1"&gt;&amp;#39;|&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/^r/ {sub(&amp;quot;^ &amp;quot;, &amp;quot;&amp;quot;, $2);&lt;/span&gt;
+&lt;span class="s1"&gt;        sub(&amp;quot; $&amp;quot;, &amp;quot;&amp;quot;, $2); print $2&amp;quot; = &amp;quot;$2&amp;quot; &amp;lt;&amp;quot;$2&amp;quot;&amp;gt;&amp;quot;}&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; sort -u &amp;gt;authors-transform.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora vamos 'clonar' localmente o nosso repositorio, esse processo pode demorar horas dependendo do tamanho do repositorio. Aqui o --stdlayout indica que o repositório segue o modelo tradicional, com pastas trunk, tags e branches.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/
+$ git svn --username &amp;lt;usuario&amp;gt; --password &amp;lt;password&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  clone http://svn.yourcompany/svn/repos/sample-repo/ &lt;span class="se"&gt;\&lt;/span&gt;
+  --no-metadata -A authors-transform.txt --stdlayout
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Após finalizar, vamos criar um repositorio git do tipo bare e vamos indicar que o branch atual é o trunk&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ mkdir -p ~/sample-repo.git
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git init --bare
+$ git symbolic-ref HEAD refs/heads/trunk
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora temos um clone completo do repositório svn no diretório sample-repo, e um repositório git bare em sample-repo.git Vamos fazer um push do repositório svn clonado para o repositório git local. Configuramos tambem para que o push seja dos branches refs/remotes e dos refs/heads.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo
+$ git remote add bare ~/sample-repo.git
+$ git config remote.bare.push &lt;span class="s1"&gt;&amp;#39;refs/remotes/*:refs/heads/*&amp;#39;&lt;/span&gt;
+$ git push bare
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;No final do passo anterior, o repositório svn será copiado para o git, mas precisaremos acertar algumas convenções git. Vamos renomear Trunk para *Master&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git branch -m trunk master
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Precisaremos fazer uma limpeza de branches no git.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git &lt;span class="k"&gt;for&lt;/span&gt;-each-ref --format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(refname)&amp;#39;&lt;/span&gt; refs/heads/origin/tags &lt;span class="p"&gt;|&lt;/span&gt;
+  cut -d / -f &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+  &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; ref
+    &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$ref&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+      git tag &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      git branch -D &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;E pra finalizar, vamos fazer o push para o servidor git da empresa&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; ~/sample-repo.git
+$ git remote add origin https://username:password@gitserver/repo-sample
+$ git push -u origin --all
+$ git push -u origin --tags
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para facilitar o processo, criei um script para executar com maior facilidade.&lt;/p&gt;
+&lt;p&gt;Ele se encontra abaixo e no meu &lt;a href="https://github.com/chcdc/svntogit/blob/master/run-import.sh"&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Bons commits!! :)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash &lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; -z &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Argument Null. Exiting&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$1&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; http?&lt;span class="o"&gt;(&lt;/span&gt;s&lt;span class="o"&gt;)&lt;/span&gt;://svn/* &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nv"&gt;$2&lt;/span&gt; !&lt;span class="o"&gt;=&lt;/span&gt; git@git* &lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Invalid URL. Exiting&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;How to insert parameters:\n&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; SVN GIT&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+        &lt;span class="nv"&gt;SVN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+        &lt;span class="nv"&gt;REPO_GIT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="nb"&gt;alias&lt;/span&gt; &lt;span class="nv"&gt;svn&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;svn --non-interactive --trust-server-cert&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;PROJECT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SVN&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; create_dirs&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Creating Directories &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Removing old directories | &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;.git&amp;quot;&lt;/span&gt;
+        rm -rf ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Removing old directories  | repo-&lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+        rm -rf ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+    mkdir -p ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    mkdir -p ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; -eq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Directories created&amp;quot;&lt;/span&gt;
+        clone_repo_svn
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; clone_repo_svn&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Cloning repositories SVN - &lt;/span&gt;&lt;span class="nv"&gt;$SVN&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    svn log --no-auth-cache -q &lt;span class="nv"&gt;$SVN&lt;/span&gt; &lt;span class="se"&gt;\ &lt;/span&gt;
+        &lt;span class="p"&gt;|&lt;/span&gt; awk -F &lt;span class="s1"&gt;&amp;#39;|&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/^r/ {sub(&amp;quot;^ &amp;quot;, &amp;quot;&amp;quot;, $2); \&lt;/span&gt;
+&lt;span class="s1"&gt;                sub(&amp;quot; $&amp;quot;, &amp;quot;&amp;quot;, $2); print $2&amp;quot; = &amp;quot;$2&amp;quot; &amp;lt;&amp;quot;$2&amp;quot;&amp;gt;&amp;quot;}&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+        &lt;span class="p"&gt;|&lt;/span&gt; sort -u &amp;gt;authors-transform.txt
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;time&lt;/span&gt; git svn clone &lt;span class="nv"&gt;$SVN&lt;/span&gt; --no-metadata -A authors-transform.txt --stdlayout 
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt; -eq &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -e &lt;span class="s2"&gt;&amp;quot;Error cloning repositories\n&amp;quot;&lt;/span&gt;
+        &lt;span class="nb"&gt;exit&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;
+        git_config
+    &lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+
+&lt;span class="k"&gt;function&lt;/span&gt; git_config&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Convert to GIT - &lt;/span&gt;&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    git init --bare
+    git symbolic-ref HEAD refs/heads/trunk
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/repo-&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;
+    git remote add bare ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git/
+    git config remote.bare.push &lt;span class="s1"&gt;&amp;#39;refs/remotes/*:refs/heads/*&amp;#39;&lt;/span&gt;
+    git push bare
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git/
+    git branch -m origin/trunk master
+    git &lt;span class="k"&gt;for&lt;/span&gt;-each-ref --format&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%(refname)&amp;#39;&lt;/span&gt; refs/heads/origin/tags &lt;span class="p"&gt;|&lt;/span&gt; 
+    cut -d / -f &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; ref
+    &lt;span class="k"&gt;do&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$ref&lt;/span&gt;
+      &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+      git tag &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      git branch -D &lt;span class="s2"&gt;&amp;quot;origin/tags/&lt;/span&gt;&lt;span class="nv"&gt;$ref&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+    git_pull
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; git_pull&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Push GIT - &lt;/span&gt;&lt;span class="nv"&gt;$REPO_GIT&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;---------------------------------------------&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; ~/&lt;span class="nv"&gt;$PROJECT&lt;/span&gt;.git
+    git remote add origin &lt;span class="nv"&gt;$REPO_GIT&lt;/span&gt;
+    git push -u origin --all
+    git push -u origin --tags
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; main&lt;span class="o"&gt;(){&lt;/span&gt;
+    create_dirs
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+main
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Sysadmin"></category><category term="svn"></category><category term="git"></category></entry><entry><title>OpenVPN</title><link href="https://blog.chcdc.com.br/posts/openvpn" rel="alternate"></link><published>2019-05-20T00:00:00-03:00</published><updated>2019-05-20T00:00:00-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-05-20:/posts/openvpn</id><summary type="html">&lt;p&gt;OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.&lt;/p&gt;
+&lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
+&lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado …&lt;/p&gt;</summary><content type="html">&lt;p&gt;OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.&lt;/p&gt;
+&lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
+&lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado e com a rede configurada, vamos iniciar a instalação.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Configurando o sistema&lt;/h3&gt;
+&lt;p&gt;Desabilite o SELinux&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sed -i &lt;span class="s1"&gt;&amp;#39;s/^SELINUX=.*/SELINUX=disabled/g&amp;#39;&lt;/span&gt; /etc/sysconfig/selinux &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cat /etc/sysconfig/selinux 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Desabilite o firewalld&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;systemctl stop firewalld
+&lt;span class="gp"&gt;# &lt;/span&gt;systemctl disable firewalld
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Após as alterações reinicie o sistema para aplicar a configuração&lt;/p&gt;
+&lt;p&gt;Ajuste o kernel para habilitar o modo de roteamento:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; net.ipv4.ip_forward &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf
+&lt;span class="gp"&gt;# &lt;/span&gt;sysctl -p
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Atualize o sistema operacional&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum upgrade -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Instalando OpenVPN&lt;/h3&gt;
+&lt;p&gt;O repositório Extra Packages for Enterprise Linux (EPEL) é um repositório adicional gerenciado pelo Projeto Fedora contendo pacotes não padrão, mas populares. O OpenVPN não está disponível nos repositórios padrão do CentOS, mas está disponível no EPEL, então instale o EPEL:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum install epel-release -y &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; yum update -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Próximo passo é instalar os pacotes necessários&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum install openvpn vim -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Usando o curl, faça o download do Easy RSA. 
+Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para esta versão. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;curl -L https://github.com/OpenVPN/easy-rsa-old/archive/2.3.3.tar.gz -o /tmp/easyrsa.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Extraia o pacote e crie o diretório em /etc/openvpn/&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;tar xfz /tmp/easyrsa.tar.gz
+&lt;span class="gp"&gt;# &lt;/span&gt;sudo mkdir /etc/openvpn/easy-rsa 
+&lt;span class="gp"&gt;# &lt;/span&gt;sudo mkdir /etc/openvpn/keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Copie a estrutura do diretório easy-rsa para o diretório /etc/openvpn/easy-rsa para facilitar a administração:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sudo cp -rfv easy-rsa-old-2.3.3/easy-rsa/2.0/* /etc/openvpn/easy-rsa/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Altere o diretório para um usuário não root&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;chown &lt;span class="s2"&gt;&amp;quot;user&amp;quot;&lt;/span&gt; /etc/openvpn/easy-rsa/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Depois que esses programas forem instalados e tiverem sido movidos para os locais corretos em seu sistema, a próxima etapa é personalizar a configuração do lado do servidor do OpenVPN.&lt;/p&gt;
+&lt;h3&gt;Configurando OpenVPN&lt;/h3&gt;
+&lt;p&gt;Temos muitas formas de configurar o OpenVPN, neste documento vamos fazer a forma mais comum de conexão.&lt;/p&gt;
+&lt;p&gt;Crie o arquivo de configuração&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;vim /etc/openvpn/server.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos a Configuração&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;IP &lt;span class="k"&gt;do&lt;/span&gt; servidor VPN
+&lt;span class="go"&gt;local xxx.xxx.xxx.xxx&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Porta Utilizada
+&lt;span class="go"&gt;port 1194&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Protocolo de Conexão e porta utilizada
+&lt;span class="go"&gt;proto udp &lt;/span&gt;
+&lt;span class="go"&gt;dev tun0 &lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Permite que o túnel &lt;span class="k"&gt;continue&lt;/span&gt; aberto mesmo que o endereço IP da outra máquina mude
+&lt;span class="go"&gt;float&lt;/span&gt;
+
+&lt;span class="gp"&gt;#&lt;/span&gt;&lt;span class="c1"&gt;# Localização das Chaves e certificados&lt;/span&gt;
+&lt;span class="go"&gt;ca /etc/openvpn/keys/ca.crt &lt;/span&gt;
+&lt;span class="go"&gt;cert /etc/openvpn/keys/server.crt&lt;/span&gt;
+&lt;span class="go"&gt;key /etc/openvpn/keys/server.key  # This file should be kept secret&lt;/span&gt;
+&lt;span class="go"&gt;dh /etc/openvpn/keys/dh2048.pem&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Configura o OpenVPN para funcionar como uma 
+&lt;span class="gp"&gt;# &lt;/span&gt;sub-rede e informa à máquina cliente qual endereço utilizar
+&lt;span class="go"&gt;topology subnet&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Configuração &lt;span class="k"&gt;do&lt;/span&gt; endereço &lt;span class="k"&gt;do&lt;/span&gt; servidor
+&lt;span class="go"&gt;server 10.1.1.0 255.255.255.0 &lt;/span&gt;
+
+&lt;span class="gp"&gt;#&lt;/span&gt;Configuração para manter os endereços estáticos dos clientes, 
+&lt;span class="gp"&gt;# &lt;/span&gt;caso o OpenVPN reinicie, 
+&lt;span class="gp"&gt;# &lt;/span&gt;poderá ser atribuído aos clientes de reconexão o mesmo endereço IP
+&lt;span class="go"&gt;ifconfig-pool-persist ipp.txt&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Informa a configuração de cada cliente
+&lt;span class="go"&gt;client-config-dir /etc/openvpn/ccd/&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Configuração para setar o DNS dos clientes, no exemplo abaixo estamos utilizando o opendns.com
+&lt;span class="go"&gt;push &amp;quot;dhcp-option DNS 208.67.222.222&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;push &amp;quot;dhcp-option DNS 208.67.220.220&amp;quot;&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Envia um “ping” de um lado para o outro, 
+&lt;span class="gp"&gt;# &lt;/span&gt;de modo que cada lado saiba quando o outro lado ficou inativo.
+&lt;span class="gp"&gt;# &lt;/span&gt;Ping a cada &lt;span class="m"&gt;10&lt;/span&gt; segundos, declara como inativo se nenhum ping &lt;span class="k"&gt;for&lt;/span&gt; recebido 
+&lt;span class="gp"&gt;# &lt;/span&gt;durante um tempo de &lt;span class="m"&gt;120&lt;/span&gt; segundos
+&lt;span class="go"&gt;keepalive 10 120&lt;/span&gt;
+
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Chave de segurança Cipher. Deve conter no arquivo cliente e servidor.
+&lt;span class="go"&gt;cipher AES-256-CBC&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Compactação 
+&lt;span class="go"&gt;comp-lzo&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Quantidade maxima de clientes 
+&lt;span class="go"&gt;max-clients 10&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Opções Persistentes
+&lt;span class="go"&gt;persist-key&lt;/span&gt;
+&lt;span class="go"&gt;persist-tun&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Arquivo de status curto, exibindo as conexões atuais, truncadas e reescrito a cada minuto
+&lt;span class="go"&gt;status /var/log/openvpn-status.log&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Log OpenVPN
+&lt;span class="go"&gt;log-append  /var/log/openvpn.log&lt;/span&gt;
+&lt;span class="go"&gt;verb 3&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Notificar o cliente que quando o servidor &lt;span class="k"&gt;for&lt;/span&gt; reiniciado pode reconectar-se automaticamente.
+&lt;span class="go"&gt;explicit-exit-notify 1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Gerando Chaves e certificados Servidor&lt;/h3&gt;
+&lt;p&gt;Começaremos nosso processo de geração de chaves e certificados criando um diretório no qual o Easy RSA armazenará todas as chaves e certificados gerados:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/easy-rsa/keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos editar as variáveis padrões que ficam no arquivo &lt;strong&gt;vars&lt;/strong&gt; em &lt;strong&gt;/etc/openvpn/easy-rsa/&lt;/strong&gt; :&lt;/p&gt;
+&lt;p&gt;Vá até o final do arquivo e altere os valores abaixo&lt;/p&gt;
+&lt;p&gt;KEY_NAME: O nome do servidor, o mesmo utilizado para a criação das chaves "server.key" e "server.crt"&lt;br /&gt;
+export KEY_COUNTRY="BR"&lt;br /&gt;
+export KEY_PROVINCE="PR"&lt;br /&gt;
+export KEY_CITY="Maringa"&lt;br /&gt;
+export KEY_ORG="Empresa"&lt;br /&gt;
+export KEY_EMAIL="vpn@company.com.br"&lt;br /&gt;
+export KEY_CN=openvpn&lt;br /&gt;
+export KEY_NAME="server"&lt;br /&gt;
+export KEY_OU="Infraestrutura"&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;Salve e feche o arquivo&lt;/p&gt;
+&lt;p&gt;Para começar a gerar as chaves e os certificados, vá para o diretório easy-rsa e carregue as variáveis declaradas no arquivo vars na memória:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa
+&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ./vars
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Execute o script clean-all do Easy RSA para remover todas as chaves e certificados já existentes na pasta e gerar a autoridade de certificação:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LEMBRE-SE: esse comando remove todas as chaves e certificados já criados. Não o execute em produção&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;./clean-all
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Este script gera um arquivo chamado ca.key. Essa é a chave privada usada para assinar seu servidor e os certificados dos clientes. Se estiver perdido, você não poderá mais confiar em nenhum certificado dessa autoridade de certificação e, se alguém conseguir acessar esse arquivo, poderá assinar novos certificados e acessar sua VPN sem o seu conhecimento. 
+Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa estar offline o máximo possível e só deve ser ativado ao criar novos certificados.&lt;/p&gt;
+&lt;p&gt;Em seguida, construa a autoridade de certificação com o script build-ca. Você será solicitado a inserir valores para os campos de certificado, mas se você definir as variáveis no arquivo vars anteriormente, todas as suas opções já estarão definidas como padrões. Você pode pressionar ENTER para aceitar os padrões de cada um:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;./build-ca
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Gere a chave de criptografia estática com o seguinte comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;openvpn --genkey --secret /etc/openvpn/keys/vpn_server.tlsauth
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Em seguida, crie uma chave e um certificado para o servidor usando o script build-key-server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;./build-key-server server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Assim como na criação da autoridade de certificação, você verá os valores que definiu como padrão para poder pressionar ENTER nesses prompts. Além disso, você será solicitado a inserir uma senha de desafio e um nome de empresa opcional. Se você digitar uma senha de desafio, você será solicitado a se conectar à VPN do seu cliente. Se você não quiser definir uma senha de desafio, deixe esta linha em branco e pressione ENTER. No final, insira Y para confirmar as alterações.&lt;/p&gt;
+&lt;p&gt;A última parte da criação das chaves e dos certificados do servidor está gerando um arquivo de troca de chaves Diffie-Hellman. Use o script build-dh para fazer isso. Isso pode levar alguns minutos para ser concluído&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;./build-dh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quando o servidor terminar de gerar o arquivo de troca de chaves, copie as chaves do servidor e os certificados do diretório keys no diretório openvpn:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa/keys/
+&lt;span class="gp"&gt;# &lt;/span&gt;sudo cp dh2048.pem ca.crt server.crt server.key /etc/openvpn/keys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Gerando Chaves e certificados Cliente&lt;/h3&gt;
+&lt;p&gt;Cada cliente também precisará de um certificado para que o servidor OpenVPN possa autenticá-lo. Essas chaves e certificados serão criados no servidor e você terá que copiá-los para seus clientes. É aconselhável gerar chaves e certificados separados para cada cliente que você pretende conectar à sua VPN.&lt;/p&gt;
+&lt;p&gt;Crie um certificado de cliente teste. Não crie um certificado para ser utilizado futuramente, pois o mesmo será utilizado para criar o arquivo de revogação de certificados e será invalidado logo em seguida. Preste atenção em alterar o endereço de email para cada certificado novo:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa/
+&lt;span class="gp"&gt;# &lt;/span&gt;./build-key cert-test
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Revogue o certificado teste, criado anteriormente, para gerar o arquivo crl.pem, que será responsável por controlar os certificados revogados.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;./revoke-full cert-teste
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Sempre que um certificado for revogado, o arquivo crl.pem deverá ser copiado para a raiz do servidor OpenVPN para que o mesmo possa ser lido:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;cp /etc/openvpn/rsa/keys/crl.pem /etc/openvpn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora vamos criar o certificado, como vamos apenas criar esse, vamos nomeá-lo de client , mas você pode alterar isso para um nome mais descritivo se quiser:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa/
+&lt;span class="gp"&gt;$ &lt;/span&gt;./build-key client
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Copie o arquivo de configuração do OpenSSL com versão, openssl-1.0.0.cnf, para um nome sem versão, openssl.cnf. Não fazer isso pode resultar em um erro em que o OpenSSL não consegue carregar a configuração porque não pode detectar sua versão&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Iniciando OpenVPN&lt;/h3&gt;
+&lt;p&gt;Vamos configurar o OpenVPN para iniciar na inicialização. Para fazer isso, ative o servidor OpenVPN adicionando-o ao systemctl&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sudo systemctl -f &lt;span class="nb"&gt;enable&lt;/span&gt; openvpn@server.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inicie o serviço&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sudo systemctl start openvpn@server.service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Verifique se não houve erros durante a inicialização do serviço. Caso tenha erros, verifique o arquivo de log /var/log/openvpn.log&lt;/p&gt;
+&lt;h3&gt;Criando rotas estaticas&lt;/h3&gt;
+&lt;p&gt;Vamos criar para cada cliente uma configuração de rede individual&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/ccd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Dentro do diretório, crie um arquivo com o nome exatamente igual ao que foi gerado o certificado, no nosso caso é client&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;touch /etc/openvpn/ccd/client
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos inserir as informações necessárias.&lt;/p&gt;
+&lt;p&gt;[Optional]
+Caso deseja que cada cliente tenha um endereço setado manualmente, insira no inicio do arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="go"&gt;ifconfig-push 10.1.1.1 255.255.255.0 &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;[/optional]&lt;/p&gt;
+&lt;p&gt;Insira as rotas da rede local e a rede openvpn, caso deseja que ele acesse a mesma&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="go"&gt;push &amp;quot;route 10.1.1.0 255.255.255.0&amp;quot;&lt;/span&gt;
+&lt;span class="go"&gt;push &amp;quot;route 10.42.12.0 255.255.254.0&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Insira as rotas desejadas, sempre comentando o destino &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;Algum lugar &lt;span class="k"&gt;do&lt;/span&gt; mundo
+&lt;span class="go"&gt;push &amp;quot;route 200.200.200.1 255.255.255.0&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configurando o Firewall&lt;/h3&gt;
+&lt;p&gt;Para que o servidor faça os redirecionamentos necessários e aceite conexões precisamos setar isso no iptables&lt;/p&gt;
+&lt;p&gt;Execute os seguintes comandos&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &amp;gt; /proc/sys/net/ipv4/ip_forward
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -P FORWARD ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A INPUT -i tun+ -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A FORWARD -i tun+ -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -t nat -A POSTROUTING -o ens32 -j MASQUERADE
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A FORWARD -i tun0 -o tun0 -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A FORWARD -i tun0 -o ens32 -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A FORWARD -i ens32 -o tun0 -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A INPUT -p tcp --dport &lt;span class="m"&gt;1194&lt;/span&gt; -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -A INPUT -p udp --dport &lt;span class="m"&gt;1194&lt;/span&gt; -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -I INPUT -i tun+ -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -I OUTPUT -o tun+ -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -I FORWARD -i tun+ -j ACCEPT
+&lt;span class="gp"&gt;# &lt;/span&gt;iptables -I FORWARD -o tun+ -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configurando o Cliente&lt;/h3&gt;
+&lt;p&gt;Os certificados e chave que serão inseridos no final do arquivo se encontram em /etc/openvpn/easy-rsa/keys/
+Sendo eles
+    * ca - ca.crt 
+    * cert - client.crt
+    * key - client.key&lt;/p&gt;
+&lt;p&gt;Crie o arquivo client.ovpn com as seguintes configurações&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="go"&gt;client&lt;/span&gt;
+&lt;span class="go"&gt;pull&lt;/span&gt;
+&lt;span class="go"&gt;dev tun&lt;/span&gt;
+&lt;span class="go"&gt;proto udp&lt;/span&gt;
+&lt;span class="go"&gt;remote &amp;lt;ip external&amp;gt; 1194 udp&lt;/span&gt;
+&lt;span class="go"&gt;user nobody&lt;/span&gt;
+&lt;span class="go"&gt;group nogroup&lt;/span&gt;
+&lt;span class="go"&gt;comp-lzo&lt;/span&gt;
+&lt;span class="go"&gt;verb 3&lt;/span&gt;
+&lt;span class="go"&gt;resolv-retry infinite&lt;/span&gt;
+&lt;span class="go"&gt;persist-key&lt;/span&gt;
+&lt;span class="go"&gt;persist-tun&lt;/span&gt;
+&lt;span class="go"&gt;mute-replay-warnings&lt;/span&gt;
+&lt;span class="go"&gt;auth-nocache&lt;/span&gt;
+&lt;span class="go"&gt;float&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Ciphers
+&lt;span class="go"&gt;remote-cert-tls server&lt;/span&gt;
+&lt;span class="go"&gt;tls-version-min 1.2&lt;/span&gt;
+&lt;span class="go"&gt;tls-cipher TLS-DHE-RSA-WITH-AES-256-GCM-SHA384&lt;/span&gt;
+&lt;span class="go"&gt;cipher AES-256-CBC&lt;/span&gt;
+
+&lt;span class="gp"&gt;# &lt;/span&gt;Client Keys
+&lt;span class="go"&gt;&amp;lt;ca&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;-----BEGIN CERTIFICATE-----&lt;/span&gt;
+&lt;span class="go"&gt;-----END CERTIFICATE-----&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;/ca&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;cert&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;-----BEGIN CERTIFICATE-----&lt;/span&gt;
+&lt;span class="go"&gt;-----END CERTIFICATE-----&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;/cert&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;key&amp;gt;&lt;/span&gt;
+&lt;span class="go"&gt;-----BEGIN RSA PRIVATE KEY-----&lt;/span&gt;
+&lt;span class="go"&gt;-----END RSA PRIVATE KEY-----&lt;/span&gt;
+&lt;span class="go"&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Copie o arquivo para sua máquina local, pode utilizar sftp ou scp. &lt;/p&gt;
+&lt;p&gt;Após seguir esses passos, sua vpn deverá estar já criada e acessível. Realize os testes de acesso, sempre verificando os logs.&lt;/p&gt;
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;</content><category term="Network"></category><category term="sysadmin"></category><category term="VPN"></category><category term="Linux"></category></entry><entry><title>Dicas IPTables</title><link href="https://blog.chcdc.com.br/posts/dicas-iptables" rel="alternate"></link><published>2018-12-16T19:00:45-02:00</published><updated>2018-12-16T19:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-12-16:/posts/dicas-iptables</id><summary type="html">&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;li&gt;OUTPUT - pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NAT - é uma tabela que é consultada quando um …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;li&gt;OUTPUT - pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NAT - é uma tabela que é consultada quando um pacote tenta criar uma nova conexão. Pode alterar características de origem ou de destino de um pacote. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;PREROUTING - utilizado para alterar um pacote, logo que é recebido&lt;/li&gt;
+&lt;li&gt;POSTROUTING - usado para alterar pacotes quando eles estão prestes a sair&lt;/li&gt;
+&lt;li&gt;OUTPUT - usado para alterar pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MANGLE - esta tabela é usada para alteração de pacotes. Até o kernel versão 2.4 esta tabela tinha apenas 2 cadeias, mas eles são agora 5:&lt;ul&gt;
+&lt;li&gt;PREROUTING - para alterar as conexões de entrada&lt;/li&gt;
+&lt;li&gt;OUTPUT - para alterar pacotes gerados localmente&lt;/li&gt;
+&lt;li&gt;INPUT - para pacotes de entrada&lt;/li&gt;
+&lt;li&gt;POSTROUTING - para alterar pacotes quando eles estão prestes a sair&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;1 - Exibir todas as regras disponíveis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -L -n -v&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Se preferir, verificar apenas uma tabela em específico (no caso a tabela nat):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -t nat -L -n -v&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ou através de linhas numeradas:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -n -L -v --line-numbers&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2 - Bloquear endereço IP específico entrante na rede&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Para adicionar regra:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -s xxx.xxx.xxx.xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Para removê-la:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -D INPUT -s xxx.xxx.xxx.xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3 - Bloquear porta específica&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Sainte:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A OUTPUT -p tcp --dport xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Entrante:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --dport xxx -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ou múltiplas portas:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT  -p tcp -m multiport --dports 22,80,443 -j ACCEPT&lt;/code&gt;
+&lt;code&gt;iptables -A OUTPUT -p tcp -m multiport --sports 22,80,443 -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4 - Permitir rede específica acessar determinada porta:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A OUTPUT -p tcp -d 192.168.100.0/24 --dport  -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5 - Bloquear Network Flood sobre o servidor web que esteja escutando na porta 80&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Aceitando de 100 a 200 conexões por minuto (ajuste da maneira que achar melhor):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --dport  -m limit --limit 100/minute --limit-burst  -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6 - Manter registros de Log’s de pacotes bloqueados:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -i eth0 -j LOG --log-prefix "Quantidade pacotes bloqueados:"&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp -dport  -j LOG -log-prefix “Serviço: ftp”&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Os log’s são salvos em /var/log/messages. Onde você poderá filtrar usando comando grep:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;grep "Quantidade pacotes bloqueados:" /var/log/messages&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7 -Limitar o número de conexões simultâneas oriundas de determinado IP:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --syn --dport  -m connlimit --connlimit-above  -j REJECT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Onde, essa regra permitirá 3 conexões simultâneas advindas de um mesmo endereço IP na porta 22 (SSH).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;8 - Permitir conexões já estabelecidas:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;9 - Bloquear Ping Requests:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p icmp -icmp-type echo-request -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;10 - Bloquear por endereço MAC:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -m mac --mac-source 00:00:00:00:00:00 -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim! 😆&lt;/p&gt;</content><category term="Linux"></category><category term="Network"></category><category term="Sysadmin"></category></entry><entry><title>IPSec StrongSwan</title><link href="https://blog.chcdc.com.br/posts/ipsec-strongswan" rel="alternate"></link><published>2018-09-18T20:45:15-02:00</published><updated>2018-09-18T20:45:15-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-09-18:/posts/ipsec-strongswan</id><summary type="html">&lt;p&gt;Conforme mostrei nesse &lt;a href="https://blog.chcdc.com.br/posts/vpn-ipsec/"&gt;post&lt;/a&gt; vamos agora configurar uma VPN IPSec.&lt;/p&gt;
+&lt;p&gt;Vamos utilizar o &lt;a href="https://www.strongswan.org/"&gt;StrongSwan&lt;/a&gt; para configurarmos a VPN IPSec. &lt;/p&gt;
+&lt;p&gt;Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;A instalação será feita na distribuição CentOS 7.5.1804x64.&lt;/p&gt;
+&lt;p&gt;Para o ambiente amazon foi utilizado a instância Amazon …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Conforme mostrei nesse &lt;a href="https://blog.chcdc.com.br/posts/vpn-ipsec/"&gt;post&lt;/a&gt; vamos agora configurar uma VPN IPSec.&lt;/p&gt;
+&lt;p&gt;Vamos utilizar o &lt;a href="https://www.strongswan.org/"&gt;StrongSwan&lt;/a&gt; para configurarmos a VPN IPSec. &lt;/p&gt;
+&lt;p&gt;Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;A instalação será feita na distribuição CentOS 7.5.1804x64.&lt;/p&gt;
+&lt;p&gt;Para o ambiente amazon foi utilizado a instância Amazon Linux 2 AMI &lt;/p&gt;
+&lt;p&gt;A VPN Site to Site precisa ser configurada dos dois lados, por isso, vamos configurar primeiro o servidor da esquerda (left) que será a Digital Ocean.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Desabilitar SeLinux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# sed -i &amp;#39;s/^SELINUX=.*/SELINUX=disabled/g&amp;#39; /etc/sysconfig/selinux &amp;amp;&amp;amp; cat /etc/sysconfig/selinux&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Atualizar o Sistema&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# yum -y update&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reiniciar para aplicar as alterações&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# reboot&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Instale os pacotes necessários&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;#  yum install -y vim epel-release&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Para a instalação do lado amazon, vamos utilizar os repositórios Amazon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@peer-aws  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# amazon-linux-extras install epel -y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Nesse caso, foi utilizado a última versão do pacote StrongSwan. Versão 5.6.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# yum install strongswan -y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Arquivo de configuração lado esquerdo (left)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.conf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+    &lt;span class="n"&gt;charondebug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;all&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;uniqueids&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+    &lt;span class="n"&gt;strictcrlpolicy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;
+
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;
+    &lt;span class="n"&gt;ikelifetime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;
+    &lt;span class="n"&gt;mobike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+    &lt;span class="n"&gt;ike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;aes128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;des&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp3072&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+    &lt;span class="n"&gt;esp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;aes128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;des&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp3072&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Nome a ser utilizado para a conexao &lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="n"&gt;left&lt;/span&gt;
+
+    &lt;span class="n"&gt;left&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;
+    &lt;span class="n"&gt;leftsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;10.46&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;
+    &lt;span class="n"&gt;leftid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;
+    &lt;span class="n"&gt;leftfirewall&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Outra Ponta&lt;/span&gt;
+    &lt;span class="n"&gt;right&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt; 
+    &lt;span class="n"&gt;rightsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;172.31&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;13.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;
+    &lt;span class="n"&gt;rightid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Fechar a VPN automaticamente&lt;/span&gt;
+    &lt;span class="n"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;
+    &lt;span class="c1"&gt;# Ativar o Tunel , necessario quando existe NAT&lt;/span&gt;
+    &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tunnel&lt;/span&gt;
+    &lt;span class="c1"&gt;# Compressao&lt;/span&gt;
+    &lt;span class="n"&gt;compress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Gerando a chave secret para usar em ambos os lados
+Existem N formas de gerar uma chave/password, nesse caso vamos utilizar o seguinte comando:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# date +%s | sha256sum | base64 | head -c 32 ; echo&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;O resultado apresentado foi:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vamos editar o arquivo secrets&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.secrets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ipsec.secrets - strongSwan IPsec secrets file&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;lt;IP lado direito&amp;gt; : &amp;lt;Criptografia Usada&amp;gt; “&amp;lt;Chave&amp;gt;”&lt;/span&gt;
+xxx.xx.xx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setando strongswan para iniciar com o sistema / Iniciar strongswan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl enable strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Após a configuração do left vamos iniciar o strongswan e partir para configurar o right.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configurando lado direito (right)&lt;/h3&gt;
+&lt;p&gt;Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Arquivo de configuração do lado direito (right)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.conf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;No caso da Amazon, temos que configurar o endereço left com o IP da rede local, e o leftid com o IP externo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;config setup
+        &lt;span class="nv"&gt;charondebug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;all&amp;quot;&lt;/span&gt;
+        &lt;span class="nv"&gt;uniqueids&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+        &lt;span class="nv"&gt;strictcrlpolicy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;no
+
+&lt;span class="c1"&gt;# Preferencias padroes para todas as conexoes&lt;/span&gt;
+conn %default
+        &lt;span class="nv"&gt;ikelifetime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;60m
+        &lt;span class="nv"&gt;mobike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+        &lt;span class="nv"&gt;ike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;aes128-sha1-modp1536,3des-sha1-modp3072!
+        &lt;span class="nv"&gt;esp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;aes128-sha1-modp1536,3des-sha1-modp3072!
+
+conn right
+    &lt;span class="nv"&gt;left&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xxx.xx.xx.xxx
+    &lt;span class="nv"&gt;leftsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;172&lt;/span&gt;.31.13.0/20
+    &lt;span class="nv"&gt;leftid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xxx.xxx.xx.xx
+    &lt;span class="nv"&gt;leftfirewall&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+
+    &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xx.xx.xxx.xxx
+    &lt;span class="nv"&gt;rightsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16
+    &lt;span class="nv"&gt;rightid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xx.xx.xxx.xxx
+    &lt;span class="nv"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;start
+    &lt;span class="nv"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;tunnel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vamos configurar o secret&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.secrets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vamos inserir a mesma chave setada no left&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ipsec.secrets - strongSwan IPsec secrets file&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;lt;IP lado direito&amp;gt; : &amp;lt;Criptografia Usada&amp;gt; “&amp;lt;Chave&amp;gt;”&lt;/span&gt;
+xxx.xx.xxx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setando para iniciar com o sistema / iniciando o serviço&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl enable strongswan&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Verificando conexões&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lado Digital Ocean&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# strongswan status left&lt;/span&gt;
+
+Security Associations &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; up, &lt;span class="m"&gt;0&lt;/span&gt; connecting&lt;span class="o"&gt;)&lt;/span&gt;:
+         left&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;: ESTABLISHED &lt;span class="m"&gt;2&lt;/span&gt; minutes ago, xx.xx.xxx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;...xx.xxx.xxx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;
+         left&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:  INSTALLED, TUNNEL, reqid &lt;span class="m"&gt;4&lt;/span&gt;, ESP &lt;span class="k"&gt;in&lt;/span&gt; UDP SPIs: ca942554_i ce718f43_o
+         left&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:   &lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16 &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="m"&gt;172&lt;/span&gt;.31.0.0/20
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Lado AWS&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# strongswan status right&lt;/span&gt;
+
+Security Associations &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; up, &lt;span class="m"&gt;0&lt;/span&gt; connecting&lt;span class="o"&gt;)&lt;/span&gt;:
+right&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;: ESTABLISHED &lt;span class="m"&gt;3&lt;/span&gt; minutes ago, xxx.xx.xx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xxx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;...xxx.xx.xx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xxx.xx.xx.xxx&lt;span class="o"&gt;]&lt;/span&gt;
+right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:  INSTALLED, TUNNEL, reqid &lt;span class="m"&gt;1&lt;/span&gt;, ESP &lt;span class="k"&gt;in&lt;/span&gt; UDP SPIs: ce718f43_i ca942554_o
+right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:   &lt;span class="m"&gt;172&lt;/span&gt;.31.0.0/20 &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Simples Assim :)&lt;/p&gt;</content><category term="Linux"></category><category term="IPSec"></category><category term="VPN"></category></entry><entry><title>VPN IPSec</title><link href="https://blog.chcdc.com.br/posts/vpn-ipsec" rel="alternate"></link><published>2018-09-15T01:59:44-02:00</published><updated>2018-09-15T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-09-15:/posts/vpn-ipsec</id><summary type="html">&lt;p&gt;É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.&lt;/p&gt;
+&lt;p&gt;O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual …&lt;/p&gt;</summary><content type="html">&lt;p&gt;É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.&lt;/p&gt;
+&lt;p&gt;O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual todos os dados enviados entre dois pontos de extremidade são criptografados, como em uma conexão VPN ( Rede Virtual Privada ); para criptografar dados da camada de aplicativo ; e para fornecer segurança aos roteadores que enviam dados de roteamento pela Internet pública. O IPsec também pode ser usado para fornecer autenticação sem criptografia, por exemplo, para autenticar os dados originados de um remetente conhecido.&lt;/p&gt;
+&lt;p&gt;O tráfego da Internet pode ser protegido de host para host sem o uso de IPsec, por exemplo, por criptografia na camada de aplicativo (Camada 7 do modelo OSI ) com HTTP Seguro (HTTPS) ou na camada de transporte (Camada 4 do modelo OSI) com o protocolo TLS ( Transport Layer Security ). No entanto, quando o tráfego usa criptografia ou autenticação nessas camadas superiores, os agentes de ameaça ainda podem interceptar informações de protocolo que podem expor dados que devem ser criptografados. &lt;/p&gt;
+&lt;p&gt;Pode usar criptografia para fornecer segurança. O IPsec pode ser usado para a configuração de redes privadas virtuais (VPNs) de maneira segura.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Protocolos IPSec&lt;/h3&gt;
+&lt;p&gt;O IPsec é definido para uso com as duas versões atuais do Internet Protocol, IPv4 e IPv6, sendo obrigatorio em IPv6. Os cabeçalhos do protocolo IPsec são incluídos no cabeçalho IP, onde aparecem como extensões de cabeçalho IP quando um sistema está usando IPsec.&lt;/p&gt;
+&lt;p&gt;Os protocolos mais importantes considerados como parte do IPsec incluem:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;O Cabeçalho de Autenticação de IP (AH), especificado no &lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;, define um cabeçalho de pacote opcional a ser usado para garantir a integridade sem conexão e a autenticação de origem de dados para pacotes IP e para proteger contra replays.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;O IP Encapsulating Security Payload (ESP), especificado no &lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;, define um cabeçalho de pacote opcional que pode ser usado para fornecer confidencialidade através de criptografia do pacote, bem como proteção de integridade, autenticação de origem de dados, controle de acesso e proteção opcional contra replays ou análise de tráfego.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;O IKE (Internet Key Exchange), definido no &lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;, "IKEv2 (Internet Key Exchange Protocol Version 2)", é um protocolo definido para permitir que os hosts especifiquem quais serviços devem ser incorporados nos pacotes, algoritmos criptográficos que serão usados ​​para fornecer esses serviços e um mecanismo para compartilhar as chaves usadas com esses algoritmos criptográficos. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Fases IPSec&lt;/h3&gt;
+&lt;p&gt;O IPSec envolve muitas tecnologias de componentes e métodos de criptografia. No entanto, a operação do IPSec pode ser dividida em cinco etapas principais:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;"Interesting traffic"&lt;/strong&gt; Inicia o processo IPSec. O tráfego é considerado interessante quando a política de segurança IPSec configurada nos pares IPSec inicia o processo IKE.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Fase IKE 1.&lt;/strong&gt;  O IKE autentica os pares IPSec e negocia os IKEs SA durante essa fase, configurando um canal seguro para negociar as SAs IPSec na fase 2.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Fase IKE 2.&lt;/strong&gt; IKE negocia os parâmetros IPSec SA e configura as SAs IPSec correspondentes nos pares.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transferência de dados.&lt;/strong&gt; Os dados são transferidos entre os pares IPSec com base nos parâmetros IPSec e nas chaves armazenadas no banco de dados SA.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Terminação de túnel IPSec.&lt;/strong&gt; IPSec SAs terminam por exclusão ou por tempo limite.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Implementando o IPsec&lt;/h3&gt;
+&lt;p&gt;O suporte a IPsec foi geralmente incluído na maioria dos sistemas operacionais comuns (e outros) disponíveis desde o final dos anos 90, incluindo sistemas operacionais de desktop e servidor, bem como roteadores e outros dispositivos de segurança de rede.&lt;/p&gt;
+&lt;p&gt;Embora os sistemas mais antigos possam suportar alguma versão do IPsec, as empresas devem implantar o IPsec usando sistemas operacionais atualizados e atualizados em patches de segurança. Além disso, sistemas mais antigos que suportam versões mais antigas do IPsec e parecem ativar circuitos IPsec seguros podem, na verdade, não manter os dados seguros. &lt;/p&gt;
+&lt;p&gt;Nos proximos posts vamos configurar e implementar uma VPN IPSec.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h5&gt;Fontes:&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.ciscopress.com/articles/article.asp?p=25474&amp;amp;seqNum=7"&gt;Cisco Press&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Linux"></category><category term="IPSec"></category><category term="VPN"></category></entry><entry><title>Permissoes no Linux</title><link href="https://blog.chcdc.com.br/posts/permissoes-no-linux" rel="alternate"></link><published>2018-02-27T09:23:45-02:00</published><updated>2018-02-27T09:23:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-02-27:/posts/permissoes-no-linux</id><summary type="html">&lt;p&gt;As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. &lt;/p&gt;
+&lt;p&gt;Quando, em um sistema (li)Unix digitamos o comando &lt;code&gt;ls -l&lt;/code&gt; temos a seguinte visualização:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ls -l" src="/images/ls_l.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vemos o primeiro item em cada linha é a forma utilizada …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. &lt;/p&gt;
+&lt;p&gt;Quando, em um sistema (li)Unix digitamos o comando &lt;code&gt;ls -l&lt;/code&gt; temos a seguinte visualização:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ls -l" src="/images/ls_l.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vemos o primeiro item em cada linha é a forma utilizada para mostrar as permissoes do arquivo.
+O Linux trata todos os diretórios como arquivos também, portanto, as permissões se aplicam de igual forma para ambos.&lt;/p&gt;
+&lt;p&gt;O primeiro caractere aparece para indicar o tipo de arquivo:&lt;/p&gt;
+&lt;p&gt;d =&amp;gt; diretório&lt;br&gt;
+b =&amp;gt; arquivo de bloco&lt;br&gt;
+c =&amp;gt; arquivo especial de caractere&lt;br&gt;
+p =&amp;gt; canal&lt;br&gt;
+s =&amp;gt; socket&lt;br&gt;
+- =&amp;gt; arquivo "normal"  &lt;/p&gt;
+&lt;p&gt;As permissões vão definidas assim:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(r) Leitura&lt;/li&gt;
+&lt;li&gt;(w) Escrita&lt;/li&gt;
+&lt;li&gt;(x) Execução&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Como as permissões são divididas em 3, irá aparecer assim: &lt;/p&gt;
+&lt;p&gt;(rwx)(rwx)(rwx) &lt;/p&gt;
+&lt;p&gt;Tipo de permissão Octal:&lt;br&gt;
+4 - Indica permissão de leitura;&lt;br&gt;
+2 - Permissão de escrita;&lt;br&gt;
+1 - Indica permissão de execução;&lt;br&gt;
+0 - Indica sem permissões.  &lt;/p&gt;
+&lt;p&gt;Então a liberações podem ser definidas somando as permissões em octal, fazendo da seguinte forma:&lt;br&gt;
+ 4 + 2 + 1 = 7 (permissão de rwx - Leitura, escrita e execução)&lt;br&gt;
+ 4 + 2 = 6     (permissão rw - Leitura e escrita)&lt;br&gt;
+ 4 =           (permissão r - Apenas Leitura)  &lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="center"&gt;Usuário&lt;/th&gt;
+&lt;th align="center"&gt;Grupo&lt;/th&gt;
+&lt;th align="center"&gt;Outros usuários (não donos)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Simples Assim 😃&lt;/p&gt;</content><category term="Linux"></category><category term="Sysadmin"></category></entry><entry><title>Copiando arquivos com Python</title><link href="https://blog.chcdc.com.br/posts/copiando-arquivos-com-python" rel="alternate"></link><published>2018-02-14T10:55:25-02:00</published><updated>2018-02-14T10:55:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-02-14:/posts/copiando-arquivos-com-python</id><summary type="html">&lt;p&gt;Nesse &lt;a href="chcdc.com.br/posts/enviar-emails-com-python"&gt;post&lt;/a&gt; ensinei a criar um script basico para o envio de emails usando python.&lt;/p&gt;
+&lt;p&gt;Vamos agora aprender a coletar os logs (ou arquivos que voce desejar) para anexar ao script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Lembrando que a versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Antes de …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse &lt;a href="chcdc.com.br/posts/enviar-emails-com-python"&gt;post&lt;/a&gt; ensinei a criar um script basico para o envio de emails usando python.&lt;/p&gt;
+&lt;p&gt;Vamos agora aprender a coletar os logs (ou arquivos que voce desejar) para anexar ao script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Lembrando que a versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Antes de tudo vamos instalar o modulo &lt;a href="http://docs.paramiko.org/en/2.4/"&gt;Paramiko&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ pip3.6 install paramiko
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos inserir os modulos&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;paramiko&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Começamos importando os modulos necessarios para acessar e copiar os arquivos.
+Os modulos que vamos utilizar são &lt;a href="http://docs.paramiko.org/en/2.4/"&gt;Paramiko&lt;/a&gt; e o &lt;a href="https://docs.python.org/3.6/library/shutil.html"&gt;shutil&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Esse ultimo não será necessario a instalação pois é um dos modulos padrões do Python&lt;/p&gt;
+&lt;p&gt;Inicialmente vamos abrir a conexão com servidor, passando por parametros as informações do host&lt;/p&gt;
+&lt;p&gt;Podemos ver que usamos a porta padrão, porem não esqueça de alterar caso seja diferente.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;paramiko&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;copyFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# Abre a conexão&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SSHClient&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# Insere a chave do servidor remoto como confiavel&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_missing_host_key_policy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AutoAddPolicy&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="c1"&gt;# Carrega as chaves já inseridas&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_system_host_keys&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# Efetua a conexão pela porta 22 com o usuario USER&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;USER&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora vamos setar as variáveis, inserindo quais arquivos copiar&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    # &lt;span class="nv"&gt;Nome&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nv"&gt;arquivo&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;ser&lt;/span&gt; &lt;span class="nv"&gt;copiado&lt;/span&gt;
+    &lt;span class="nv"&gt;files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;NAME OF FILE&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;]
+    # &lt;span class="nv"&gt;Caminho&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nv"&gt;arquivo&lt;/span&gt;, &lt;span class="nv"&gt;podemos&lt;/span&gt; &lt;span class="nv"&gt;setar&lt;/span&gt; &lt;span class="nv"&gt;diversos&lt;/span&gt; &lt;span class="nv"&gt;locais&lt;/span&gt;
+    &lt;span class="nv"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;/path/remote/of/file/&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+    # &lt;span class="nv"&gt;Caminho&lt;/span&gt; &lt;span class="nv"&gt;onde&lt;/span&gt; &lt;span class="nv"&gt;sera&lt;/span&gt; &lt;span class="nv"&gt;salvo&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;arquivo&lt;/span&gt;
+    &lt;span class="nv"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt;/path/local/of/destiny/&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos precisar de um &lt;code&gt;for&lt;/code&gt; para copiar os arquivo(s)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    # &lt;span class="nv"&gt;Abre&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;conex&lt;/span&gt;â&lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;ftp&lt;/span&gt;
+    &lt;span class="nv"&gt;sftp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;s&lt;/span&gt;.&lt;span class="nv"&gt;open_sftp&lt;/span&gt;&lt;span class="ss"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt; &lt;span class="nv"&gt;in&lt;/span&gt; &lt;span class="nv"&gt;files&lt;/span&gt;:
+        # &lt;span class="nv"&gt;Aqui&lt;/span&gt; &lt;span class="nv"&gt;setamos&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;caminho&lt;/span&gt; &lt;span class="nv"&gt;e&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;arquivo&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;ser&lt;/span&gt; &lt;span class="nv"&gt;copiado&lt;/span&gt;
+        &lt;span class="nv"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt;
+        # &lt;span class="nv"&gt;Aqui&lt;/span&gt; &lt;span class="nv"&gt;setamos&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;caminho&lt;/span&gt; &lt;span class="nv"&gt;local&lt;/span&gt;
+        &lt;span class="nv"&gt;file_local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nv"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;file&lt;/span&gt;
+
+        # &lt;span class="nv"&gt;Exibe&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;caminho&lt;/span&gt; &lt;span class="nv"&gt;remoto&lt;/span&gt; &lt;span class="nv"&gt;sendo&lt;/span&gt; &lt;span class="nv"&gt;copiado&lt;/span&gt; &lt;span class="nv"&gt;para&lt;/span&gt; &lt;span class="nv"&gt;o&lt;/span&gt; &lt;span class="nv"&gt;caminho&lt;/span&gt; &lt;span class="nv"&gt;local&lt;/span&gt;
+        &lt;span class="nv"&gt;print&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s"&gt; &amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nv"&gt;file_local&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+        # &lt;span class="nv"&gt;Efetua&lt;/span&gt; &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="nv"&gt;copia&lt;/span&gt;
+        &lt;span class="nv"&gt;sftp&lt;/span&gt;.&lt;span class="nv"&gt;get&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;file_remote&lt;/span&gt;, &lt;span class="nv"&gt;file_local&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;
+
+        # &lt;span class="nv"&gt;Fecha&lt;/span&gt; &lt;span class="nv"&gt;as&lt;/span&gt; &lt;span class="nv"&gt;conex&lt;/span&gt;õ&lt;span class="nv"&gt;es&lt;/span&gt;
+        &lt;span class="nv"&gt;sftp&lt;/span&gt;.&lt;span class="nv"&gt;close&lt;/span&gt;&lt;span class="ss"&gt;()&lt;/span&gt;
+        &lt;span class="nv"&gt;s&lt;/span&gt;.&lt;span class="nv"&gt;close&lt;/span&gt;&lt;span class="ss"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h6&gt;O script final ficará dessa forma&lt;/h6&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;paramiko&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;copyFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;# Abre a conexão&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SSHClient&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# Insere a chave do servidor remoto como confiavel&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_missing_host_key_policy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;paramiko&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AutoAddPolicy&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="c1"&gt;# Carrega as chaves já inseridas&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load_system_host_keys&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# Efetua a conexão pela porta 22 com o usuario USER&lt;/span&gt;
+    &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HostIp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;port&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;22&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;USER&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Nome do arquivo a ser copiado&lt;/span&gt;
+    &lt;span class="n"&gt;files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;NAME OF FILE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="c1"&gt;# Caminho do arquivo, podemos setar diversos locais&lt;/span&gt;
+    &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/path/remote/of/file/&amp;#39;&lt;/span&gt;
+    &lt;span class="c1"&gt;# Caminho onde sera salvo o arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/path/local/of/destiny/&amp;#39;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Abre a conexão ftp&lt;/span&gt;
+    &lt;span class="n"&gt;sftp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open_sftp&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="c1"&gt;# Aqui setamos o caminho e o arquivo a ser copiado&lt;/span&gt;
+        &lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;remote_images_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+        &lt;span class="c1"&gt;# Aqui setamos o caminho local&lt;/span&gt;
+        &lt;span class="n"&gt;file_local&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;local_path&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Exibe o caminho remoto sendo copiado para o caminho local&lt;/span&gt;
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;gt;&amp;gt;&amp;gt;&amp;#39;&lt;/span&gt;  &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c1"&gt;# Efetua a copia&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_remote&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_local&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Fecha as conexões&lt;/span&gt;
+        &lt;span class="n"&gt;sftp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;
+&lt;p&gt;Qualquer duvida ou algo pra complementar deixe seu comentario.&lt;/p&gt;
+&lt;p&gt;Fontes:&lt;/p&gt;
+&lt;p&gt;– http://docs.paramiko.org/en/2.4/&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3.6/library/shutil.html&lt;/p&gt;</content><category term="Python"></category><category term="script"></category></entry><entry><title>Enviar emails com Python</title><link href="https://blog.chcdc.com.br/posts/enviar-emails-com-python" rel="alternate"></link><published>2018-02-09T02:10:18-02:00</published><updated>2018-02-09T02:10:18-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-02-09:/posts/enviar-emails-com-python</id><summary type="html">&lt;p&gt;Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.&lt;/p&gt;
+&lt;p&gt;Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
+o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Antes de tudo, caso use GMail, você precisa permitir "aplicativos …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.&lt;/p&gt;
+&lt;p&gt;Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
+o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Antes de tudo, caso use GMail, você precisa permitir "aplicativos menos seguros" para executar seu script.&lt;/p&gt;
+&lt;p&gt;A versão do Python que iremos trabalhar é a &lt;strong&gt;3.6&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Vamos começar com um script simples,
+existe uma biblioteca nativa em Python para enviar e-mails: smtplib. Não será necessário instalar bibliotecas externas!&lt;/p&gt;
+&lt;p&gt;Para enviar um email básico (sem linha de assunto), com um endereço do Gmail, o código é bastante simples:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;smtp.gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;MENSAGEM!&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EMAIL DESTINO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Na linha 2, são os parâmetros para o servidor Gmail.
+Primeiro, a localização do servidor (ou endereço IP), então a porta a ser usada.&lt;/p&gt;
+&lt;p&gt;Na linha 3, há uma função de segurança, necessária para se conectar ao servidor do Gmail.
+Ele protegerá sua senha.&lt;/p&gt;
+&lt;p&gt;Não podemos esquecer o endereço de e-mail e senha na linha 4.&lt;/p&gt;
+&lt;p&gt;A variável &lt;code&gt;msg&lt;/code&gt; conterá sua mensagem e a linha 7 irá enviá-la!&lt;/p&gt;
+&lt;h2&gt;Para um email mais elaborado&lt;/h2&gt;
+&lt;p&gt;Aqui já estamos inserindo alguns dados, como assunto, rementente.&lt;/p&gt;
+&lt;p&gt;Para isso precisamos de mais modulos, já disponiveis na biblioteca basica do Python,
+o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt;strong&gt;&lt;em&gt;email.mime.text&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="mi"&gt;1&lt;/span&gt;  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+&lt;span class="mi"&gt;2&lt;/span&gt;  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.multipart&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+&lt;span class="mi"&gt;3&lt;/span&gt;  &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="mi"&gt;6&lt;/span&gt;  &lt;span class="n"&gt;fromaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SEU ENDEREÇO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;7&lt;/span&gt;  &lt;span class="n"&gt;toaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ENDEREÇO DE DESTINO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;8&lt;/span&gt;  &lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt;  &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fromaddr&lt;/span&gt;
+&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;
+&lt;span class="mi"&gt;11&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ASSUNTO&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;12&lt;/span&gt;
+&lt;span class="mi"&gt;13&lt;/span&gt; &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SUA MENSAGEM AQUI&amp;quot;&lt;/span&gt;
+&lt;span class="mi"&gt;14&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="mi"&gt;15&lt;/span&gt;
+&lt;span class="mi"&gt;16&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;smtp.gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;17&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;18&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;19&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;21&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Não esqueça de alterar as seguinte linhas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Linha 6 Com seu endereço de email&lt;/li&gt;
+&lt;li&gt;Linha 7 O endereço de email de destino&lt;/li&gt;
+&lt;li&gt;Linha 11 com o assunto&lt;/li&gt;
+&lt;li&gt;Linha 13 com a mensagem a ser enviada&lt;/li&gt;
+&lt;li&gt;Linha 18 com a senha do seu email&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Para enviar um email com anexo&lt;/h2&gt;
+&lt;p&gt;Para enviarmos anexos, vamos a um código mais complicado. Percebi que todo mundo tem um método um pouco diferente pra fazer.
+Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.&lt;/p&gt;
+&lt;p&gt;Em resumo, o passo essencial é converter o arquivo em um Base64 antes de enviá-lo. Meu código funciona para arquivos de texto, arquivos pdf, imagens, arquivos de áudio e arquivos de vídeo!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;smtplib&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.multipart&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.text&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEText&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email.mime.base&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;MIMEBase&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;email&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;encoders&lt;/span&gt;
+
+
+&lt;span class="n"&gt;fromaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SEU EMAIL&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;toaddr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;EMAIL DE DESTINO&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEMultipart&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;From&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fromaddr&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;To&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Subject&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ASSUNTO DO EMAIL&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;TEXTO A SER ENVIADO&amp;quot;&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MIMEText&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plain&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;NOME DO ARQUIVO OU EXTENSÃO&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;attachment&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;CAMINHO DO ARQUIVO&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;rb&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;part&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MIMEBase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;application&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;octet-stream&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_payload&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;attachment&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="n"&gt;encoders&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;encode_base64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_header&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Content-Disposition&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;attachment; filename= &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attach&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;part&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;smtplib&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SMTP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;smtp.gmail.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;587&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;starttls&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;login&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;SUA SENHA&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;msg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_string&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sendmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fromaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;toaddr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;quit&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Esta feito o script de envio de emails.&lt;/p&gt;
+&lt;p&gt;Em breve publico o script de coleta de logs e do BOT para o telegram.&lt;/p&gt;
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;
+&lt;p&gt;Fontes:&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/smtplib.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email.mime.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email-examples.html&lt;/p&gt;
+&lt;p&gt;– https://docs.python.org/3/library/email.html&lt;/p&gt;</content><category term="Python"></category><category term="emails"></category><category term="script"></category></entry><entry><title>Gerando senhas com python</title><link href="https://blog.chcdc.com.br/posts/gerando-senhas-com-python" rel="alternate"></link><published>2018-01-09T19:48:25-02:00</published><updated>2018-01-09T19:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-01-09:/posts/gerando-senhas-com-python</id><summary type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
+&lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
+&lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
+&lt;p&gt;Vamos começar por partes&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Primeiro vamos …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse &lt;a href="http://chcdc.com.br/posts/gerando-senhas-seguras"&gt;post&lt;/a&gt; ensinei a usar o pwgen para criar senhas, porém ele não tem me suprido pois necessito de senhas especificas.&lt;/p&gt;
+&lt;p&gt;Preciso enviar senhas de comprimento oito e apenas numeros e letras minusculas.&lt;/p&gt;
+&lt;p&gt;Resolvi criar então um script em Python para gerar essas senhas.&lt;/p&gt;
+&lt;p&gt;Vamos começar por partes&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Primeiro vamos definir o executavel e importar os modulos &lt;strong&gt;random&lt;/strong&gt; e &lt;strong&gt;string&lt;/strong&gt; &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vamos criar uma função para gerar os numeros randomicos.&lt;/p&gt;
+&lt;p&gt;Atribuiremos a variavel &lt;strong&gt;char&lt;/strong&gt; os caracteres minusculos e digitos numericos&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;chars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_lowercase&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;passw&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Perguntaremos a quantidade de senhas necessarias e o comprimento, as respostas serão
+armazenadas nas variaveis &lt;strong&gt;amount&lt;/strong&gt; e &lt;strong&gt;number&lt;/strong&gt; respectivamente.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora para cada quantidade declarada na variavel &lt;strong&gt;amount&lt;/strong&gt; vamos imprimir uma
+senha gerada randomicamente.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Senha: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; - &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;O codigo final ficará dessa forma:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/local/bin/python3.6&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;chars&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_lowercase&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;passw&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;chars&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;passw&lt;/span&gt;
+
+&lt;span class="n"&gt;amount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Quantas senhas:&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Qual o comprimento da senha?&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amount&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;   Senha: &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; - &lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;randompassword&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Algo simples, mas pode ser implementado em outros codigos, e claro pode ser melhorado.&lt;/p&gt;
+&lt;p&gt;Esse script encontra-se no meu &lt;a href="https://github.com/chcdc/scripts/blob/master/Python/generate_pass.py"&gt;Github&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Simples Assim 😃&lt;/p&gt;</content><category term="Python"></category></entry><entry><title>2017</title><link href="https://blog.chcdc.com.br/posts/2017" rel="alternate"></link><published>2018-01-01T12:00:45-02:00</published><updated>2018-01-01T12:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-01-01:/posts/2017</id><summary type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;2017 pubiquei apenas um artigo aqui, enfrentei diversas dificuldades, tais como a perda de meu pai.&lt;/p&gt;
+&lt;p&gt;Nesse ano que se inicia pretendo me dedicar mais ao blog e ao conteudo postado.&lt;/p&gt;
+&lt;p&gt;A base do blog foi alterada de Octopress (Ruby) para Pelican (Python)&lt;/p&gt;
+&lt;p&gt;Sendo Python …&lt;/p&gt;</summary><content type="html">&lt;p&gt;E lá vamos nós recomeçar.&lt;/p&gt;
+&lt;p&gt;2017 pubiquei apenas um artigo aqui, enfrentei diversas dificuldades, tais como a perda de meu pai.&lt;/p&gt;
+&lt;p&gt;Nesse ano que se inicia pretendo me dedicar mais ao blog e ao conteudo postado.&lt;/p&gt;
+&lt;p&gt;A base do blog foi alterada de Octopress (Ruby) para Pelican (Python)&lt;/p&gt;
+&lt;p&gt;Sendo Python uma das minhas linguagens preferidas, o blog será mais prazeroso de manter.&lt;/p&gt;
+&lt;p&gt;Já tenho diversas coisas e ideias pra fazer aqui, como por exemplo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Melhorar o layout&lt;/li&gt;
+&lt;li&gt;Inserir menus&lt;/li&gt;
+&lt;li&gt;Inserir compartilhamento&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Isso e muito mais pretendo entregar.&lt;/p&gt;
+&lt;p&gt;E lá vamos nós&lt;/p&gt;
+&lt;p&gt;Feliz 2018 😆&lt;/p&gt;</content><category term="misc"></category><category term="misc"></category><category term="Vida Pessoal"></category></entry><entry><title>Organizando arquivos por extensão usando Python</title><link href="https://blog.chcdc.com.br/posts/organizando-arquivos-por-extensao-usando-python" rel="alternate"></link><published>2017-01-25T11:45:45-02:00</published><updated>2017-01-25T11:45:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2017-01-25:/posts/organizando-arquivos-por-extensao-usando-python</id><summary type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
+&lt;p&gt;Bom vamos ao código.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env Python3.5 …&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Recentemente fiz download de milhares de arquivos em pdf (não foi pirataria ok?!)  e precisava organizar eles em uma pasta especifica.&lt;/p&gt;
+&lt;p&gt;Pesquisei diversas formas de fazer isso, poderia fazer facilmente em &lt;strong&gt;Shell Script&lt;/strong&gt; mas como estou aprendendo &lt;strong&gt;Python&lt;/strong&gt; aceitei o desafio.&lt;/p&gt;
+&lt;p&gt;Bom vamos ao código.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env Python3.5&lt;/span&gt;
+&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+&lt;span class="c1"&gt;# Carlos Carvalho&lt;/span&gt;
+&lt;span class="c1"&gt;# 21/01/2017&lt;/span&gt;
+&lt;span class="c1"&gt;# Copiar/mover arquivos por extensão&lt;/span&gt;
+&lt;span class="c1"&gt;# Copiar os arquivos em pdf do diretorio /mnt/DOCS/&lt;/span&gt;
+&lt;span class="c1"&gt;# para o diretorio /mnt/DOCS/pdf&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt;&lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="c1"&gt;#Regex para identificar os arquivos em pdf&lt;/span&gt;
+&lt;span class="n"&gt;filePattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;compile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&amp;quot;^(.*?)(.pdf)$&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;VERBOSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Percorre o diretorio com um loop&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;listdir&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;filePattern&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Ignora os arquivos que não são pdf&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;continue&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Obtem as diferentes partes do nome do arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;beforePart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;findPart&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mo&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+    &lt;span class="c1"&gt;# Obtem os paths absolutos do arquivo&lt;/span&gt;
+    &lt;span class="n"&gt;absWorkingDir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abspath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/mnt/DOCS/pdf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;amerFilename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;PathFileEnd&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;absWorkingDir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Move os arquivos&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Moving &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; to &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; .. &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;shutil&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;move&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;amerFilename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PathFileEnd&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Python"></category><category term="regex"></category></entry><entry><title>Criando um Bot do Telegram</title><link href="https://blog.chcdc.com.br/posts/criando-um-bot-do-telegram" rel="alternate"></link><published>2016-09-18T20:14:12-03:00</published><updated>2016-09-18T20:14:12-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-09-18:/posts/criando-um-bot-do-telegram</id><summary type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Sim, resolvi me aventurar no desenvolvimento de um bot utilizando a &lt;a href="https://core.telegram.org/bots/api"&gt;API do Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Irei contar a minha saga da criação desse bot nesse maravilhoso &lt;a href="https://telegram.org"&gt;Telegram&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Pra fazer um bot novo, é muito simples.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou computador  e que saiba o basico dele.&lt;/p&gt;
+&lt;!--![BotFather](../images/Bot.png)--&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Adicione o @BotFather&lt;/li&gt;
+&lt;li&gt;Escreva: /newbot&lt;/li&gt;
+&lt;li&gt;Ele pedirá um nome para o seu bot. Escreva o nome finalizado com _bot&lt;/li&gt;
+&lt;li&gt;Se o nome estiver disponível,o bot será criado e você receberá um token de acesso.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Para testar seu bot acesse o seguinte link&lt;br&gt;
+   https://api.telegram.org/bot[token]/getUpdates&lt;/br&gt;&lt;/p&gt;
+&lt;p&gt;Deverá receber a seguinte resposta:&lt;br&gt;
+   &lt;code&gt;{"ok":true,"result":[{}]"&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim.&lt;/p&gt;</content><category term="Python"></category><category term="Telegram"></category><category term="bot"></category></entry><entry><title>Monitorar conexoes</title><link href="https://blog.chcdc.com.br/posts/monitorar-conexoes" rel="alternate"></link><published>2016-07-20T04:06:37-03:00</published><updated>2016-07-20T04:06:37-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-07-20:/posts/monitorar-conexoes</id><summary type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;</summary><content type="html">&lt;p&gt;O tcpdump é um famoso sniffer para sistemas Linux. Muito util para analise  e solução de problemas da rede.&lt;/p&gt;
+&lt;p&gt;Sua documentação pode ser encontrada no site oficial.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.tcpdump.org"&gt;TCPDUMP&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A maioria das distribuições linux possuem binarios, caso não possua, sua instalação é bem simples.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    sudo apt-get install tcpdump
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;!--more--&gt;
+&lt;p&gt;Inicialmente não é necessario um parametro para sua execução, você apenas precisa executar como root, pois o tcpdump irá colocar sua placa de rede em modo promiscuo.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Porém podemos utilizar diversos filtros por meio de parametros&lt;/p&gt;
+&lt;p&gt;Por padrão ele faz a captura da placa de rede ativa.Para selecionar a placa, devemos utilizar o parametro -i seguido da placa a ser monitorada&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Podemos monitorar conexoes de origem utilizando o parametro &lt;em&gt;-src host&lt;/em&gt;. Tudo que vier do nosso gateway (192.168.1.1) para o nosso computador ( 192.168.1.10 ), será monitorado com o seguinte comando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0 src &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Se quisermos monitorar da forma inversa.Tudo que sair de nosso computador (192.168.1.10) para o nosso gateway, o comando será o seguinte&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0 dst &lt;span class="m"&gt;192&lt;/span&gt;.168.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Também é possivel especificar a porta de origem e destino com o comando &lt;em&gt;src port&lt;/em&gt; e &lt;em&gt;dst port&lt;/em&gt; . Um exemplo é monitorar a porta 443&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0 dst port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para que o tcpdump não converta os endereços e portas, devemos utilizar o parametro &lt;em&gt;-n&lt;/em&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0 -n host www.google.com.br
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Podemos tambem utilizar operadores booleanos para um filtro mais refinado.&lt;/p&gt;
+&lt;p&gt;Por exemplo, capturar todos os pacotes da porta 80 e 443 da rede 192.168.1.0/16&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    tcpdump -i eth0 -n net &lt;span class="m"&gt;192&lt;/span&gt;.168 and port &lt;span class="m"&gt;80&lt;/span&gt; and port &lt;span class="m"&gt;443&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Muitas opções podem ser obtidas com o tcpdump, essas são algumas opções basicas pra iniciar com sniffers.&lt;/p&gt;</content><category term="Network"></category></entry><entry><title>Instalando Telegram-Cli</title><link href="https://blog.chcdc.com.br/posts/instalando-telegram-cli" rel="alternate"></link><published>2016-04-22T20:43:33-03:00</published><updated>2016-04-22T20:43:33-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-04-22:/posts/instalando-telegram-cli</id><summary type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Instale as dependencias&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cd /opt/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone --recursive …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Instale as dependencias&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;apt-get install libreadline-dev libconfig-dev libssl-dev
+ lua5.2 liblua5.2-dev libevent-dev libjansson-dev libpython-dev
+ make git-core
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Navege até o diretorio de instalacao&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cd /opt/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Faça o clone do repositorio&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone --recursive https://github.com/vysheng/tg.git &amp;amp;&amp;amp; cd tg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Compile&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;./configure
+make
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pronto, o proximo passo é a configuração do Telegram&lt;/p&gt;
+&lt;p&gt;Acesse a pasta do executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cd /opt/tg/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Execute o Telegram-Cli com o seguinte comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Na primeira execução será solicitado o numero de telefone e o codigo que será enviado por sms&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;Telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="mf"&gt;1.2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Copyright&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;2013&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2015&lt;/span&gt; &lt;span class="n"&gt;Vitaly&lt;/span&gt; &lt;span class="n"&gt;Valtman&lt;/span&gt;
+&lt;span class="n"&gt;Telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="n"&gt;comes&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;ABSOLUTELY&lt;/span&gt; &lt;span class="n"&gt;NO&lt;/span&gt; &lt;span class="n"&gt;WARRANTY&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;free&lt;/span&gt; &lt;span class="n"&gt;software&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;welcome&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;redistribute&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt;
+&lt;span class="n"&gt;under&lt;/span&gt; &lt;span class="n"&gt;certain&lt;/span&gt; &lt;span class="n"&gt;conditions&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;show_license&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; for details.&lt;/span&gt;
+&lt;span class="n"&gt;Telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt; &lt;span class="n"&gt;uses&lt;/span&gt; &lt;span class="n"&gt;libtgl&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="mf"&gt;1.2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;~/.&lt;/span&gt;&lt;span class="n"&gt;telegram&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;cli&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;downloads&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt;
+&lt;span class="n"&gt;phone&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;554499999999&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;--&lt;/span&gt;&lt;span class="n"&gt;colocar&lt;/span&gt; &lt;span class="n"&gt;aqui&lt;/span&gt; &lt;span class="n"&gt;seu&lt;/span&gt; &lt;span class="n"&gt;número&lt;/span&gt; &lt;span class="n"&gt;de&lt;/span&gt; &lt;span class="n"&gt;telefone&lt;/span&gt;
+&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;call&amp;#39;&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;phone&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; &lt;span class="mi"&gt;12345&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;--&lt;/span&gt; &lt;span class="n"&gt;colocar&lt;/span&gt; &lt;span class="n"&gt;aqui&lt;/span&gt; &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;código&lt;/span&gt; &lt;span class="n"&gt;que&lt;/span&gt;
+                            &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;próprio&lt;/span&gt; &lt;span class="n"&gt;Telegram&lt;/span&gt; &lt;span class="n"&gt;enviará&lt;/span&gt; &lt;span class="n"&gt;por&lt;/span&gt; &lt;span class="n"&gt;SMS&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pronto! Está configurado!&lt;/p&gt;
+&lt;p&gt;Para enviar mensagens basta executar:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
+&lt;hr&gt;
+&lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo vim /etc/profile.d/TelNotdata.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Acrescente o conteudo&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;span class="normal"&gt; 1&lt;/span&gt;
+&lt;span class="normal"&gt; 2&lt;/span&gt;
+&lt;span class="normal"&gt; 3&lt;/span&gt;
+&lt;span class="normal"&gt; 4&lt;/span&gt;
+&lt;span class="normal"&gt; 5&lt;/span&gt;
+&lt;span class="normal"&gt; 6&lt;/span&gt;
+&lt;span class="normal"&gt; 7&lt;/span&gt;
+&lt;span class="normal"&gt; 8&lt;/span&gt;
+&lt;span class="normal"&gt; 9&lt;/span&gt;
+&lt;span class="normal"&gt;10&lt;/span&gt;
+&lt;span class="normal"&gt;11&lt;/span&gt;
+&lt;span class="normal"&gt;12&lt;/span&gt;
+&lt;span class="normal"&gt;13&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotIP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;hostname -I&lt;span class="p"&gt;|&lt;/span&gt;sed &lt;span class="s1"&gt;&amp;#39;s/[ ]*$//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelNotPort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TempFileDir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/var/tmp/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramHomePath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/opt/tg/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScriptPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/user/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramGenericPath&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scripts/generic/&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramScript&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;telegram.sh&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramCli&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramHomePath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bin/telegram-cli&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramLog&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TempFileDir&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;tg.log&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;ReceiveLua&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$TelegramGenericPath&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;receive.lua&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;TelegramTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;PrimeiroNome_SegundoNome&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;EmailTo&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;seu@email.com&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;p&gt;Torne ele executavel&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo chmod +x /etc/profile.d/TelNotdata.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;De um start no Daemon do Telegram-CLI&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/opt/tg/bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234 &amp;amp;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Verifique se esta rodando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps -ef | grep telegram
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;A saida é algo parecido com isso&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;root 1736  978  0 01:53 pts/0  00:00:01 bin/telegram-cli -vvvvRC -k tg-server.pub -W -dL tg.log -P 1234
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para enviar mensagens é simples!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;echo &amp;quot;msg Firstname_Surname Test123&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_text Firstname_Surname  switch_icons.txt&amp;quot; | nc 127.0.0.1 1234
+echo &amp;quot;send_photo Firstname_Surname  logo.png&amp;quot; | nc 127.0.0.1 1234
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Dessa forma, voce pode criar scripts para enviar mensagens automaticas, 
+inclusive quando ocorrer algo no servidor&lt;/p&gt;</content><category term="Telegram"></category></entry><entry><title>Gerando senhas seguras</title><link href="https://blog.chcdc.com.br/posts/gerando-senhas-seguras" rel="alternate"></link><published>2016-01-20T01:48:25-02:00</published><updated>2016-01-20T01:48:25-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-01-20:/posts/gerando-senhas-seguras</id><summary type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
+Após algumas pesquisas encontrei um pacote que pode fazer …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Frequentemente preciso enviar senhas de VPN para clientes, criar ou alterar senhas novas para os servidores.
+Existem diversas ferramentas online que isso possa ser feito, mas ao meu ver, o tempo que demoro em acessar essas ferramentas se torna muito grande.
+Após algumas pesquisas encontrei um pacote que pode fazer isso pelo terminal.&lt;/p&gt;
+&lt;p&gt;Para instalar vamos baixar e compilar o pacote.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Primeiramente vamos baixar o source do pacote&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    wget http://downloads.sourceforge.net/project/pwgen/pwgen/2.07/pwgen-2.07.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;br&gt;
+Vamos descompactar o arquivo&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ tar xvf pwgen-2.07.tar.gz
+    $ &lt;span class="nb"&gt;cd&lt;/span&gt; pwgen-2.07
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora vamos compilar&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ ./configure
+    $ make
+    $ sudo make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora é só usar o comando&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ pwgen
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pwgen-pass" src="../images/pass-pwgen.png"&gt;
+Por exemplo, gerar senhas com 20 caracteres.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ pwgen &lt;span class="m"&gt;20&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="pwgen" src="../images/pwgen-20.png"&gt;
+Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pewgen-help" src="../images/pwgen-help.png"&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="Shell Script"></category></entry><entry><title>Registro de acesso</title><link href="https://blog.chcdc.com.br/posts/registro-de-acesso" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-01-05:/posts/registro-de-acesso</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Criei um script pra cada vez que houver logon no sistema …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
+&lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Criei um script pra cada vez que houver logon no sistema tira uma foto e envia ao meu Email!&lt;/p&gt;
+&lt;p&gt;O script é bem simples:&lt;/p&gt;
+&lt;div class="gist"&gt;
+    &lt;script src='https://gist.github.com/129b0f739b27db186eb7.js'&gt;&lt;/script&gt;
+    &lt;noscript&gt;
+        &lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+now=`date +%Y%m%d-%H%M%S`
+
+ fswebcam -F 20 -r 1280x720 --jpeg 100 -D 1 $now.jpeg
+ sendemail -f carloshccarvalho@hotmail.com -t chenriquecdc@gmail.com -u "Opa! Noticias" -m "Alguem acessou sua maquina agora!" -s smtp.live.com:587 -xu carloshccarvalho@hotmail.com -xp [ Password ] -a $HOME/$now.jpeg&lt;/code&gt;&lt;/pre&gt;
+    &lt;/noscript&gt;
+&lt;/div&gt;
+&lt;p&gt;Os comandos se resumem no seguinte:&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;code&gt;now=date +%Y%m%d-%H%M%S&lt;/code&gt;&lt;/b&gt; Variavel que recebe a data atual do sistema.
+&lt;br&gt;&lt;code&gt;fswebcam&lt;/code&gt; - Software que permite tirar fotos a partir do terminal
+    &lt;br&gt; - &lt;code&gt;-F&lt;/code&gt; Define o numero de Frames para captar
+    &lt;br&gt; - &lt;code&gt;-r&lt;/code&gt; Define a resolução da captura
+    &lt;br&gt; - &lt;code&gt;--jpeg 100&lt;/code&gt; Formato e qualidade da saida
+    &lt;br&gt; - &lt;code&gt;-D 1&lt;/code&gt; Tempo de delay para a captura
+    &lt;br&gt; - &lt;code&gt;$now.jpeg&lt;/code&gt; Arquivo que será salvo&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;&lt;code&gt;sendemail&lt;/code&gt; &lt;/b&gt; - Software de envio de emails
+    &lt;br&gt;  - &lt;code&gt;-f&lt;/code&gt; [FROM] Email do remetente
+    &lt;br&gt;  - &lt;code&gt;-t&lt;/code&gt; [TO] Email de destino
+    &lt;br&gt;  - &lt;code&gt;-u&lt;/code&gt; [Subject] Assunto
+    &lt;br&gt;  - &lt;code&gt;-m&lt;/code&gt; [Message] Mensagem do email
+    &lt;br&gt;  - &lt;code&gt;-s&lt;/code&gt; [SMTP] Servidor de Saida SMTP
+    &lt;br&gt;  - &lt;code&gt;-xu&lt;/code&gt; [Username] Conta de email que sera utilizada para envio
+    &lt;br&gt;  - &lt;code&gt;-xp&lt;/code&gt; [ Password] Senha
+    &lt;br&gt;  - &lt;code&gt;-a&lt;/code&gt; [FILE] Anexo do Email&lt;/p&gt;
+&lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="Shell Script"></category><category term="sysadmin"></category></entry><entry><title>Removendo vários arquivos de uma lista gigante</title><link href="https://blog.chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-01-02:/posts/removendo-varios-arquivos-de-uma-lista-gigante</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.&lt;/p&gt;
+&lt;p&gt;Para apagar todos os arquivos que contenham "2015" em seu nome:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a &lt;span class="k"&gt;in&lt;/span&gt; *2015*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para apagar todos os arquivos que possuam a extensão .log:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a &lt;span class="k"&gt;in&lt;/span&gt; *.log&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bem simples! :)&lt;/p&gt;</content><category term="Linux"></category><category term="sysadmin"></category></entry></feed>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - Linux</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/linux.atom" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2018-12-16T19:00:45-02:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Dicas IPTables</title><link href="https://blog.chcdc.com.br/posts/dicas-iptables" rel="alternate"></link><published>2018-12-16T19:00:45-02:00</published><updated>2018-12-16T19:00:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-12-16:/posts/dicas-iptables</id><summary type="html">&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;li&gt;OUTPUT - pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NAT - é uma tabela que é consultada quando um …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Existem 3 tabelas gerenciáveis no IPTables:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;INPUT - pacotes destinados a sockets locais&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;li&gt;OUTPUT - pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NAT - é uma tabela que é consultada quando um pacote tenta criar uma nova conexão. Pode alterar características de origem ou de destino de um pacote. Possui três cadeias de conjuntos de regras:&lt;ul&gt;
+&lt;li&gt;PREROUTING - utilizado para alterar um pacote, logo que é recebido&lt;/li&gt;
+&lt;li&gt;POSTROUTING - usado para alterar pacotes quando eles estão prestes a sair&lt;/li&gt;
+&lt;li&gt;OUTPUT - usado para alterar pacotes gerados localmente&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MANGLE - esta tabela é usada para alteração de pacotes. Até o kernel versão 2.4 esta tabela tinha apenas 2 cadeias, mas eles são agora 5:&lt;ul&gt;
+&lt;li&gt;PREROUTING - para alterar as conexões de entrada&lt;/li&gt;
+&lt;li&gt;OUTPUT - para alterar pacotes gerados localmente&lt;/li&gt;
+&lt;li&gt;INPUT - para pacotes de entrada&lt;/li&gt;
+&lt;li&gt;POSTROUTING - para alterar pacotes quando eles estão prestes a sair&lt;/li&gt;
+&lt;li&gt;FORWARD - pacotes encaminhados (roteados) através do firewall&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;1 - Exibir todas as regras disponíveis&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -L -n -v&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Se preferir, verificar apenas uma tabela em específico (no caso a tabela nat):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -t nat -L -n -v&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ou através de linhas numeradas:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -n -L -v --line-numbers&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2 - Bloquear endereço IP específico entrante na rede&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Para adicionar regra:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -s xxx.xxx.xxx.xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Para removê-la:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -D INPUT -s xxx.xxx.xxx.xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3 - Bloquear porta específica&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Sainte:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A OUTPUT -p tcp --dport xxx -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Entrante:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --dport xxx -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ou múltiplas portas:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT  -p tcp -m multiport --dports 22,80,443 -j ACCEPT&lt;/code&gt;
+&lt;code&gt;iptables -A OUTPUT -p tcp -m multiport --sports 22,80,443 -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4 - Permitir rede específica acessar determinada porta:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A OUTPUT -p tcp -d 192.168.100.0/24 --dport  -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;5 - Bloquear Network Flood sobre o servidor web que esteja escutando na porta 80&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Aceitando de 100 a 200 conexões por minuto (ajuste da maneira que achar melhor):&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --dport  -m limit --limit 100/minute --limit-burst  -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;6 - Manter registros de Log’s de pacotes bloqueados:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -i eth0 -j LOG --log-prefix "Quantidade pacotes bloqueados:"&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp -dport  -j LOG -log-prefix “Serviço: ftp”&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Os log’s são salvos em /var/log/messages. Onde você poderá filtrar usando comando grep:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;grep "Quantidade pacotes bloqueados:" /var/log/messages&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;7 -Limitar o número de conexões simultâneas oriundas de determinado IP:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p tcp --syn --dport  -m connlimit --connlimit-above  -j REJECT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Onde, essa regra permitirá 3 conexões simultâneas advindas de um mesmo endereço IP na porta 22 (SSH).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;8 - Permitir conexões já estabelecidas:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;9 - Bloquear Ping Requests:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -p icmp -icmp-type echo-request -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;10 - Bloquear por endereço MAC:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables -A INPUT -m mac --mac-source 00:00:00:00:00:00 -j DROP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Simples assim! 😆&lt;/p&gt;</content><category term="Linux"></category><category term="Network"></category><category term="Sysadmin"></category></entry><entry><title>IPSec StrongSwan</title><link href="https://blog.chcdc.com.br/posts/ipsec-strongswan" rel="alternate"></link><published>2018-09-18T20:45:15-02:00</published><updated>2018-09-18T20:45:15-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-09-18:/posts/ipsec-strongswan</id><summary type="html">&lt;p&gt;Conforme mostrei nesse &lt;a href="https://blog.chcdc.com.br/posts/vpn-ipsec/"&gt;post&lt;/a&gt; vamos agora configurar uma VPN IPSec.&lt;/p&gt;
+&lt;p&gt;Vamos utilizar o &lt;a href="https://www.strongswan.org/"&gt;StrongSwan&lt;/a&gt; para configurarmos a VPN IPSec. &lt;/p&gt;
+&lt;p&gt;Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;A instalação será feita na distribuição CentOS 7.5.1804x64.&lt;/p&gt;
+&lt;p&gt;Para o ambiente amazon foi utilizado a instância Amazon …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Conforme mostrei nesse &lt;a href="https://blog.chcdc.com.br/posts/vpn-ipsec/"&gt;post&lt;/a&gt; vamos agora configurar uma VPN IPSec.&lt;/p&gt;
+&lt;p&gt;Vamos utilizar o &lt;a href="https://www.strongswan.org/"&gt;StrongSwan&lt;/a&gt; para configurarmos a VPN IPSec. &lt;/p&gt;
+&lt;p&gt;Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;A instalação será feita na distribuição CentOS 7.5.1804x64.&lt;/p&gt;
+&lt;p&gt;Para o ambiente amazon foi utilizado a instância Amazon Linux 2 AMI &lt;/p&gt;
+&lt;p&gt;A VPN Site to Site precisa ser configurada dos dois lados, por isso, vamos configurar primeiro o servidor da esquerda (left) que será a Digital Ocean.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Desabilitar SeLinux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# sed -i &amp;#39;s/^SELINUX=.*/SELINUX=disabled/g&amp;#39; /etc/sysconfig/selinux &amp;amp;&amp;amp; cat /etc/sysconfig/selinux&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Atualizar o Sistema&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# yum -y update&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Reiniciar para aplicar as alterações&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# reboot&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Instale os pacotes necessários&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;#  yum install -y vim epel-release&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Para a instalação do lado amazon, vamos utilizar os repositórios Amazon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@peer-aws  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# amazon-linux-extras install epel -y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Nesse caso, foi utilizado a última versão do pacote StrongSwan. Versão 5.6.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# yum install strongswan -y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Arquivo de configuração lado esquerdo (left)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.conf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+    &lt;span class="n"&gt;charondebug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;all&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;uniqueids&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+    &lt;span class="n"&gt;strictcrlpolicy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;no&lt;/span&gt;
+
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;default&lt;/span&gt;
+    &lt;span class="n"&gt;ikelifetime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;
+    &lt;span class="n"&gt;mobike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+    &lt;span class="n"&gt;ike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;aes128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;des&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp3072&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+    &lt;span class="n"&gt;esp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;aes128&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp1536&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="n"&gt;des&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;sha1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;modp3072&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Nome a ser utilizado para a conexao &lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="n"&gt;left&lt;/span&gt;
+
+    &lt;span class="n"&gt;left&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;
+    &lt;span class="n"&gt;leftsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;10.46&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;
+    &lt;span class="n"&gt;leftid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;
+    &lt;span class="n"&gt;leftfirewall&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Outra Ponta&lt;/span&gt;
+    &lt;span class="n"&gt;right&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt; 
+    &lt;span class="n"&gt;rightsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;172.31&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;13.0&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;
+    &lt;span class="n"&gt;rightid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xxx&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Fechar a VPN automaticamente&lt;/span&gt;
+    &lt;span class="n"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;
+    &lt;span class="c1"&gt;# Ativar o Tunel , necessario quando existe NAT&lt;/span&gt;
+    &lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;tunnel&lt;/span&gt;
+    &lt;span class="c1"&gt;# Compressao&lt;/span&gt;
+    &lt;span class="n"&gt;compress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;yes&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Gerando a chave secret para usar em ambos os lados
+Existem N formas de gerar uma chave/password, nesse caso vamos utilizar o seguinte comando:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# date +%s | sha256sum | base64 | head -c 32 ; echo&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;O resultado apresentado foi:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vamos editar o arquivo secrets&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.secrets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ipsec.secrets - strongSwan IPsec secrets file&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;lt;IP lado direito&amp;gt; : &amp;lt;Criptografia Usada&amp;gt; “&amp;lt;Chave&amp;gt;”&lt;/span&gt;
+xxx.xx.xx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setando strongswan para iniciar com o sistema / Iniciar strongswan&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl enable strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Após a configuração do left vamos iniciar o strongswan e partir para configurar o right.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3&gt;Configurando lado direito (right)&lt;/h3&gt;
+&lt;p&gt;Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Arquivo de configuração do lado direito (right)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.conf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;No caso da Amazon, temos que configurar o endereço left com o IP da rede local, e o leftid com o IP externo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;config setup
+        &lt;span class="nv"&gt;charondebug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;all&amp;quot;&lt;/span&gt;
+        &lt;span class="nv"&gt;uniqueids&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+        &lt;span class="nv"&gt;strictcrlpolicy&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;no
+
+&lt;span class="c1"&gt;# Preferencias padroes para todas as conexoes&lt;/span&gt;
+conn %default
+        &lt;span class="nv"&gt;ikelifetime&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;60m
+        &lt;span class="nv"&gt;mobike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+        &lt;span class="nv"&gt;ike&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;aes128-sha1-modp1536,3des-sha1-modp3072!
+        &lt;span class="nv"&gt;esp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;aes128-sha1-modp1536,3des-sha1-modp3072!
+
+conn right
+    &lt;span class="nv"&gt;left&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xxx.xx.xx.xxx
+    &lt;span class="nv"&gt;leftsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;172&lt;/span&gt;.31.13.0/20
+    &lt;span class="nv"&gt;leftid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xxx.xxx.xx.xx
+    &lt;span class="nv"&gt;leftfirewall&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;yes
+
+    &lt;span class="nv"&gt;right&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xx.xx.xxx.xxx
+    &lt;span class="nv"&gt;rightsubnet&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16
+    &lt;span class="nv"&gt;rightid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;xx.xx.xxx.xxx
+    &lt;span class="nv"&gt;auto&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;start
+    &lt;span class="nv"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;tunnel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vamos configurar o secret&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# vim /etc/strongswan/ipsec.secrets&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vamos inserir a mesma chave setada no left&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ipsec.secrets - strongSwan IPsec secrets file&lt;/span&gt;
+&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;span class="c1"&gt;# &amp;lt;IP lado direito&amp;gt; : &amp;lt;Criptografia Usada&amp;gt; “&amp;lt;Chave&amp;gt;”&lt;/span&gt;
+xxx.xx.xxx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Setando para iniciar com o sistema / iniciando o serviço&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl enable strongswan&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Verificando conexões&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lado Digital Ocean&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# strongswan status left&lt;/span&gt;
+
+Security Associations &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; up, &lt;span class="m"&gt;0&lt;/span&gt; connecting&lt;span class="o"&gt;)&lt;/span&gt;:
+         left&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;: ESTABLISHED &lt;span class="m"&gt;2&lt;/span&gt; minutes ago, xx.xx.xxx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;...xx.xxx.xxx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;
+         left&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:  INSTALLED, TUNNEL, reqid &lt;span class="m"&gt;4&lt;/span&gt;, ESP &lt;span class="k"&gt;in&lt;/span&gt; UDP SPIs: ca942554_i ce718f43_o
+         left&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:   &lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16 &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="m"&gt;172&lt;/span&gt;.31.0.0/20
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Lado AWS&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@aws-peer  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# strongswan status right&lt;/span&gt;
+
+Security Associations &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; up, &lt;span class="m"&gt;0&lt;/span&gt; connecting&lt;span class="o"&gt;)&lt;/span&gt;:
+right&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;: ESTABLISHED &lt;span class="m"&gt;3&lt;/span&gt; minutes ago, xxx.xx.xx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xx.xxx.xxx.xxx&lt;span class="o"&gt;]&lt;/span&gt;...xxx.xx.xx.xxx&lt;span class="o"&gt;[&lt;/span&gt;xxx.xx.xx.xxx&lt;span class="o"&gt;]&lt;/span&gt;
+right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:  INSTALLED, TUNNEL, reqid &lt;span class="m"&gt;1&lt;/span&gt;, ESP &lt;span class="k"&gt;in&lt;/span&gt; UDP SPIs: ce718f43_i ca942554_o
+right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;:   &lt;span class="m"&gt;172&lt;/span&gt;.31.0.0/20 &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;.46.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Simples Assim :)&lt;/p&gt;</content><category term="Linux"></category><category term="IPSec"></category><category term="VPN"></category></entry><entry><title>VPN IPSec</title><link href="https://blog.chcdc.com.br/posts/vpn-ipsec" rel="alternate"></link><published>2018-09-15T01:59:44-02:00</published><updated>2018-09-15T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-09-15:/posts/vpn-ipsec</id><summary type="html">&lt;p&gt;É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.&lt;/p&gt;
+&lt;p&gt;O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual …&lt;/p&gt;</summary><content type="html">&lt;p&gt;É um conjunto de protocolos que oferece uma segurança no nivel de camada IP. Sendo assim opera pela camada de rede (camada 3) do modelo OSI e modelo TCP/IP.&lt;/p&gt;
+&lt;p&gt;O IPsec pode ser usado para proteger dados de rede, por exemplo, configurando circuitos usando o encapsulamento IPsec, no qual todos os dados enviados entre dois pontos de extremidade são criptografados, como em uma conexão VPN ( Rede Virtual Privada ); para criptografar dados da camada de aplicativo ; e para fornecer segurança aos roteadores que enviam dados de roteamento pela Internet pública. O IPsec também pode ser usado para fornecer autenticação sem criptografia, por exemplo, para autenticar os dados originados de um remetente conhecido.&lt;/p&gt;
+&lt;p&gt;O tráfego da Internet pode ser protegido de host para host sem o uso de IPsec, por exemplo, por criptografia na camada de aplicativo (Camada 7 do modelo OSI ) com HTTP Seguro (HTTPS) ou na camada de transporte (Camada 4 do modelo OSI) com o protocolo TLS ( Transport Layer Security ). No entanto, quando o tráfego usa criptografia ou autenticação nessas camadas superiores, os agentes de ameaça ainda podem interceptar informações de protocolo que podem expor dados que devem ser criptografados. &lt;/p&gt;
+&lt;p&gt;Pode usar criptografia para fornecer segurança. O IPsec pode ser usado para a configuração de redes privadas virtuais (VPNs) de maneira segura.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Protocolos IPSec&lt;/h3&gt;
+&lt;p&gt;O IPsec é definido para uso com as duas versões atuais do Internet Protocol, IPv4 e IPv6, sendo obrigatorio em IPv6. Os cabeçalhos do protocolo IPsec são incluídos no cabeçalho IP, onde aparecem como extensões de cabeçalho IP quando um sistema está usando IPsec.&lt;/p&gt;
+&lt;p&gt;Os protocolos mais importantes considerados como parte do IPsec incluem:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;O Cabeçalho de Autenticação de IP (AH), especificado no &lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;, define um cabeçalho de pacote opcional a ser usado para garantir a integridade sem conexão e a autenticação de origem de dados para pacotes IP e para proteger contra replays.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;O IP Encapsulating Security Payload (ESP), especificado no &lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;, define um cabeçalho de pacote opcional que pode ser usado para fornecer confidencialidade através de criptografia do pacote, bem como proteção de integridade, autenticação de origem de dados, controle de acesso e proteção opcional contra replays ou análise de tráfego.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;O IKE (Internet Key Exchange), definido no &lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;, "IKEv2 (Internet Key Exchange Protocol Version 2)", é um protocolo definido para permitir que os hosts especifiquem quais serviços devem ser incorporados nos pacotes, algoritmos criptográficos que serão usados ​​para fornecer esses serviços e um mecanismo para compartilhar as chaves usadas com esses algoritmos criptográficos. &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Fases IPSec&lt;/h3&gt;
+&lt;p&gt;O IPSec envolve muitas tecnologias de componentes e métodos de criptografia. No entanto, a operação do IPSec pode ser dividida em cinco etapas principais:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;"Interesting traffic"&lt;/strong&gt; Inicia o processo IPSec. O tráfego é considerado interessante quando a política de segurança IPSec configurada nos pares IPSec inicia o processo IKE.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Fase IKE 1.&lt;/strong&gt;  O IKE autentica os pares IPSec e negocia os IKEs SA durante essa fase, configurando um canal seguro para negociar as SAs IPSec na fase 2.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Fase IKE 2.&lt;/strong&gt; IKE negocia os parâmetros IPSec SA e configura as SAs IPSec correspondentes nos pares.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Transferência de dados.&lt;/strong&gt; Os dados são transferidos entre os pares IPSec com base nos parâmetros IPSec e nas chaves armazenadas no banco de dados SA.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Terminação de túnel IPSec.&lt;/strong&gt; IPSec SAs terminam por exclusão ou por tempo limite.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Implementando o IPsec&lt;/h3&gt;
+&lt;p&gt;O suporte a IPsec foi geralmente incluído na maioria dos sistemas operacionais comuns (e outros) disponíveis desde o final dos anos 90, incluindo sistemas operacionais de desktop e servidor, bem como roteadores e outros dispositivos de segurança de rede.&lt;/p&gt;
+&lt;p&gt;Embora os sistemas mais antigos possam suportar alguma versão do IPsec, as empresas devem implantar o IPsec usando sistemas operacionais atualizados e atualizados em patches de segurança. Além disso, sistemas mais antigos que suportam versões mais antigas do IPsec e parecem ativar circuitos IPsec seguros podem, na verdade, não manter os dados seguros. &lt;/p&gt;
+&lt;p&gt;Nos proximos posts vamos configurar e implementar uma VPN IPSec.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h5&gt;Fontes:&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.ciscopress.com/articles/article.asp?p=25474&amp;amp;seqNum=7"&gt;Cisco Press&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Linux"></category><category term="IPSec"></category><category term="VPN"></category></entry><entry><title>Permissoes no Linux</title><link href="https://blog.chcdc.com.br/posts/permissoes-no-linux" rel="alternate"></link><published>2018-02-27T09:23:45-02:00</published><updated>2018-02-27T09:23:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2018-02-27:/posts/permissoes-no-linux</id><summary type="html">&lt;p&gt;As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. &lt;/p&gt;
+&lt;p&gt;Quando, em um sistema (li)Unix digitamos o comando &lt;code&gt;ls -l&lt;/code&gt; temos a seguinte visualização:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ls -l" src="/images/ls_l.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vemos o primeiro item em cada linha é a forma utilizada …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. &lt;/p&gt;
+&lt;p&gt;Quando, em um sistema (li)Unix digitamos o comando &lt;code&gt;ls -l&lt;/code&gt; temos a seguinte visualização:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="ls -l" src="/images/ls_l.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vemos o primeiro item em cada linha é a forma utilizada para mostrar as permissoes do arquivo.
+O Linux trata todos os diretórios como arquivos também, portanto, as permissões se aplicam de igual forma para ambos.&lt;/p&gt;
+&lt;p&gt;O primeiro caractere aparece para indicar o tipo de arquivo:&lt;/p&gt;
+&lt;p&gt;d =&amp;gt; diretório&lt;br&gt;
+b =&amp;gt; arquivo de bloco&lt;br&gt;
+c =&amp;gt; arquivo especial de caractere&lt;br&gt;
+p =&amp;gt; canal&lt;br&gt;
+s =&amp;gt; socket&lt;br&gt;
+- =&amp;gt; arquivo "normal"  &lt;/p&gt;
+&lt;p&gt;As permissões vão definidas assim:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;(r) Leitura&lt;/li&gt;
+&lt;li&gt;(w) Escrita&lt;/li&gt;
+&lt;li&gt;(x) Execução&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Como as permissões são divididas em 3, irá aparecer assim: &lt;/p&gt;
+&lt;p&gt;(rwx)(rwx)(rwx) &lt;/p&gt;
+&lt;p&gt;Tipo de permissão Octal:&lt;br&gt;
+4 - Indica permissão de leitura;&lt;br&gt;
+2 - Permissão de escrita;&lt;br&gt;
+1 - Indica permissão de execução;&lt;br&gt;
+0 - Indica sem permissões.  &lt;/p&gt;
+&lt;p&gt;Então a liberações podem ser definidas somando as permissões em octal, fazendo da seguinte forma:&lt;br&gt;
+ 4 + 2 + 1 = 7 (permissão de rwx - Leitura, escrita e execução)&lt;br&gt;
+ 4 + 2 = 6     (permissão rw - Leitura e escrita)&lt;br&gt;
+ 4 =           (permissão r - Apenas Leitura)  &lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="center"&gt;Usuário&lt;/th&gt;
+&lt;th align="center"&gt;Grupo&lt;/th&gt;
+&lt;th align="center"&gt;Outros usuários (não donos)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;td align="center"&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;td align="center"&gt;Leitura=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;td align="center"&gt;Escrita=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;td align="center"&gt;Execução=negada&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Simples Assim 😃&lt;/p&gt;</content><category term="Linux"></category><category term="Sysadmin"></category></entry><entry><title>Removendo vários arquivos de uma lista gigante</title><link href="https://blog.chcdc.com.br/posts/removendo-varios-arquivos-de-uma-lista-gigante" rel="alternate"></link><published>2016-01-02T23:39:17-02:00</published><updated>2016-01-02T23:39:17-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-01-02:/posts/removendo-varios-arquivos-de-uma-lista-gigante</id><summary type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:&lt;/p&gt;
+&lt;p&gt;/bin/rm Argument list too long (Lista de argumento muito longa)&lt;/p&gt;
+&lt;p&gt;E daí, o que fazer?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.&lt;/p&gt;
+&lt;p&gt;Para apagar todos os arquivos que contenham "2015" em seu nome:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a &lt;span class="k"&gt;in&lt;/span&gt; *2015*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Para apagar todos os arquivos que possuam a extensão .log:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ &lt;span class="k"&gt;for&lt;/span&gt; a &lt;span class="k"&gt;in&lt;/span&gt; *.log&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; rm &lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bem simples! :)&lt;/p&gt;</content><category term="Linux"></category><category term="sysadmin"></category></entry></feed>
