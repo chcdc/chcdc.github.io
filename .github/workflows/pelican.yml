@@ -4,7 +4,7 @@ on:
     branches:
       - pelican
 jobs:
-  Publish Site:
+  PublishSite:
     runs-on: ubuntu-latest
 
     steps:
