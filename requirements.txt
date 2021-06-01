@@ -7,4 +7,4 @@ python-gettext==4.0
 markdown==3.3.4
 Pygments==2.9.0
 pelican-avatar==1.0.0
-ghp-import==2.8.1
+ghp-import==2.0.1
