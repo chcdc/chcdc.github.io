@@ -20,6 +20,7 @@ jobs:
           pip install -r requirements.txt
       - name: GitHub Pages Pelican Build Action
         run: |
+          make html
           ghp-import -m "Generate Pelican site" -b master output
           git push origin master
         env:
