@@ -1,5 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds.atom" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2019-12-14T19:12:45-03:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds.atom" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2021-05-31T22:27:45-02:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Ansible</title><link href="https://blog.chcdc.com.br/posts/ansible" rel="alternate"></link><published>2021-05-31T22:27:45-02:00</published><updated>2021-05-31T22:27:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2021-05-31:/posts/ansible</id><summary type="html">&lt;p&gt;&lt;a href="ansible.com"&gt;Ansible&lt;/a&gt; é uma ferramenta Open Source em Python para automatizar ações em maquinas.&lt;/p&gt;
+&lt;p&gt;Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.&lt;/p&gt;
+&lt;p&gt;O principal objetivo é sua simplicidade e facilidade de uso.&lt;/p&gt;
+&lt;p&gt;Não vamos …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="ansible.com"&gt;Ansible&lt;/a&gt; é uma ferramenta Open Source em Python para automatizar ações em maquinas.&lt;/p&gt;
+&lt;p&gt;Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.&lt;/p&gt;
+&lt;p&gt;O principal objetivo é sua simplicidade e facilidade de uso.&lt;/p&gt;
+&lt;p&gt;Não vamos entrar em detalhes sobre sua instalação, que pode ser efetuada apenas com &lt;strong&gt;apt-get install&lt;/strong&gt; ou &lt;strong&gt;yum install&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Vamos simular uma estrutura onde com Squid, Sarg e Iptables
+Usaremos as boas praticas descritas na Documentação Oficial&lt;/p&gt;
+&lt;p&gt;Vamos ao projeto&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;Projeto Hero&lt;/h4&gt;
+&lt;p&gt;Vamos fazer apenas as configurações iniciais.&lt;/p&gt;
+&lt;p&gt;Após a instalação do &lt;em&gt;Ansible&lt;/em&gt; os arquivos iniciais são:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;hosts&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;ansible&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cfg&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inicialmente não vamos alterar o arquivo &lt;strong&gt;&lt;em&gt;ansible.cfg&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h5&gt;Hosts&lt;/h5&gt;
+&lt;p&gt;O arquivo hosts é onde estará todos os hosts a serem configurados pelo Ansible&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# This is the default ansible &amp;#39;hosts&amp;#39; file.&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;frw&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hero&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="mf"&gt;10.138.10.1&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;frw&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hero&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;02&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="mf"&gt;10.158.10.1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;É basicamente isso que precisamos no arquivo hosts.&lt;/p&gt;
+&lt;p&gt;Vamos trabalhar com a seguinte estrutura&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;ansible&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+  &lt;span class="n"&gt;projeto_Hero&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yml&lt;/span&gt;        &lt;span class="c1"&gt;# Nosso playbook principal&lt;/span&gt;
+  &lt;span class="n"&gt;host_vars&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;              &lt;span class="c1"&gt;# Diretorio onde sera as variaveis de cada Host&lt;/span&gt;
+    &lt;span class="n"&gt;frw&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hero&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;
+    &lt;span class="n"&gt;frw&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;hero&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;02&lt;/span&gt;
+
+  &lt;span class="n"&gt;roles&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;                  &lt;span class="c1"&gt;# Diretorio das regras e tarefas&lt;/span&gt;
+    &lt;span class="n"&gt;common&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;               &lt;span class="c1"&gt;# Aqui sera um diretorio comum de regras&lt;/span&gt;
+      &lt;span class="n"&gt;tasks&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;              &lt;span class="c1"&gt;# Diretorio de tarefas&lt;/span&gt;
+        &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yml&lt;/span&gt;          &lt;span class="c1"&gt;#  Playbook onde serão chamadas todas as tarefas&lt;/span&gt;
+        &lt;span class="n"&gt;templates&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;        &lt;span class="c1"&gt;#  &amp;lt;-- arquivos para uso com o recurso de modelo&lt;/span&gt;
+          &lt;span class="n"&gt;squid&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;j2&lt;/span&gt;   &lt;span class="c1"&gt;#  &amp;lt;------- Arquivo no modelo .j2 (Jinja)&lt;/span&gt;
+        &lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;            &lt;span class="c1"&gt;#&lt;/span&gt;
+          &lt;span class="n"&gt;bloqueios&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;   &lt;span class="c1"&gt;#  &amp;lt;-- arquivos para uso com o recurso de cópia&lt;/span&gt;
+        &lt;span class="nb"&gt;vars&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;             &lt;span class="c1"&gt;#&lt;/span&gt;
+          &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yml&lt;/span&gt;        &lt;span class="c1"&gt;#  &amp;lt;-- variaveis associadas para essas regras&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pode parecer complicado, mas se torna organizado quando se tem um parque consideravelmente grande.&lt;/p&gt;</content><category term="DevOps"></category><category term="ansible"></category><category term="automacao"></category></entry><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
 &lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
 &lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
 &lt;ul&gt;

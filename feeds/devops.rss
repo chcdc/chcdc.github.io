@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Carlos Carvalho - DevOps</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Mon, 31 May 2021 22:27:45 -0200</lastBuildDate><item><title>Ansible</title><link>https://blog.chcdc.com.br/posts/ansible</link><description>&lt;p&gt;&lt;a href="ansible.com"&gt;Ansible&lt;/a&gt; é uma ferramenta Open Source em Python para automatizar ações em maquinas.&lt;/p&gt;
+&lt;p&gt;Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.&lt;/p&gt;
+&lt;p&gt;O principal objetivo é sua simplicidade e facilidade de uso.&lt;/p&gt;
+&lt;p&gt;Não vamos …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Mon, 31 May 2021 22:27:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2021-05-31:/posts/ansible</guid><category>DevOps</category><category>ansible</category><category>automacao</category></item></channel></rss>
