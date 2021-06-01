@@ -2,7 +2,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - pelican
 jobs:
   Test-Make:
     runs-on: ubuntu-latest
