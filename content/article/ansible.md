@@ -4,7 +4,7 @@ date: 2021-05-31 22:27:45 -0200
 comments: true
 Category: DevOps
 tags: ansible, automacao
-Status: published
+Status: draft
 Authors: Carlos Carvalho
 ---
 
