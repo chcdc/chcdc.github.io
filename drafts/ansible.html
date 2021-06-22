@@ -50,17 +50,17 @@
 
 
 <meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="Ansible é uma ferramenta Open Source em Python para automatizar ações em maquinas. Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero. O principal objetivo é sua simplicidade e facilidade de uso. Não vamos …" />
+<meta name="description" content="Ansible é uma ferramenta Open Source em Python para automatizar ações em maquinas. Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero. O principal objetivo é sua simplicidade e facilidade de uso. Sua instalação …" />
 <meta name="keywords" content="ansible, automacao">
 
 
 <meta property="og:site_name" content="Carlos Carvalho"/>
 <meta property="og:title" content="Ansible"/>
-<meta property="og:description" content="Ansible é uma ferramenta Open Source em Python para automatizar ações em maquinas. Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero. O principal objetivo é sua simplicidade e facilidade de uso. Não vamos …"/>
+<meta property="og:description" content="Ansible é uma ferramenta Open Source em Python para automatizar ações em maquinas. Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero. O principal objetivo é sua simplicidade e facilidade de uso. Sua instalação …"/>
 <meta property="og:locale" content="pt_BR"/>
 <meta property="og:url" content="../drafts/index.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2021-05-31 22:27:45-02:00"/>
+<meta property="article:published_time" content="2021-06-21 22:27:45-02:00"/>
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="../author/">
 <meta property="article:section" content="DevOps"/>
@@ -129,9 +129,9 @@
       
     <h1 id="ansible">Ansible</h1>
     <p>
-      Posted on Mon 31 May 2021 in <a href="../category/devops">DevOps</a>
+      Posted on Mon 21 June 2021 in <a href="../category/devops">DevOps</a>
 
-        &#8226; 1 min read
+        &#8226; 2 min read
     </p>
   </header>
 
@@ -140,51 +140,141 @@
     <p><a href="ansible.com">Ansible</a> é uma ferramenta Open Source em Python para automatizar ações em maquinas.</p>
 <p>Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.</p>
 <p>O principal objetivo é sua simplicidade e facilidade de uso.</p>
-<p>Não vamos entrar em detalhes sobre sua instalação, que pode ser efetuada apenas com <strong>apt-get install</strong> ou <strong>yum install</strong></p>
-<p>Vamos simular uma estrutura onde com Squid, Sarg e Iptables
-Usaremos as boas praticas descritas na Documentação Oficial</p>
+<!--more-->
+
+<p>Sua instalação pode ser feita com a ferramenta <code>pip</code> utilizando o seguinte comando:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+<span class="gp">$ </span>python get-pip.py --user
+<span class="gp">$ </span>python -m pip install --user ansible
+</code></pre></div>
+
+<p>Vamos implementar um servidor OpenVPN com criação automatica de usuarios</p>
+<p>Usaremos as boas praticas descritas na Documentação Oficial</p>
 <p>Vamos ao projeto</p>
-<hr>
-<h4>Projeto Hero</h4>
+<h4>Projeto OpenVPN</h4>
 <p>Vamos fazer apenas as configurações iniciais.</p>
 <p>Após a instalação do <em>Ansible</em> os arquivos iniciais são:</p>
-<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">hosts</span>
-<span class="o">-</span> <span class="n">ansible</span><span class="o">.</span><span class="n">cfg</span>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>tree /etc/ansible
+<span class="go">- hosts</span>
+<span class="go">- ansible.cfg</span>
 </code></pre></div>
 
 <p>Inicialmente não vamos alterar o arquivo <strong><em>ansible.cfg</em></strong></p>
-<h5>Hosts</h5>
+<h4>Hosts</h4>
 <p>O arquivo hosts é onde estará todos os hosts a serem configurados pelo Ansible</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># This is the default ansible &#39;hosts&#39; file.</span>
+<div class="highlight"><pre><span></span><code># This is the default ansible &#39;hosts&#39; file.
 
-<span class="p">[</span><span class="n">frw</span><span class="o">-</span><span class="n">hero</span><span class="o">-</span><span class="mi">01</span><span class="p">]</span>
-<span class="mf">10.138.10.1</span>
-
-<span class="p">[</span><span class="n">frw</span><span class="o">-</span><span class="n">hero</span><span class="o">-</span><span class="mi">02</span><span class="p">]</span>
-<span class="mf">10.158.10.1</span>
+[vpn-server]
+10.138.10.1
 </code></pre></div>
 
 <p>É basicamente isso que precisamos no arquivo hosts.</p>
-<p>Vamos trabalhar com a seguinte estrutura</p>
-<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ansible</span><span class="o">/</span>
-  <span class="n">projeto_Hero</span><span class="o">.</span><span class="n">yml</span>        <span class="c1"># Nosso playbook principal</span>
-  <span class="n">host_vars</span><span class="o">/</span>              <span class="c1"># Diretorio onde sera as variaveis de cada Host</span>
-    <span class="n">frw</span><span class="o">-</span><span class="n">hero</span><span class="o">-</span><span class="mi">01</span>
-    <span class="n">frw</span><span class="o">-</span><span class="n">hero</span><span class="o">-</span><span class="mi">02</span>
-
-  <span class="n">roles</span><span class="o">/</span>                  <span class="c1"># Diretorio das regras e tarefas</span>
-    <span class="n">common</span><span class="o">/</span>               <span class="c1"># Aqui sera um diretorio comum de regras</span>
-      <span class="n">tasks</span><span class="o">/</span>              <span class="c1"># Diretorio de tarefas</span>
-        <span class="n">main</span><span class="o">.</span><span class="n">yml</span>          <span class="c1">#  Playbook onde serão chamadas todas as tarefas</span>
-        <span class="n">templates</span><span class="o">/</span>        <span class="c1">#  &lt;-- arquivos para uso com o recurso de modelo</span>
-          <span class="n">squid</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">j2</span>   <span class="c1">#  &lt;------- Arquivo no modelo .j2 (Jinja)</span>
-        <span class="n">files</span><span class="o">/</span>            <span class="c1">#</span>
-          <span class="n">bloqueios</span><span class="o">.</span><span class="n">txt</span>   <span class="c1">#  &lt;-- arquivos para uso com o recurso de cópia</span>
-        <span class="nb">vars</span><span class="o">/</span>             <span class="c1">#</span>
-          <span class="n">main</span><span class="o">.</span><span class="n">yml</span>        <span class="c1">#  &lt;-- variaveis associadas para essas regras</span>
+<p>Primeiro, vamos criar o arquivo de configuração que atualiza o server e insere as regras iptables. </p>
+<p>Será o <strong>prepare_system.yml</strong> , vamos criar inicialmente sem as variaveis, para podermos entender melhor o contexto.</p>
+<p>Vamos criar o diretorio local para importação da configuração .ovpn</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create a directory</span>
+  <span class="nt">become</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">False</span>
+  <span class="nt">file</span><span class="p">:</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;/etc/ansible/vpn-config&quot;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">directory</span>
+  <span class="nt">delegate_to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">localhost</span>
 </code></pre></div>
 
-<p>Pode parecer complicado, mas se torna organizado quando se tem um parque consideravelmente grande.</p>
+<p>Os proximos passos, são atualizar os pacotes já instalados e instalar o pacote openvpn</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Update all packages to their latest version</span>
+  <span class="nt">apt</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;*&quot;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
+    <span class="nt">autoclean</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yes</span>
+    <span class="nt">update_cache</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yes</span>
+    <span class="nt">force_apt_get</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yes</span>
+    <span class="nt">install_recommends</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yes</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Applications</span>
+  <span class="nt">package</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="s">&quot;openvpn&quot;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
+</code></pre></div>
+
+<p>E por ultimo, vamos configurar o nosso firewall e o sistema para fazer os redirecionamentos necessarios.</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Configuration IP forwarding</span>
+  <span class="nt">sysctl</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">net.ipv4.ip_forward</span>
+    <span class="nt">value</span><span class="p">:</span> <span class="s">&#39;1&#39;</span>
+    <span class="nt">state</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">present</span>
+    <span class="nt">reload</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yes</span>
+
+<span class="c1">## Configure firewall</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Accept FORWARD</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD</span>
+    <span class="nt">policy</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Accept INPUT and FORWARD from tun+</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+    <span class="nt">in_interface</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tun+</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+  <span class="nt">loop</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;INPUT&#39;</span>
+    <span class="p p-Indicator">-</span> <span class="s">&#39;FORWARD&#39;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Masquerade POSTROUTING</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nat</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">POSTROUTING</span>
+    <span class="nt">out_interface</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ansible_default_ipv4.interface</span><span class="nv"> </span><span class="s">}}&quot;</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">MASQUERADE</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD tun+ to tun+ and {{ ansible_default_ipv4.interface }}</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD</span>
+    <span class="nt">in_interface</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tun+</span>
+    <span class="nt">out_interface</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+  <span class="nt">loop</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">tun+</span>
+    <span class="p p-Indicator">-</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ansible_default_ipv4.interface</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD {{ ansible_default_ipv4.interface }} to tun+</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD</span>
+    <span class="nt">in_interface</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ansible_default_ipv4.interface</span><span class="nv"> </span><span class="s">}}&quot;</span>
+    <span class="nt">out_interface</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tun+</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Accept INPUT from port 1190</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">protocol</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item</span><span class="nv"> </span><span class="s">}}&quot;</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">INPUT</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+    <span class="nt">destination_port</span><span class="p">:</span> <span class="s">&quot;1190&quot;</span>
+  <span class="nt">loop</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">tcp</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">udp</span>
+
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD and OUTPUT tun+</span>
+  <span class="nt">iptables</span><span class="p">:</span>
+    <span class="nt">action</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">append</span>
+    <span class="nt">table</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">filter</span>
+    <span class="nt">chain</span><span class="p">:</span> <span class="s">&quot;{{</span><span class="nv"> </span><span class="s">item}}&quot;</span>
+    <span class="nt">out_interface</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tun+</span>
+    <span class="nt">jump</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ACCEPT</span>
+  <span class="nt">loop</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">FORWARD</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">OUTPUT</span>  
+</code></pre></div>
   </div>
   <div class="tag-cloud">
     <p>
