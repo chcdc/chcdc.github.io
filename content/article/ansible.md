@@ -1,6 +1,6 @@
 ---
 title: Ansible
-date: 2021-05-31 22:27:45 -0200
+date: 2021-06-21 22:27:45 -0200
 comments: true
 Category: DevOps
 tags: ansible, automacao
@@ -8,67 +8,164 @@ Status: draft
 Authors: Carlos Carvalho
 ---
 
+
 [Ansible](ansible.com) é uma ferramenta Open Source em Python para automatizar ações em maquinas.
 
 Ele pode configurar sistemas, implantar software e orquestrar tarefas de TI mais avançadas, como implementações contínuas ou atualizações de rotação de tempo de inatividade zero.
 
 O principal objetivo é sua simplicidade e facilidade de uso.
+<!--more-->
 
-Não vamos entrar em detalhes sobre sua instalação, que pode ser efetuada apenas com **apt-get install** ou **yum install**
+Sua instalação pode ser feita com a ferramenta ```pip``` utilizando o seguinte comando:
 
-Vamos simular uma estrutura onde com Squid, Sarg e Iptables
+```console
+$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+$ python get-pip.py --user
+$ python -m pip install --user ansible
+```
+
+Vamos implementar um servidor OpenVPN com criação automatica de usuarios
+
 Usaremos as boas praticas descritas na Documentação Oficial
+
 
 Vamos ao projeto
 
----
-#### Projeto Hero
+#### Projeto OpenVPN
 
 Vamos fazer apenas as configurações iniciais.
 
 Após a instalação do *Ansible* os arquivos iniciais são:
 
-```python
+```console
+$ tree /etc/ansible
 - hosts
 - ansible.cfg
 ```
 Inicialmente não vamos alterar o arquivo ***ansible.cfg***
 
-##### Hosts
+#### Hosts
 O arquivo hosts é onde estará todos os hosts a serem configurados pelo Ansible
 
-```python
+```txt
 # This is the default ansible 'hosts' file.
 
-[frw-hero-01]
+[vpn-server]
 10.138.10.1
-
-[frw-hero-02]
-10.158.10.1
 ```
 
 É basicamente isso que precisamos no arquivo hosts.
 
-Vamos trabalhar com a seguinte estrutura
-```python
-/etc/ansible/
-  projeto_Hero.yml        # Nosso playbook principal
-  host_vars/              # Diretorio onde sera as variaveis de cada Host
-    frw-hero-01
-    frw-hero-02
+Primeiro, vamos criar o arquivo de configuração que atualiza o server e insere as regras iptables. 
 
-  roles/                  # Diretorio das regras e tarefas
-    common/               # Aqui sera um diretorio comum de regras
-      tasks/              # Diretorio de tarefas
-        main.yml          #  Playbook onde serão chamadas todas as tarefas
-        templates/        #  <-- arquivos para uso com o recurso de modelo
-          squid.conf.j2   #  <------- Arquivo no modelo .j2 (Jinja)
-        files/            #
-          bloqueios.txt   #  <-- arquivos para uso com o recurso de cópia
-        vars/             #
-          main.yml        #  <-- variaveis associadas para essas regras
+Será o __prepare_system.yml__ , vamos criar inicialmente sem as variaveis, para podermos entender melhor o contexto.
+
+
+Vamos criar o diretorio local para importação da configuração .ovpn
+```yaml
+---
+- name: Create a directory
+  become: False
+  file:
+    path: "/etc/ansible/vpn-config"
+    state: directory
+  delegate_to: localhost
 ```
 
-Pode parecer complicado, mas se torna organizado quando se tem um parque consideravelmente grande.
+Os proximos passos, são atualizar os pacotes já instalados e instalar o pacote openvpn
+```yaml
+- name: Update all packages to their latest version
+  apt:
+    name: "*"
+    state: latest
+    autoclean: yes
+    update_cache: yes
+    force_apt_get: yes
+    install_recommends: yes
 
+- name: Install Applications
+  package:
+    name: "openvpn"
+    state: present
+```
+
+E por ultimo, vamos configurar o nosso firewall e o sistema para fazer os redirecionamentos necessarios.
+```yaml
+- name: Configuration IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+    reload: yes
+
+## Configure firewall
+- name: Accept FORWARD
+  iptables:
+    table: filter
+    chain: FORWARD
+    policy: ACCEPT
+
+- name: Accept INPUT and FORWARD from tun+
+  iptables:
+    action: append
+    table: filter
+    chain: "{{ item }}"
+    in_interface: tun+
+    jump: ACCEPT
+  loop:
+    - 'INPUT'
+    - 'FORWARD'
+
+- name: Masquerade POSTROUTING
+  iptables:
+    action: append
+    table: nat
+    chain: POSTROUTING
+    out_interface: "{{ ansible_default_ipv4.interface }}"
+    jump: MASQUERADE
+
+- name: FORWARD tun+ to tun+ and {{ ansible_default_ipv4.interface }}
+  iptables:
+    action: append
+    table: filter
+    chain: FORWARD
+    in_interface: tun+
+    out_interface: "{{ item }}"
+    jump: ACCEPT
+  loop:
+    - tun+
+    - "{{ ansible_default_ipv4.interface }}"
+
+- name: FORWARD {{ ansible_default_ipv4.interface }} to tun+
+  iptables:
+    action: append
+    table: filter
+    chain: FORWARD
+    in_interface: "{{ ansible_default_ipv4.interface }}"
+    out_interface: tun+
+    jump: ACCEPT
+
+- name: Accept INPUT from port 1190
+  iptables:
+    action: append
+    protocol: "{{ item }}"
+    table: filter
+    chain: INPUT
+    jump: ACCEPT
+    destination_port: "1190"
+  loop:
+    - tcp
+    - udp
+
+- name: FORWARD and OUTPUT tun+
+  iptables:
+    action: append
+    table: filter
+    chain: "{{ item}}"
+    out_interface: tun+
+    jump: ACCEPT
+  loop:
+    - FORWARD
+    - OUTPUT  
+```
 
