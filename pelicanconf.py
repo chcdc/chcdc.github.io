@@ -65,6 +65,15 @@ PYGMENTS_STYLE = 'emacs'
 PYGMENTS_STYLE_DARK = 'monokai'
 PYGMENTS_STYLE = 'monokai'
 
+#MARKDOWN = {
+#    'extension_configs': {
+#        'markdown.extensions.codehilite': {},
+#        'markdown.extensions.extra': {},
+#        'markdown.extensions.meta': {},
+#    },
+#    'output_format': 'html5',
+#}
+
 COPYRIGHT_YEAR = datetime.now().year
 COPYRIGHT_NAME = "Carlos Carvalho"
 
@@ -123,7 +132,7 @@ PLUGIN_PATHS = [
 PLUGINS = [
         'gzip_cache',
         'i18n_subsites',
-        #'optimize_images',
+        'optimize_images',
         'pelican_gist',
         'post_stats',
         'related_posts',
