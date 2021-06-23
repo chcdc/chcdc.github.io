@@ -10,7 +10,7 @@ Authors: Carlos Carvalho
 
 Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.
 
-[TOC]
+
 <!-- PELICAN_END_SUMMARY -->
 
 ### Historia
