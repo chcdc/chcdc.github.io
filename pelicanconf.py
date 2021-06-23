@@ -138,7 +138,7 @@ PLUGIN_PATHS = [
 PLUGINS = [
         'gzip_cache',
         'i18n_subsites',
-        'optimize_images',
+        #'optimize_images',
         'pelican_gist',
         'post_stats',
         'related_posts',
