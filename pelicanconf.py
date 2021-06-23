@@ -22,7 +22,9 @@ DELETE_OUTPUT_DIRECTORY = True
 MAIN_MENU = True
 DEFAULT_PAGINATION = 10
 
-SUMMARY_END_MARKER = '<!--more-->'
+#SUMMARY_MAX_LENGTH = 20
+#SUMMARY_USE_FIRST_PARAGRAPH = True
+SUMMARY_END_MARKER = '<!-- PELICAN_END_SUMMARY -->'
 JINJA_ENVIRONMENT  = {'extensions': ['jinja2.ext.i18n']}
 
 # Biography
@@ -57,7 +59,7 @@ AVATAR_USE_GRAVATAR = 'https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec28
 GRAVATAR_IMAGE = 'https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80'
 USE_FOLDER_AS_CATEGORY = False
 
-THEME_COLOR = 'dark'
+THEME_COLOR = 'light'
 THEME_COLOR_AUTO_DETECT_BROWSER_PREFERENCE = True
 THEME_COLOR_ENABLE_USER_OVERRIDE = True
 
@@ -65,14 +67,18 @@ PYGMENTS_STYLE = 'emacs'
 PYGMENTS_STYLE_DARK = 'monokai'
 PYGMENTS_STYLE = 'monokai'
 
-#MARKDOWN = {
-#    'extension_configs': {
-#        'markdown.extensions.codehilite': {},
-#        'markdown.extensions.extra': {},
-#        'markdown.extensions.meta': {},
-#    },
-#    'output_format': 'html5',
-#}
+MARKDOWN = {
+    'extension_configs': {
+        'markdown.extensions.toc': {
+                'marker': '[TOC]',
+                'title': 'Indice:'
+        },
+        'markdown.extensions.codehilite': {'css_class': 'highlight'},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {},
+    },
+    'output_format': 'html5',
+}
 
 COPYRIGHT_YEAR = datetime.now().year
 COPYRIGHT_NAME = "Carlos Carvalho"
