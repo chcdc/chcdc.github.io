@@ -55,7 +55,7 @@
 &lt;p&gt;Toda vez que você fizer um commit, ou salvar o estado de seu projeto no Git, ele basicamente tira uma foto de todos os seus arquivos e armazena uma referência para esse conjunto de arquivos.&lt;/p&gt;
 &lt;p&gt;Para ser eficiente, se os arquivos não foram alterados, o Git não armazena o arquivo novamente, apenas um link para o arquivo idêntico anterior já armazenado.
 O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="git-snapshot" src="../images/snapshots-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="git-snapshot" src="/images/snapshots-git.png"&gt;&lt;/p&gt;
 &lt;h3 id="principais-caracteristicas"&gt;Principais Características&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;As operações são locais&lt;/li&gt;
@@ -82,7 +82,7 @@ O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
 &lt;li&gt;Seleciona os arquivos, adicionando imagens deles à sua area de trabalho&lt;/li&gt;
 &lt;li&gt;Você faz o commit, que leva os arquivos como eles estão na sua área de preparação e os armazena permanentemente no seu diretório Git.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT" src="../images/workflow-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT" src="/images/workflow-git.png"&gt;&lt;/p&gt;
 &lt;h3 id="repositorios-locais"&gt;Repositórios Locais&lt;/h3&gt;
 &lt;p&gt;Seus repositórios locais consistem em três "árvores" mantidas pelo git&lt;/p&gt;
 &lt;ul&gt;
@@ -90,9 +90,9 @@ O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;Index&lt;/strong&gt; : Funciona como uma área temporária (stage)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;HEAD&lt;/strong&gt; : Aponta para o ultimo commit feito&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT Directories" src="../images/workflow-git-dir.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT Directories" src="/images/workflow-git-dir.png"&gt;&lt;/p&gt;
 &lt;p&gt;A partir de um estado "não gerenciado", os arquivos entram em um ciclo de alterações de estado a cada modificação e posterior consolidação.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT States" src="../images/states-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT States" src="/images/states-git.png"&gt;&lt;/p&gt;
 &lt;p&gt;Esses são os conceitos iniciais do GIT, nos próximos posts vamos executar a instalação e fazer alguns commits e alterações.&lt;/p&gt;
 &lt;p&gt;Simples Assim 😆&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://git-scm.com/book/pt-br"&gt;Fonte&lt;/a&gt;&lt;/p&gt;</content><category term="DevOps"></category><category term="git"></category></entry></feed>

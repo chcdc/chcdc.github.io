@@ -55,7 +55,7 @@
 &lt;p&gt;Toda vez que você fizer um commit, ou salvar o estado de seu projeto no Git, ele basicamente tira uma foto de todos os seus arquivos e armazena uma referência para esse conjunto de arquivos.&lt;/p&gt;
 &lt;p&gt;Para ser eficiente, se os arquivos não foram alterados, o Git não armazena o arquivo novamente, apenas um link para o arquivo idêntico anterior já armazenado.
 O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="git-snapshot" src="../images/snapshots-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="git-snapshot" src="/images/snapshots-git.png"&gt;&lt;/p&gt;
 &lt;h3 id="principais-caracteristicas"&gt;Principais Características&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;As operações são locais&lt;/li&gt;
@@ -82,7 +82,7 @@ O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
 &lt;li&gt;Seleciona os arquivos, adicionando imagens deles à sua area de trabalho&lt;/li&gt;
 &lt;li&gt;Você faz o commit, que leva os arquivos como eles estão na sua área de preparação e os armazena permanentemente no seu diretório Git.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT" src="../images/workflow-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT" src="/images/workflow-git.png"&gt;&lt;/p&gt;
 &lt;h3 id="repositorios-locais"&gt;Repositórios Locais&lt;/h3&gt;
 &lt;p&gt;Seus repositórios locais consistem em três "árvores" mantidas pelo git&lt;/p&gt;
 &lt;ul&gt;
@@ -90,9 +90,9 @@ O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;Index&lt;/strong&gt; : Funciona como uma área temporária (stage)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;HEAD&lt;/strong&gt; : Aponta para o ultimo commit feito&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT Directories" src="../images/workflow-git-dir.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT Directories" src="/images/workflow-git-dir.png"&gt;&lt;/p&gt;
 &lt;p&gt;A partir de um estado "não gerenciado", os arquivos entram em um ciclo de alterações de estado a cada modificação e posterior consolidação.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Workflow GIT States" src="../images/states-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT States" src="/images/states-git.png"&gt;&lt;/p&gt;
 &lt;p&gt;Esses são os conceitos iniciais do GIT, nos próximos posts vamos executar a instalação e fazer alguns commits e alterações.&lt;/p&gt;
 &lt;p&gt;Simples Assim 😆&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://git-scm.com/book/pt-br"&gt;Fonte&lt;/a&gt;&lt;/p&gt;</content><category term="DevOps"></category><category term="git"></category></entry><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
@@ -1303,8 +1303,6 @@ senha gerada randomicamente.&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou computador  e que saiba o basico dele.&lt;/p&gt;
-&lt;!--![BotFather](../images/Bot.png)--&gt;
-
 &lt;ul&gt;
 &lt;li&gt;Adicione o @BotFather&lt;/li&gt;
 &lt;li&gt;Escreva: /newbot&lt;/li&gt;
@@ -1502,14 +1500,14 @@ Vamos descompactar o arquivo&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="pwgen-pass" src="../images/pass-pwgen.png"&gt;
+&lt;p&gt;&lt;img alt="pwgen-pass" src="/images/pass-pwgen.png"&gt;
 Por exemplo, gerar senhas com 20 caracteres.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    $ pwgen &lt;span class="m"&gt;20&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img alt="pwgen" src="../images/pwgen-20.png"&gt;
+&lt;p&gt;&lt;img alt="pwgen" src="/images/pwgen-20.png"&gt;
 Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h&lt;/p&gt;
-&lt;p&gt;&lt;img alt="pewgen-help" src="../images/pwgen-help.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="pewgen-help" src="/images/pwgen-help.png"&gt;&lt;/p&gt;
 &lt;p&gt;Simples assim :)&lt;/p&gt;</content><category term="Shell Script"></category></entry><entry><title>Registro de acesso</title><link href="https://blog.chcdc.com.br/posts/registro-de-acesso" rel="alternate"></link><published>2016-01-05T01:59:44-02:00</published><updated>2016-01-05T01:59:44-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2016-01-05:/posts/registro-de-acesso</id><summary type="html">&lt;p&gt;Tenho um notebook que fica grande parte do tempo no meu quarto, então quando não estou em casa, fica liberado para alguem usar.&lt;/p&gt;
 &lt;p&gt;Mas aí pensei, como saber em tempo real quem acessou minha maquina? A solução é simples!&lt;/p&gt;
 &lt;!--more--&gt;
