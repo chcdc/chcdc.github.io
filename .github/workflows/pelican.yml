@@ -6,7 +6,6 @@ on:
 jobs:
   PublishSite:
     runs-on: ubuntu-latest
-
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Check out repository code
@@ -23,7 +22,8 @@ jobs:
           sudo apt-get install -y optipng
           git pull
           make html
-          ghp-import -m "Generate Pelican site" -b master output
+          SHA=$(git log --pretty=format:'%h' -n 1)
+          ghp-import -m "$SHA - Generate Pelican site" -b master output
           git push origin master
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
