@@ -49,7 +49,7 @@ Para ser eficiente, se os arquivos não foram alterados, o Git não armazena o a
 O Git trata seus dados mais como um fluxo do estado dos arquivos.
 
 
-![git-snapshot](../images/snapshots-git.png)
+![git-snapshot](/images/snapshots-git.png)
 
 ### Principais Características
 
@@ -77,7 +77,7 @@ O fluxo de trabalho podemos descrever da seguinte forma:
 - Você faz o commit, que leva os arquivos como eles estão na sua área de preparação e os armazena permanentemente no seu diretório Git.
 
 
-![Workflow GIT](../images/workflow-git.png)
+![Workflow GIT](/images/workflow-git.png)
 
 
 ### Repositórios Locais
@@ -88,12 +88,12 @@ Seus repositórios locais consistem em três "árvores" mantidas pelo git
 - **Index** : Funciona como uma área temporária (stage)
 - **HEAD** : Aponta para o ultimo commit feito
 
-![Workflow GIT Directories](../images/workflow-git-dir.png)
+![Workflow GIT Directories](/images/workflow-git-dir.png)
 
 
 A partir de um estado "não gerenciado", os arquivos entram em um ciclo de alterações de estado a cada modificação e posterior consolidação.
 
-![Workflow GIT States](../images/states-git.png)
+![Workflow GIT States](/images/states-git.png)
 
 
 Esses são os conceitos iniciais do GIT, nos próximos posts vamos executar a instalação e fazer alguns commits e alterações.

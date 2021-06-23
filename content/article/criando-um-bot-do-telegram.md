@@ -21,9 +21,6 @@ Pra fazer um bot novo, é muito simples.
 Irei partir do principio que você já tenha o Telegram instalado em seu smartphone e/ou computador  e que saiba o basico dele.
 
 
-<!--![BotFather](../images/Bot.png)-->
-
-
   - Adicione o @BotFather
    - Escreva: /newbot
    - Ele pedirá um nome para o seu bot. Escreva o nome finalizado com _bot

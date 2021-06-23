@@ -42,16 +42,16 @@ Agora é só usar o comando
 
 Por padrão ele gera uma sequencia de caracteres alfanumericos maiusculos e minusculos e numeros com 8 caracteres. Mas caso queira, você pode definir o tamanho maior para as senhas.
 
-![pwgen-pass](../images/pass-pwgen.png)
+![pwgen-pass](/images/pass-pwgen.png)
 Por exemplo, gerar senhas com 20 caracteres.
 ``` bash
     $ pwgen 20
 ```
 
-![pwgen](../images/pwgen-20.png)
+![pwgen](/images/pwgen-20.png)
 Você pode gerar senhas de infinitas formas, para isso, basta ler o arquivo helper usando o parametro -h
 
-![pewgen-help](../images/pwgen-help.png)
+![pewgen-help](/images/pwgen-help.png)
 
 
 Simples assim :)
