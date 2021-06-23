@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -139,7 +139,7 @@
     <p>Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:</p>
 <p>/bin/rm Argument list too long (Lista de argumento muito longa)</p>
 <p>E daí, o que fazer?</p>
-
+<!--more-->
 <p>Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.</p>
 <p>Para apagar todos os arquivos que contenham "2015" em seu nome:</p>
 <div class="highlight"><pre><span></span><code>    $ <span class="k">for</span> a <span class="k">in</span> *2015*<span class="p">;</span> <span class="k">do</span> rm <span class="nv">$a</span><span class="p">;</span> <span class="k">done</span>
@@ -200,7 +200,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

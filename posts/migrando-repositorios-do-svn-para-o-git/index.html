@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -146,7 +146,7 @@
 <li>Pacote git-svn</li>
 <li>PATH configurado que inclua o cliente git,svn e git-svn</li>
 </ul>
-
+<!--more-->
 
 <p>Primeiramente vamos obter os autores do repositorio svn</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/
@@ -318,8 +318,17 @@ main
     <a class="btn float-left" href="../../posts/openvpn" title="OpenVPN">
       <i class="fa fa-angle-left"></i> Previous Post
     </a>
+    <a class="btn float-right" href="../../posts/git-conceitos-e-historia" title="Git Conceitos e História">
+      Next Post <i class="fa fa-angle-right"></i>
+    </a>
   </div>
 
+  <div class="related-posts">
+    <h4>You might enjoy</h4>
+    <ul class="related-posts">
+      <li><a href="../../posts/git-conceitos-e-historia">Git Conceitos e História</a></li>
+    </ul>
+  </div>
 
 
 <!-- Disqus -->
@@ -347,7 +356,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

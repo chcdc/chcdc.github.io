@@ -187,7 +187,7 @@ xxx.xx.xx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjh
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando lado direito (right)&lt;/h3&gt;
+&lt;h3 id="configurando-lado-direito-right"&gt;Configurando lado direito (right)&lt;/h3&gt;
 &lt;p&gt;Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Arquivo de configuração do lado direito (right)&lt;/li&gt;
@@ -272,7 +272,7 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;O tráfego da Internet pode ser protegido de host para host sem o uso de IPsec, por exemplo, por criptografia na camada de aplicativo (Camada 7 do modelo OSI ) com HTTP Seguro (HTTPS) ou na camada de transporte (Camada 4 do modelo OSI) com o protocolo TLS ( Transport Layer Security ). No entanto, quando o tráfego usa criptografia ou autenticação nessas camadas superiores, os agentes de ameaça ainda podem interceptar informações de protocolo que podem expor dados que devem ser criptografados. &lt;/p&gt;
 &lt;p&gt;Pode usar criptografia para fornecer segurança. O IPsec pode ser usado para a configuração de redes privadas virtuais (VPNs) de maneira segura.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Protocolos IPSec&lt;/h3&gt;
+&lt;h3 id="protocolos-ipsec"&gt;Protocolos IPSec&lt;/h3&gt;
 &lt;p&gt;O IPsec é definido para uso com as duas versões atuais do Internet Protocol, IPv4 e IPv6, sendo obrigatorio em IPv6. Os cabeçalhos do protocolo IPsec são incluídos no cabeçalho IP, onde aparecem como extensões de cabeçalho IP quando um sistema está usando IPsec.&lt;/p&gt;
 &lt;p&gt;Os protocolos mais importantes considerados como parte do IPsec incluem:&lt;/p&gt;
 &lt;ul&gt;
@@ -286,7 +286,7 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;O IKE (Internet Key Exchange), definido no &lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;, "IKEv2 (Internet Key Exchange Protocol Version 2)", é um protocolo definido para permitir que os hosts especifiquem quais serviços devem ser incorporados nos pacotes, algoritmos criptográficos que serão usados ​​para fornecer esses serviços e um mecanismo para compartilhar as chaves usadas com esses algoritmos criptográficos. &lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Fases IPSec&lt;/h3&gt;
+&lt;h3 id="fases-ipsec"&gt;Fases IPSec&lt;/h3&gt;
 &lt;p&gt;O IPSec envolve muitas tecnologias de componentes e métodos de criptografia. No entanto, a operação do IPSec pode ser dividida em cinco etapas principais:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -305,12 +305,12 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;&lt;strong&gt;Terminação de túnel IPSec.&lt;/strong&gt; IPSec SAs terminam por exclusão ou por tempo limite.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Implementando o IPsec&lt;/h3&gt;
+&lt;h3 id="implementando-o-ipsec"&gt;Implementando o IPsec&lt;/h3&gt;
 &lt;p&gt;O suporte a IPsec foi geralmente incluído na maioria dos sistemas operacionais comuns (e outros) disponíveis desde o final dos anos 90, incluindo sistemas operacionais de desktop e servidor, bem como roteadores e outros dispositivos de segurança de rede.&lt;/p&gt;
 &lt;p&gt;Embora os sistemas mais antigos possam suportar alguma versão do IPsec, as empresas devem implantar o IPsec usando sistemas operacionais atualizados e atualizados em patches de segurança. Além disso, sistemas mais antigos que suportam versões mais antigas do IPsec e parecem ativar circuitos IPsec seguros podem, na verdade, não manter os dados seguros. &lt;/p&gt;
 &lt;p&gt;Nos proximos posts vamos configurar e implementar uma VPN IPSec.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h5&gt;Fontes:&lt;/h5&gt;
+&lt;h5 id="fontes"&gt;Fontes:&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;&lt;/li&gt;

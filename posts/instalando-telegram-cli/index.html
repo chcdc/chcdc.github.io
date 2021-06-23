@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -136,7 +136,7 @@
 
   <div>
     <p>Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.</p>
-
+<!--more-->
 
 <p>Instale as dependencias</p>
 <div class="highlight"><pre><span></span><code>apt-get install libreadline-dev libconfig-dev libssl-dev
@@ -185,7 +185,7 @@ make
 <div class="highlight"><pre><span></span><code>/opt/tg/bin/telegram-cli -W -k tg-server.pub
 </code></pre></div>
 
-<h3>Configurar para envio de notificações via sistema</h3>
+<h3 id="configurar-para-envio-de-notificacoes-via-sistema">Configurar para envio de notificações via sistema</h3>
 <hr>
 <p>Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo</p>
 <div class="highlight"><pre><span></span><code>sudo vim /etc/profile.d/TelNotdata.sh
@@ -286,7 +286,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

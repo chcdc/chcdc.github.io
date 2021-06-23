@@ -5,7 +5,7 @@
 &lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
 &lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado e com a rede configurada, vamos iniciar a instalação.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Configurando o sistema&lt;/h3&gt;
+&lt;h3 id="configurando-o-sistema"&gt;Configurando o sistema&lt;/h3&gt;
 &lt;p&gt;Desabilite o SELinux&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sed -i &lt;span class="s1"&gt;&amp;#39;s/^SELINUX=.*/SELINUX=disabled/g&amp;#39;&lt;/span&gt; /etc/sysconfig/selinux &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cat /etc/sysconfig/selinux 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -25,7 +25,7 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum upgrade -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Instalando OpenVPN&lt;/h3&gt;
+&lt;h3 id="instalando-openvpn"&gt;Instalando OpenVPN&lt;/h3&gt;
 &lt;p&gt;O repositório Extra Packages for Enterprise Linux (EPEL) é um repositório adicional gerenciado pelo Projeto Fedora contendo pacotes não padrão, mas populares. O OpenVPN não está disponível nos repositórios padrão do CentOS, mas está disponível no EPEL, então instale o EPEL:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum install epel-release -y &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; yum update -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -54,7 +54,7 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Depois que esses programas forem instalados e tiverem sido movidos para os locais corretos em seu sistema, a próxima etapa é personalizar a configuração do lado do servidor do OpenVPN.&lt;/p&gt;
-&lt;h3&gt;Configurando OpenVPN&lt;/h3&gt;
+&lt;h3 id="configurando-openvpn"&gt;Configurando OpenVPN&lt;/h3&gt;
 &lt;p&gt;Temos muitas formas de configurar o OpenVPN, neste documento vamos fazer a forma mais comum de conexão.&lt;/p&gt;
 &lt;p&gt;Crie o arquivo de configuração&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;vim /etc/openvpn/server.conf
@@ -130,7 +130,7 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 &lt;span class="go"&gt;explicit-exit-notify 1&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Gerando Chaves e certificados Servidor&lt;/h3&gt;
+&lt;h3 id="gerando-chaves-e-certificados-servidor"&gt;Gerando Chaves e certificados Servidor&lt;/h3&gt;
 &lt;p&gt;Começaremos nosso processo de geração de chaves e certificados criando um diretório no qual o Easy RSA armazenará todas as chaves e certificados gerados:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/easy-rsa/keys
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -181,7 +181,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;span class="gp"&gt;# &lt;/span&gt;sudo cp dh2048.pem ca.crt server.crt server.key /etc/openvpn/keys
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Gerando Chaves e certificados Cliente&lt;/h3&gt;
+&lt;h3 id="gerando-chaves-e-certificados-cliente"&gt;Gerando Chaves e certificados Cliente&lt;/h3&gt;
 &lt;p&gt;Cada cliente também precisará de um certificado para que o servidor OpenVPN possa autenticá-lo. Essas chaves e certificados serão criados no servidor e você terá que copiá-los para seus clientes. É aconselhável gerar chaves e certificados separados para cada cliente que você pretende conectar à sua VPN.&lt;/p&gt;
 &lt;p&gt;Crie um certificado de cliente teste. Não crie um certificado para ser utilizado futuramente, pois o mesmo será utilizado para criar o arquivo de revogação de certificados e será invalidado logo em seguida. Preste atenção em alterar o endereço de email para cada certificado novo:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa/
@@ -205,7 +205,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Iniciando OpenVPN&lt;/h3&gt;
+&lt;h3 id="iniciando-openvpn"&gt;Iniciando OpenVPN&lt;/h3&gt;
 &lt;p&gt;Vamos configurar o OpenVPN para iniciar na inicialização. Para fazer isso, ative o servidor OpenVPN adicionando-o ao systemctl&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sudo systemctl -f &lt;span class="nb"&gt;enable&lt;/span&gt; openvpn@server.service
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -215,7 +215,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Verifique se não houve erros durante a inicialização do serviço. Caso tenha erros, verifique o arquivo de log /var/log/openvpn.log&lt;/p&gt;
-&lt;h3&gt;Criando rotas estaticas&lt;/h3&gt;
+&lt;h3 id="criando-rotas-estaticas"&gt;Criando rotas estaticas&lt;/h3&gt;
 &lt;p&gt;Vamos criar para cada cliente uma configuração de rede individual&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/ccd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -241,7 +241,7 @@ Caso deseja que cada cliente tenha um endereço setado manualmente, insira no in
 &lt;span class="go"&gt;push &amp;quot;route 200.200.200.1 255.255.255.0&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando o Firewall&lt;/h3&gt;
+&lt;h3 id="configurando-o-firewall"&gt;Configurando o Firewall&lt;/h3&gt;
 &lt;p&gt;Para que o servidor faça os redirecionamentos necessários e aceite conexões precisamos setar isso no iptables&lt;/p&gt;
 &lt;p&gt;Execute os seguintes comandos&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &amp;gt; /proc/sys/net/ipv4/ip_forward
@@ -260,7 +260,7 @@ Caso deseja que cada cliente tenha um endereço setado manualmente, insira no in
 &lt;span class="gp"&gt;# &lt;/span&gt;iptables -I FORWARD -o tun+ -j ACCEPT
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando o Cliente&lt;/h3&gt;
+&lt;h3 id="configurando-o-cliente"&gt;Configurando o Cliente&lt;/h3&gt;
 &lt;p&gt;Os certificados e chave que serão inseridos no final do arquivo se encontram em /etc/openvpn/easy-rsa/keys/
 Sendo eles
     * ca - ca.crt 

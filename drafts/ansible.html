@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../theme/pygments/monokai.min.css">
 
 
@@ -151,7 +151,7 @@
 <p>Vamos implementar um servidor OpenVPN com criação automatica de usuarios</p>
 <p>Usaremos as boas praticas descritas na Documentação Oficial</p>
 <p>Vamos ao projeto</p>
-<h4>Projeto OpenVPN</h4>
+<h4 id="projeto-openvpn">Projeto OpenVPN</h4>
 <p>Vamos fazer apenas as configurações iniciais.</p>
 <p>Após a instalação do <em>Ansible</em> os arquivos iniciais são:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>tree /etc/ansible
@@ -160,7 +160,7 @@
 </code></pre></div>
 
 <p>Inicialmente não vamos alterar o arquivo <strong><em>ansible.cfg</em></strong></p>
-<h4>Hosts</h4>
+<h4 id="hosts">Hosts</h4>
 <p>O arquivo hosts é onde estará todos os hosts a serem configurados pelo Ansible</p>
 <div class="highlight"><pre><span></span><code># This is the default ansible &#39;hosts&#39; file.
 
@@ -314,7 +314,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

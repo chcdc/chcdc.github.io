@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -162,7 +162,7 @@ Primeiro, a localização do servidor (ou endereço IP), então a porta a ser us
 Ele protegerá sua senha.</p>
 <p>Não podemos esquecer o endereço de e-mail e senha na linha 4.</p>
 <p>A variável <code>msg</code> conterá sua mensagem e a linha 7 irá enviá-la!</p>
-<h2>Para um email mais elaborado</h2>
+<h2 id="para-um-email-mais-elaborado">Para um email mais elaborado</h2>
 <p>Aqui já estamos inserindo alguns dados, como assunto, rementente.</p>
 <p>Para isso precisamos de mais modulos, já disponiveis na biblioteca basica do Python,
 o <strong><em>email.mime.multipart</em></strong> e o <strong><em>email.mime.text</em></strong></p>
@@ -198,7 +198,7 @@ o <strong><em>email.mime.multipart</em></strong> e o <strong><em>email.mime.text
 <li>Linha 13 com a mensagem a ser enviada</li>
 <li>Linha 18 com a senha do seu email</li>
 </ul>
-<h2>Para enviar um email com anexo</h2>
+<h2 id="para-enviar-um-email-com-anexo">Para enviar um email com anexo</h2>
 <p>Para enviarmos anexos, vamos a um código mais complicado. Percebi que todo mundo tem um método um pouco diferente pra fazer.
 Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.</p>
 <p>Em resumo, o passo essencial é converter o arquivo em um Base64 antes de enviá-lo. Meu código funciona para arquivos de texto, arquivos pdf, imagens, arquivos de áudio e arquivos de vídeo!</p>
@@ -299,7 +299,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

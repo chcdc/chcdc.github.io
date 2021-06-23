@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -140,7 +140,7 @@
     <p>Conforme mostrei nesse <a href="https://blog.chcdc.com.br/posts/vpn-ipsec/">post</a> vamos agora configurar uma VPN IPSec.</p>
 <p>Vamos utilizar o <a href="https://www.strongswan.org/">StrongSwan</a> para configurarmos a VPN IPSec. </p>
 <p>Os peers serão configurados em dois ambientes distintos, Digital Ocean e AWS.</p>
-
+<!--more-->
 <p>A instalação será feita na distribuição CentOS 7.5.1804x64.</p>
 <p>Para o ambiente amazon foi utilizado a instância Amazon Linux 2 AMI </p>
 <p>A VPN Site to Site precisa ser configurada dos dois lados, por isso, vamos configurar primeiro o servidor da esquerda (left) que será a Digital Ocean.</p>
@@ -251,7 +251,7 @@ xxx.xx.xx.xxx : PSK <span class="s2">&quot;YmYyMzhiY2EwZWZjOGIzNzJiYjhkODRj&quot
 <div class="highlight"><pre><span></span><code><span class="o">[</span>root@ipsec-server  ~<span class="o">]</span><span class="c1"># systemctl start strongswan</span>
 </code></pre></div>
 
-<h3>Configurando lado direito (right)</h3>
+<h3 id="configurando-lado-direito-right">Configurando lado direito (right)</h3>
 <p>Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS</p>
 <ul>
 <li>Arquivo de configuração do lado direito (right)</li>
@@ -383,7 +383,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>

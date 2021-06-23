@@ -63,7 +63,7 @@ make
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
+&lt;h3 id="configurar-para-envio-de-notificacoes-via-sistema"&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo vim /etc/profile.d/TelNotdata.sh

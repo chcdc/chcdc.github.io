@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark)"
+    href="../../theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark)"
+          href="../../theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+          href="../../theme/pygments/monokai.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
+
+
+    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
+
+    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
+
+    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->  
+
+
+    <meta name="author" content="Carlos Carvalho" />
+    <meta name="description" content="Yet Another Blog" />
+<meta property="og:site_name" content="Carlos Carvalho"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Carlos Carvalho"/>
+<meta property="og:description" content="Yet Another Blog"/>
+<meta property="og:locale" content="pt_BR"/>
+<meta property="og:url" content="../.."/>
+
+  <title>Carlos Carvalho &ndash; Category DevOps</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="../..">
+        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
+      </a>
+
+      <h1>
+        <a href="../..">Carlos Carvalho</a>
+      </h1>
+
+<p>Yet Another Blog</p>
+
+
+      <ul class="social">
+          <li>
+            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+              <i class="fab fa-stack-overflow"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+              <i class="fas fa-rss"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="../..">Home</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+
+      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../../posts/git-conceitos-e-historia#git-conceitos-e-historia">Git Conceitos e História</a></h2>
+    <p>
+      Posted on Tue 22 June 2021 in <a href="../../category/devops">DevOps</a>
+
+          &#8226; Tagged with
+              <a href="../../tag/git">git</a>
+        &#8226; 2 min read
+    </p>
+  </header>
+  <div>
+      <p>Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.</p>
+<div class="toc"><span class="toctitle">Indice:</span><ul>
+<li><a href="#historia">Historia</a></li>
+<li><a href="#como-funciona">Como Funciona</a></li>
+<li><a href="#principais-caracteristicas">Principais Características</a></li>
+<li><a href="#os-tres-estados">Os três estados</a></li>
+<li><a href="#workflow">Workflow</a></li>
+<li><a href="#repositorios-locais">Repositórios Locais</a></li>
+</ul>
+</div>
+
+
+<h3 id="historia">Historia</h3>
+<p>O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.</p>
+<p>Em 2002, o projeto do núcleo …</p>
+        <br>
+        <a class="btn"
+           href="../../posts/git-conceitos-e-historia#git-conceitos-e-historia">
+          Continue reading
+        </a>
+  </div>
+</article>
+
+  <div class="pagination">
+  </div>
+
+
+
+    <footer>
+<p>&copy; 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="../../theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="light"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : "../..",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+
+</body>
+</html>

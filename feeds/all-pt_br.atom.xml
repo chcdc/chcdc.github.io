@@ -1,5 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/all-pt_br.atom.xml" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2019-12-14T19:12:45-03:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/all-pt_br.atom.xml" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2021-06-22T22:27:45-02:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Git Conceitos e História</title><link href="https://blog.chcdc.com.br/posts/git-conceitos-e-historia" rel="alternate"></link><published>2021-06-22T22:27:45-02:00</published><updated>2021-06-22T22:27:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2021-06-22:/posts/git-conceitos-e-historia</id><summary type="html">&lt;p&gt;Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.&lt;/p&gt;
+&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Indice:&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#historia"&gt;Historia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#como-funciona"&gt;Como Funciona&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#principais-caracteristicas"&gt;Principais Características&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#os-tres-estados"&gt;Os três estados&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#workflow"&gt;Workflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#repositorios-locais"&gt;Repositórios Locais&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+&lt;h3 id="historia"&gt;Historia&lt;/h3&gt;
+&lt;p&gt;O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.&lt;/p&gt;
+&lt;p&gt;Em 2002, o projeto do núcleo …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.&lt;/p&gt;
+&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Indice:&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#historia"&gt;Historia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#como-funciona"&gt;Como Funciona&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#principais-caracteristicas"&gt;Principais Características&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#os-tres-estados"&gt;Os três estados&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#workflow"&gt;Workflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#repositorios-locais"&gt;Repositórios Locais&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+&lt;h3 id="historia"&gt;Historia&lt;/h3&gt;
+&lt;p&gt;O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.&lt;/p&gt;
+&lt;p&gt;Em 2002, o projeto do núcleo do Linux começou usar uma DVCS proprietária chamada BitKeeper.&lt;/p&gt;
+&lt;p&gt;Em 2005, a relação entre a comunidade que desenvolveu o núcleo do Linux e a empresa que desenvolveu BitKeeper quebrou em pedaços, e a ferramenta passou a ser paga.&lt;/p&gt;
+&lt;p&gt;Isto alertou a comunidade que desenvolvia o Linux (e especialmente Linus Torvalds, o criador do Linux) a desenvolver a sua própria ferramenta baseada em lições aprendidas ao usar o BitKeeper.&lt;/p&gt;
+&lt;p&gt;Algumas metas do novo sistema era os seguintes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Velocidade&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Projeto simples&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Forte suporte para desenvolvimento não-linear (milhares de ramos paralelos)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Completamente distribuído&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Capaz de lidar com projetos grandes como o núcleo o Linux com eficiência (velocidade e tamanho dos dados)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Desde seu nascimento em 2005, Git evoluiu e amadureceu para ser fácil de usar e ainda reter essas qualidades iniciais.&lt;/p&gt;
+&lt;p&gt;Ele é incrivelmente rápido, é muito eficiente com projetos grandes, e ele tem um incrível sistema de ramos para desenvolvimento não linear&lt;/p&gt;
+&lt;h3 id="como-funciona"&gt;Como Funciona&lt;/h3&gt;
+&lt;p&gt;O Git considera que os dados são como uma imagem do sistema de arquivos.&lt;/p&gt;
+&lt;p&gt;Toda vez que você fizer um commit, ou salvar o estado de seu projeto no Git, ele basicamente tira uma foto de todos os seus arquivos e armazena uma referência para esse conjunto de arquivos.&lt;/p&gt;
+&lt;p&gt;Para ser eficiente, se os arquivos não foram alterados, o Git não armazena o arquivo novamente, apenas um link para o arquivo idêntico anterior já armazenado.
+O Git trata seus dados mais como um fluxo do estado dos arquivos.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="git-snapshot" src="../images/snapshots-git.png"&gt;&lt;/p&gt;
+&lt;h3 id="principais-caracteristicas"&gt;Principais Características&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;As operações são locais&lt;/li&gt;
+&lt;li&gt;Tem integridade checksum&lt;/li&gt;
+&lt;li&gt;Geralmente só adiciona dados&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="os-tres-estados"&gt;Os três estados&lt;/h3&gt;
+&lt;p&gt;O git tem tres estados principais que seus arquivos podem estar:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Committed&lt;/strong&gt;: Os dados estão armazenados de forma segura em seu banco de dados local.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Modified&lt;/strong&gt;: Significa que o arquivo foi alterado, mas ainda não fez o commit no seu banco de dados.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Staged&lt;/strong&gt;: Significa que você marcou a versão atual de um arquivo modificado para fazer parte do seu próximo commit&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="workflow"&gt;Workflow&lt;/h3&gt;
+&lt;p&gt;O fluxo de trabalho podemos descrever da seguinte forma:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Você modifica arquivos no seu diretório de trabalho&lt;/li&gt;
+&lt;li&gt;Seleciona os arquivos, adicionando imagens deles à sua area de trabalho&lt;/li&gt;
+&lt;li&gt;Você faz o commit, que leva os arquivos como eles estão na sua área de preparação e os armazena permanentemente no seu diretório Git.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT" src="../images/workflow-git.png"&gt;&lt;/p&gt;
+&lt;h3 id="repositorios-locais"&gt;Repositórios Locais&lt;/h3&gt;
+&lt;p&gt;Seus repositórios locais consistem em três "árvores" mantidas pelo git&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Working Directory&lt;/strong&gt; : Contém os arquivos vigentes&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Index&lt;/strong&gt; : Funciona como uma área temporária (stage)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;HEAD&lt;/strong&gt; : Aponta para o ultimo commit feito&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT Directories" src="../images/workflow-git-dir.png"&gt;&lt;/p&gt;
+&lt;p&gt;A partir de um estado "não gerenciado", os arquivos entram em um ciclo de alterações de estado a cada modificação e posterior consolidação.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Workflow GIT States" src="../images/states-git.png"&gt;&lt;/p&gt;
+&lt;p&gt;Esses são os conceitos iniciais do GIT, nos próximos posts vamos executar a instalação e fazer alguns commits e alterações.&lt;/p&gt;
+&lt;p&gt;Simples Assim 😆&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://git-scm.com/book/pt-br"&gt;Fonte&lt;/a&gt;&lt;/p&gt;</content><category term="DevOps"></category><category term="git"></category></entry><entry><title>Migrando repositorios do SVN para o GIT</title><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="alternate"></link><published>2019-12-14T19:12:45-03:00</published><updated>2019-12-14T19:12:45-03:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2019-12-14:/posts/migrando-repositorios-do-svn-para-o-git</id><summary type="html">&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
 &lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
 &lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
 &lt;ul&gt;
@@ -179,7 +275,7 @@ main
 &lt;p&gt;Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.&lt;/p&gt;
 &lt;p&gt;Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado e com a rede configurada, vamos iniciar a instalação.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Configurando o sistema&lt;/h3&gt;
+&lt;h3 id="configurando-o-sistema"&gt;Configurando o sistema&lt;/h3&gt;
 &lt;p&gt;Desabilite o SELinux&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sed -i &lt;span class="s1"&gt;&amp;#39;s/^SELINUX=.*/SELINUX=disabled/g&amp;#39;&lt;/span&gt; /etc/sysconfig/selinux &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cat /etc/sysconfig/selinux 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -199,7 +295,7 @@ main
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum upgrade -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Instalando OpenVPN&lt;/h3&gt;
+&lt;h3 id="instalando-openvpn"&gt;Instalando OpenVPN&lt;/h3&gt;
 &lt;p&gt;O repositório Extra Packages for Enterprise Linux (EPEL) é um repositório adicional gerenciado pelo Projeto Fedora contendo pacotes não padrão, mas populares. O OpenVPN não está disponível nos repositórios padrão do CentOS, mas está disponível no EPEL, então instale o EPEL:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;yum install epel-release -y &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; yum update -y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -228,7 +324,7 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Depois que esses programas forem instalados e tiverem sido movidos para os locais corretos em seu sistema, a próxima etapa é personalizar a configuração do lado do servidor do OpenVPN.&lt;/p&gt;
-&lt;h3&gt;Configurando OpenVPN&lt;/h3&gt;
+&lt;h3 id="configurando-openvpn"&gt;Configurando OpenVPN&lt;/h3&gt;
 &lt;p&gt;Temos muitas formas de configurar o OpenVPN, neste documento vamos fazer a forma mais comum de conexão.&lt;/p&gt;
 &lt;p&gt;Crie o arquivo de configuração&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;vim /etc/openvpn/server.conf
@@ -304,7 +400,7 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 &lt;span class="go"&gt;explicit-exit-notify 1&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Gerando Chaves e certificados Servidor&lt;/h3&gt;
+&lt;h3 id="gerando-chaves-e-certificados-servidor"&gt;Gerando Chaves e certificados Servidor&lt;/h3&gt;
 &lt;p&gt;Começaremos nosso processo de geração de chaves e certificados criando um diretório no qual o Easy RSA armazenará todas as chaves e certificados gerados:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/easy-rsa/keys
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -355,7 +451,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;span class="gp"&gt;# &lt;/span&gt;sudo cp dh2048.pem ca.crt server.crt server.key /etc/openvpn/keys
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Gerando Chaves e certificados Cliente&lt;/h3&gt;
+&lt;h3 id="gerando-chaves-e-certificados-cliente"&gt;Gerando Chaves e certificados Cliente&lt;/h3&gt;
 &lt;p&gt;Cada cliente também precisará de um certificado para que o servidor OpenVPN possa autenticá-lo. Essas chaves e certificados serão criados no servidor e você terá que copiá-los para seus clientes. É aconselhável gerar chaves e certificados separados para cada cliente que você pretende conectar à sua VPN.&lt;/p&gt;
 &lt;p&gt;Crie um certificado de cliente teste. Não crie um certificado para ser utilizado futuramente, pois o mesmo será utilizado para criar o arquivo de revogação de certificados e será invalidado logo em seguida. Preste atenção em alterar o endereço de email para cada certificado novo:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /etc/openvpn/easy-rsa/
@@ -379,7 +475,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Iniciando OpenVPN&lt;/h3&gt;
+&lt;h3 id="iniciando-openvpn"&gt;Iniciando OpenVPN&lt;/h3&gt;
 &lt;p&gt;Vamos configurar o OpenVPN para iniciar na inicialização. Para fazer isso, ative o servidor OpenVPN adicionando-o ao systemctl&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;sudo systemctl -f &lt;span class="nb"&gt;enable&lt;/span&gt; openvpn@server.service
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -389,7 +485,7 @@ Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa es
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Verifique se não houve erros durante a inicialização do serviço. Caso tenha erros, verifique o arquivo de log /var/log/openvpn.log&lt;/p&gt;
-&lt;h3&gt;Criando rotas estaticas&lt;/h3&gt;
+&lt;h3 id="criando-rotas-estaticas"&gt;Criando rotas estaticas&lt;/h3&gt;
 &lt;p&gt;Vamos criar para cada cliente uma configuração de rede individual&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;mkdir /etc/openvpn/ccd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -415,7 +511,7 @@ Caso deseja que cada cliente tenha um endereço setado manualmente, insira no in
 &lt;span class="go"&gt;push &amp;quot;route 200.200.200.1 255.255.255.0&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando o Firewall&lt;/h3&gt;
+&lt;h3 id="configurando-o-firewall"&gt;Configurando o Firewall&lt;/h3&gt;
 &lt;p&gt;Para que o servidor faça os redirecionamentos necessários e aceite conexões precisamos setar isso no iptables&lt;/p&gt;
 &lt;p&gt;Execute os seguintes comandos&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gp"&gt;# &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &amp;gt; /proc/sys/net/ipv4/ip_forward
@@ -434,7 +530,7 @@ Caso deseja que cada cliente tenha um endereço setado manualmente, insira no in
 &lt;span class="gp"&gt;# &lt;/span&gt;iptables -I FORWARD -o tun+ -j ACCEPT
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando o Cliente&lt;/h3&gt;
+&lt;h3 id="configurando-o-cliente"&gt;Configurando o Cliente&lt;/h3&gt;
 &lt;p&gt;Os certificados e chave que serão inseridos no final do arquivo se encontram em /etc/openvpn/easy-rsa/keys/
 Sendo eles
     * ca - ca.crt 
@@ -668,7 +764,7 @@ xxx.xx.xx.xxx : PSK &lt;span class="s2"&gt;&amp;quot;YmYyMzhiY2EwZWZjOGIzNzJiYjh
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;root@ipsec-server  ~&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="c1"&gt;# systemctl start strongswan&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurando lado direito (right)&lt;/h3&gt;
+&lt;h3 id="configurando-lado-direito-right"&gt;Configurando lado direito (right)&lt;/h3&gt;
 &lt;p&gt;Vamos partir do princípio que os passos 1 ao 4 já foram executados. Vamos configurar o nosso lado direito que no nosso caso é a AWS&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Arquivo de configuração do lado direito (right)&lt;/li&gt;
@@ -753,7 +849,7 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;O tráfego da Internet pode ser protegido de host para host sem o uso de IPsec, por exemplo, por criptografia na camada de aplicativo (Camada 7 do modelo OSI ) com HTTP Seguro (HTTPS) ou na camada de transporte (Camada 4 do modelo OSI) com o protocolo TLS ( Transport Layer Security ). No entanto, quando o tráfego usa criptografia ou autenticação nessas camadas superiores, os agentes de ameaça ainda podem interceptar informações de protocolo que podem expor dados que devem ser criptografados. &lt;/p&gt;
 &lt;p&gt;Pode usar criptografia para fornecer segurança. O IPsec pode ser usado para a configuração de redes privadas virtuais (VPNs) de maneira segura.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Protocolos IPSec&lt;/h3&gt;
+&lt;h3 id="protocolos-ipsec"&gt;Protocolos IPSec&lt;/h3&gt;
 &lt;p&gt;O IPsec é definido para uso com as duas versões atuais do Internet Protocol, IPv4 e IPv6, sendo obrigatorio em IPv6. Os cabeçalhos do protocolo IPsec são incluídos no cabeçalho IP, onde aparecem como extensões de cabeçalho IP quando um sistema está usando IPsec.&lt;/p&gt;
 &lt;p&gt;Os protocolos mais importantes considerados como parte do IPsec incluem:&lt;/p&gt;
 &lt;ul&gt;
@@ -767,7 +863,7 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;O IKE (Internet Key Exchange), definido no &lt;a href="https://tools.ietf.org/html/rfc7296"&gt;RFC 7296&lt;/a&gt;, "IKEv2 (Internet Key Exchange Protocol Version 2)", é um protocolo definido para permitir que os hosts especifiquem quais serviços devem ser incorporados nos pacotes, algoritmos criptográficos que serão usados ​​para fornecer esses serviços e um mecanismo para compartilhar as chaves usadas com esses algoritmos criptográficos. &lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Fases IPSec&lt;/h3&gt;
+&lt;h3 id="fases-ipsec"&gt;Fases IPSec&lt;/h3&gt;
 &lt;p&gt;O IPSec envolve muitas tecnologias de componentes e métodos de criptografia. No entanto, a operação do IPSec pode ser dividida em cinco etapas principais:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -786,12 +882,12 @@ right&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt
 &lt;p&gt;&lt;strong&gt;Terminação de túnel IPSec.&lt;/strong&gt; IPSec SAs terminam por exclusão ou por tempo limite.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Implementando o IPsec&lt;/h3&gt;
+&lt;h3 id="implementando-o-ipsec"&gt;Implementando o IPsec&lt;/h3&gt;
 &lt;p&gt;O suporte a IPsec foi geralmente incluído na maioria dos sistemas operacionais comuns (e outros) disponíveis desde o final dos anos 90, incluindo sistemas operacionais de desktop e servidor, bem como roteadores e outros dispositivos de segurança de rede.&lt;/p&gt;
 &lt;p&gt;Embora os sistemas mais antigos possam suportar alguma versão do IPsec, as empresas devem implantar o IPsec usando sistemas operacionais atualizados e atualizados em patches de segurança. Além disso, sistemas mais antigos que suportam versões mais antigas do IPsec e parecem ativar circuitos IPsec seguros podem, na verdade, não manter os dados seguros. &lt;/p&gt;
 &lt;p&gt;Nos proximos posts vamos configurar e implementar uma VPN IPSec.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h5&gt;Fontes:&lt;/h5&gt;
+&lt;h5 id="fontes"&gt;Fontes:&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://tools.ietf.org/html/rfc4302"&gt;RFC 4302&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.ietf.org/rfc/rfc4303.txt"&gt;RFC 4303&lt;/a&gt;&lt;/li&gt;
@@ -922,7 +1018,7 @@ Os modulos que vamos utilizar são &lt;a href="http://docs.paramiko.org/en/2.4/"
         &lt;span class="nv"&gt;s&lt;/span&gt;.&lt;span class="nv"&gt;close&lt;/span&gt;&lt;span class="ss"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h6&gt;O script final ficará dessa forma&lt;/h6&gt;
+&lt;h6 id="o-script-final-ficara-dessa-forma"&gt;O script final ficará dessa forma&lt;/h6&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;paramiko&lt;/span&gt;
 
@@ -993,7 +1089,7 @@ Primeiro, a localização do servidor (ou endereço IP), então a porta a ser us
 Ele protegerá sua senha.&lt;/p&gt;
 &lt;p&gt;Não podemos esquecer o endereço de e-mail e senha na linha 4.&lt;/p&gt;
 &lt;p&gt;A variável &lt;code&gt;msg&lt;/code&gt; conterá sua mensagem e a linha 7 irá enviá-la!&lt;/p&gt;
-&lt;h2&gt;Para um email mais elaborado&lt;/h2&gt;
+&lt;h2 id="para-um-email-mais-elaborado"&gt;Para um email mais elaborado&lt;/h2&gt;
 &lt;p&gt;Aqui já estamos inserindo alguns dados, como assunto, rementente.&lt;/p&gt;
 &lt;p&gt;Para isso precisamos de mais modulos, já disponiveis na biblioteca basica do Python,
 o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt;strong&gt;&lt;em&gt;email.mime.text&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
@@ -1029,7 +1125,7 @@ o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt
 &lt;li&gt;Linha 13 com a mensagem a ser enviada&lt;/li&gt;
 &lt;li&gt;Linha 18 com a senha do seu email&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Para enviar um email com anexo&lt;/h2&gt;
+&lt;h2 id="para-enviar-um-email-com-anexo"&gt;Para enviar um email com anexo&lt;/h2&gt;
 &lt;p&gt;Para enviarmos anexos, vamos a um código mais complicado. Percebi que todo mundo tem um método um pouco diferente pra fazer.
 Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.&lt;/p&gt;
 &lt;p&gt;Em resumo, o passo essencial é converter o arquivo em um Base64 antes de enviá-lo. Meu código funciona para arquivos de texto, arquivos pdf, imagens, arquivos de áudio e arquivos de vídeo!&lt;/p&gt;
@@ -1321,7 +1417,7 @@ make
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/opt/tg/bin/telegram-cli -W -k tg-server.pub
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
+&lt;h3 id="configurar-para-envio-de-notificacoes-via-sistema"&gt;Configurar para envio de notificações via sistema&lt;/h3&gt;
 &lt;hr&gt;
 &lt;p&gt;Após o telegram-cli estar instalado e configurado, crie o seguinte arquivo&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo vim /etc/profile.d/TelNotdata.sh

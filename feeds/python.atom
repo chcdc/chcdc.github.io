@@ -61,7 +61,7 @@ Os modulos que vamos utilizar são &lt;a href="http://docs.paramiko.org/en/2.4/"
         &lt;span class="nv"&gt;s&lt;/span&gt;.&lt;span class="nv"&gt;close&lt;/span&gt;&lt;span class="ss"&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h6&gt;O script final ficará dessa forma&lt;/h6&gt;
+&lt;h6 id="o-script-final-ficara-dessa-forma"&gt;O script final ficará dessa forma&lt;/h6&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;shutil&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;paramiko&lt;/span&gt;
 
@@ -132,7 +132,7 @@ Primeiro, a localização do servidor (ou endereço IP), então a porta a ser us
 Ele protegerá sua senha.&lt;/p&gt;
 &lt;p&gt;Não podemos esquecer o endereço de e-mail e senha na linha 4.&lt;/p&gt;
 &lt;p&gt;A variável &lt;code&gt;msg&lt;/code&gt; conterá sua mensagem e a linha 7 irá enviá-la!&lt;/p&gt;
-&lt;h2&gt;Para um email mais elaborado&lt;/h2&gt;
+&lt;h2 id="para-um-email-mais-elaborado"&gt;Para um email mais elaborado&lt;/h2&gt;
 &lt;p&gt;Aqui já estamos inserindo alguns dados, como assunto, rementente.&lt;/p&gt;
 &lt;p&gt;Para isso precisamos de mais modulos, já disponiveis na biblioteca basica do Python,
 o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt;strong&gt;&lt;em&gt;email.mime.text&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
@@ -168,7 +168,7 @@ o &lt;strong&gt;&lt;em&gt;email.mime.multipart&lt;/em&gt;&lt;/strong&gt; e o &lt
 &lt;li&gt;Linha 13 com a mensagem a ser enviada&lt;/li&gt;
 &lt;li&gt;Linha 18 com a senha do seu email&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Para enviar um email com anexo&lt;/h2&gt;
+&lt;h2 id="para-enviar-um-email-com-anexo"&gt;Para enviar um email com anexo&lt;/h2&gt;
 &lt;p&gt;Para enviarmos anexos, vamos a um código mais complicado. Percebi que todo mundo tem um método um pouco diferente pra fazer.
 Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.&lt;/p&gt;
 &lt;p&gt;Em resumo, o passo essencial é converter o arquivo em um Base64 antes de enviá-lo. Meu código funciona para arquivos de texto, arquivos pdf, imagens, arquivos de áudio e arquivos de vídeo!&lt;/p&gt;

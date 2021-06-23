@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Carlos Carvalho - Carlos Carvalho</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Sat, 14 Dec 2019 19:12:45 -0300</lastBuildDate><item><title>Migrando repositorios do SVN para o GIT</title><link>https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git</link><description>&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
+<rss version="2.0"><channel><title>Carlos Carvalho - Carlos Carvalho</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Tue, 22 Jun 2021 22:27:45 -0200</lastBuildDate><item><title>Git Conceitos e História</title><link>https://blog.chcdc.com.br/posts/git-conceitos-e-historia</link><description>&lt;p&gt;Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.&lt;/p&gt;
+&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Indice:&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#historia"&gt;Historia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#como-funciona"&gt;Como Funciona&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#principais-caracteristicas"&gt;Principais Características&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#os-tres-estados"&gt;Os três estados&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#workflow"&gt;Workflow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#repositorios-locais"&gt;Repositórios Locais&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+&lt;h3 id="historia"&gt;Historia&lt;/h3&gt;
+&lt;p&gt;O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.&lt;/p&gt;
+&lt;p&gt;Em 2002, o projeto do núcleo …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Tue, 22 Jun 2021 22:27:45 -0200</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2021-06-22:/posts/git-conceitos-e-historia</guid><category>DevOps</category><category>git</category></item><item><title>Migrando repositorios do SVN para o GIT</title><link>https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git</link><description>&lt;p&gt;Nesse post vou mostrar como migrar projetos do svn para o git.&lt;/p&gt;
 &lt;p&gt;Vou partir do principio que já entende como o &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; e o &lt;a href="https://git-scm.com/"&gt;Git&lt;/a&gt; se comportam.&lt;/p&gt;
 &lt;p&gt;Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:&lt;/p&gt;
 &lt;ul&gt;

@@ -13,14 +13,14 @@
     <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
 
     <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          media="(prefers-color-scheme: dark)"
     href="../../theme/stylesheet/dark-theme.min.css">
 
     <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+              media="(prefers-color-scheme: dark)"
           href="../../theme/pygments/monokai.min.css">
     <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light)"
+              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
           href="../../theme/pygments/monokai.min.css">
 
 
@@ -195,7 +195,7 @@ Os modulos que vamos utilizar são <a href="http://docs.paramiko.org/en/2.4/">Pa
         <span class="nv">s</span>.<span class="nv">close</span><span class="ss">()</span>
 </code></pre></div>
 
-<h6>O script final ficará dessa forma</h6>
+<h6 id="o-script-final-ficara-dessa-forma">O script final ficará dessa forma</h6>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">paramiko</span>
 
@@ -289,7 +289,7 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   <script id="dark-theme-script"
           src="../../theme/dark-theme/dark-theme.min.js"
           data-enable-auto-detect-theme="True"
-          data-default-theme="dark"
+          data-default-theme="light"
           type="text/javascript">
   </script>
 </p>    </footer>
