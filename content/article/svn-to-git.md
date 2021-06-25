@@ -1,5 +1,5 @@
 ---
-title: Migrando repositorios do SVN para o GIT
+title: Migrando repositórios do SVN para o GIT
 date: 2019-12-14 19:12:45 -0300
 comments: true
 Category: Sysadmin

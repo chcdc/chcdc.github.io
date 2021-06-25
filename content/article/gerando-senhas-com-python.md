@@ -1,5 +1,5 @@
 ---
-title: Gerando senhas com python
+title: Gerando senhas seguras utilizando python
 date: 2018-01-09 19:48:25 -0200
 comments: true
 Category: Python

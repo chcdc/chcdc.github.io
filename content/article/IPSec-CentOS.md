@@ -1,5 +1,5 @@
 ---
-title: IPSec StrongSwan
+title: Criando VPN IPSec com StrongSwan entre Digital Ocean e AWS
 date: 2018-09-18 20:45:15 -0200
 comments: true
 Category: Linux

@@ -1,5 +1,5 @@
 ---
-title: Git Conceitos e História
+title: Git Conceitos básicos e História
 date: 2021-06-22 22:27:45 -0200
 comments: true
 Category: DevOps

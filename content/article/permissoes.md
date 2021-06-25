@@ -1,5 +1,5 @@
 ---
-title: Permissoes no Linux
+title: Entendendo as Permissões no Linux
 date: 2018-02-27 09:23:45 -0200
 comments: true
 Category: Linux

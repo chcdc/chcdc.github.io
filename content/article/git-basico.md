@@ -1,5 +1,5 @@
 ---
-title: Git Básico
+title: Git Comandos Básicos
 date: 2021-06-22 22:27:45 -0200
 comments: true
 Category: DevOps
@@ -14,7 +14,7 @@ Os conceitos eu abordei [aqui](/posts/git-conceitos-e-historia/#os-tres-estados)
 
 Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas Windows e MacOS.
 
-<!-- PELICAN_END_SUMMARY -->
+<!--more-->
 [TOC]
 
 
