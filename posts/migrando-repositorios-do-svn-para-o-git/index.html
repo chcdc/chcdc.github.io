@@ -38,7 +38,7 @@
 <meta content="Migrando repositórios do SVN para o GIT" property="og:title"/>
 <meta content="Nesse post vou mostrar como migrar projetos do svn para o git. Vou partir do principio que já entende como o Subversion e o Git se comportam. Para tudo ocorrer como esperado, o nosso ambiente …" property="og:description"/>
 <meta content="pt_BR" property="og:locale"/>
-<meta content="../../posts/migrando-repositorios-do-svn-para-o-git" property="og:url"/>
+<meta content="../../posts/" property="og:url"/>
 <meta content="article" property="og:type"/>
 <meta content="2019-12-14 19:12:45-03:00" property="article:published_time"/>
 <meta content="" property="article:modified_time"/>
@@ -48,7 +48,7 @@
 <meta content="git" property="article:tag"/>
 <meta content="" property="og:image"/>
 <title>Carlos Carvalho – Migrando repositórios do SVN para o GIT</title>
-</meta></meta><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Migrando repositorios do svn para o git", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Migrando repositórios do SVN para o GIT", "about": "Sysadmin", "datePublished": "2019-12-14 19:12"}</script></head>
+</meta></meta><link href="https://blog.chcdc.com.br/posts/" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Migrando repositorios do svn para o git", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Migrando repositórios do SVN para o GIT", "about": "Sysadmin", "datePublished": "2019-12-14 19:12"}</script></head>
 <body>
 <aside>
 <div>
@@ -273,21 +273,21 @@ main
 <p id="post-share-links">
       Share on:
       ❄
-      <a href="https://twitter.com/intent/tweet?text=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;url=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git&amp;hashtags=svn,git" title="Share on Twitter">Twitter</a>
+      <a href="https://twitter.com/intent/tweet?text=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;url=https%3A//blog.chcdc.com.br/posts/&amp;hashtags=svn,git" title="Share on Twitter">Twitter</a>
       ❄
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share on Facebook">Facebook</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/" title="Share on Facebook">Facebook</a>
       ❄
-      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git&amp;title=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;summary=Nesse%20post%20vou%20mostrar%20como%20migrar%20projetos%20do%20svn%20para%20o%20git.%0AVou%20partir%20do%20principio%20que%20j%C3%A1%20entende%20como%20o%20Subversion%20e%20o%20Git%20se%20comportam.%0APara%20tudo%20ocorrer%20como%20esperado%2C%20o%20nosso%20ambiente%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share on LinkedIn">LinkedIn</a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/&amp;title=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;summary=Nesse%20post%20vou%20mostrar%20como%20migrar%20projetos%20do%20svn%20para%20o%20git.%0AVou%20partir%20do%20principio%20que%20j%C3%A1%20entende%20como%20o%20Subversion%20e%20o%20Git%20se%20comportam.%0APara%20tudo%20ocorrer%20como%20esperado%2C%20o%20nosso%20ambiente%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/" title="Share on LinkedIn">LinkedIn</a>
       ❄
-      <a href="mailto:?subject=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;body=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share via Email">Email</a>
+      <a href="mailto:?subject=Migrando%20reposit%C3%B3rios%20do%20SVN%20para%20o%20GIT&amp;body=https%3A//blog.chcdc.com.br/posts/" title="Share via Email">Email</a>
       ❄
     </p>
 </section>
 <div class="related-posts">
 <h4>You might enjoy</h4>
 <ul class="related-posts">
-<li><a href="../../posts/git-comandos-basicos">Git Comandos Básicos</a></li>
-<li><a href="../../posts/git-conceitos-basicos-e-historia">Git Conceitos básicos e História</a></li>
+<li><a href="../../posts/">Git Comandos Básicos</a></li>
+<li><a href="../../posts/">Git Conceitos básicos e História</a></li>
 </ul>
 </div>
 <!-- Disqus -->
