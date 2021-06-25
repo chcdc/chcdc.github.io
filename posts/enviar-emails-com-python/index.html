@@ -1,41 +1,25 @@
 
 <!DOCTYPE html>
+
 <html lang="pt_br">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
-
-    <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark)"
-    href="../../theme/stylesheet/dark-theme.min.css">
-
-    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark)"
-          href="../../theme/pygments/monokai.min.css">
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-          href="../../theme/pygments/monokai.min.css">
-
-
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
-
-
-    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
-
-    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
-
-    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
 <!-- Google Analytics -->
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,98 +30,79 @@
   ga('create', 'UA-66134049-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->  
-
-
-<meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email. Após algumas horas …" />
-<meta name="keywords" content="emails, script">
-
-
-<meta property="og:site_name" content="Carlos Carvalho"/>
-<meta property="og:title" content="Enviar emails com Python"/>
-<meta property="og:description" content="Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email. Após algumas horas …"/>
-<meta property="og:locale" content="pt_BR"/>
-<meta property="og:url" content="../../posts/enviar-emails-com-python"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-02-09 02:10:18-02:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="../../author/">
-<meta property="article:section" content="Python"/>
-<meta property="article:tag" content="emails"/>
-<meta property="article:tag" content="script"/>
-<meta property="og:image" content="">
-
-  <title>Carlos Carvalho &ndash; Enviar emails com Python</title>
-
-</head>
-<body >
-  <aside>
-    <div>
-      <a href="../..">
-        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
-      </a>
-
-      <h1>
-        <a href="../..">Carlos Carvalho</a>
-      </h1>
-
+<!-- End Google Analytics -->
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email. Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer o …" name="description"/>
+<meta content="emails, script" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Enviar emails com Python" property="og:title"/>
+<meta content="Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email. Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer o …" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="../../posts/enviar-emails-com-python" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2018-02-09 02:10:18-02:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="../../author/" property="article:author"/>
+<meta content="Python" property="article:section">
+<meta content="emails" property="article:tag"/>
+<meta content="script" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Enviar emails com Python</title>
+</meta></meta><link href="https://blog.chcdc.com.br/posts/enviar-emails-com-python" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Enviar emails com python", "item": "https://blog.chcdc.com.br/posts/enviar-emails-com-python"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/enviar-emails-com-python/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Enviar emails com Python", "about": "Python", "datePublished": "2018-02-09 02:10"}</script></head>
+<body>
+<aside>
+<div>
+<a href="../..">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href="../..">Carlos Carvalho</a>
+</h1>
 <p>Yet Another Blog</p>
-
-
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
-              <i class="fab fa-stack-overflow"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
-              <i class="fas fa-rss"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
-
-  </aside>
-  <main>
-
-    <nav>
-      <a href="../..">Home</a>
-
-      <a href="/archives.html">Archives</a>
-      <a href="/categories.html">Categories</a>
-      <a href="/tags.html">Tags</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
-    </nav>
-
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href="../..">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
 <article class="single">
-  <header>
-      
-    <h1 id="enviar-emails-com-python">Enviar emails com Python</h1>
-    <p>
+<header>
+<h1 id="enviar-emails-com-python">Enviar emails com Python</h1>
+<p>
       Posted on Fri 09 February 2018 in <a href="../../category/python">Python</a>
 
-        &#8226; 3 min read
+        • 3 min read
     </p>
-  </header>
-
-
-  <div>
-    <p>Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.</p>
+</header>
+<div>
+<p>Hoje me foi proposto um desafio, coletar logs de um servidor via Telegram e enviar por email.</p>
 <p>Após algumas horas em pesquisa, cheguei ao seguinte script que vou ensinar mais abaixo, primeiramente vamos fazer
 o script de envio de emails.</p>
 <p>Antes de tudo, caso use GMail, você precisa permitir "aplicativos menos seguros" para executar seu script.</p>
@@ -147,15 +112,14 @@ existe uma biblioteca nativa em Python para enviar e-mails: smtplib. Não será 
 <p>Para enviar um email básico (sem linha de assunto), com um endereço do Gmail, o código é bastante simples:</p>
 <div class="highlight"><pre><span></span><code><span class="mi">0</span> <span class="kn">import</span> <span class="nn">smtplib</span>
 <span class="mi">1</span>
-<span class="mi">2</span> <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">&#39;smtp.gmail.com&#39;</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
+<span class="mi">2</span> <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">'smtp.gmail.com'</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
 <span class="mi">3</span> <span class="n">s</span><span class="o">.</span><span class="n">starttls</span><span class="p">()</span>
-<span class="mi">4</span> <span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s2">&quot;SEU EMAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;SUA SENHA&quot;</span><span class="p">)</span>
+<span class="mi">4</span> <span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="s2">"SEU EMAIL"</span><span class="p">,</span> <span class="s2">"SUA SENHA"</span><span class="p">)</span>
 <span class="mi">5</span>
-<span class="mi">6</span> <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;MENSAGEM!&quot;</span>
-<span class="mi">7</span> <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s2">&quot;SEU EMAIL&quot;</span><span class="p">,</span> <span class="s2">&quot;EMAIL DESTINO&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+<span class="mi">6</span> <span class="n">msg</span> <span class="o">=</span> <span class="s2">"MENSAGEM!"</span>
+<span class="mi">7</span> <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s2">"SEU EMAIL"</span><span class="p">,</span> <span class="s2">"EMAIL DESTINO"</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 <span class="mi">8</span> <span class="n">s</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </code></pre></div>
-
 <p>Na linha 2, são os parâmetros para o servidor Gmail.
 Primeiro, a localização do servidor (ou endereço IP), então a porta a ser usada.</p>
 <p>Na linha 3, há uma função de segurança, necessária para se conectar ao servidor do Gmail.
@@ -172,24 +136,23 @@ o <strong><em>email.mime.multipart</em></strong> e o <strong><em>email.mime.text
 <span class="mi">3</span>  <span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
 <span class="mi">4</span>
 <span class="mi">5</span>
-<span class="mi">6</span>  <span class="n">fromaddr</span> <span class="o">=</span> <span class="s2">&quot;SEU ENDEREÇO&quot;</span>
-<span class="mi">7</span>  <span class="n">toaddr</span> <span class="o">=</span> <span class="s2">&quot;ENDEREÇO DE DESTINO&quot;</span>
+<span class="mi">6</span>  <span class="n">fromaddr</span> <span class="o">=</span> <span class="s2">"SEU ENDEREÇO"</span>
+<span class="mi">7</span>  <span class="n">toaddr</span> <span class="o">=</span> <span class="s2">"ENDEREÇO DE DESTINO"</span>
 <span class="mi">8</span>  <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
-<span class="mi">9</span>  <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;From&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fromaddr</span>
-<span class="mi">10</span> <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">toaddr</span>
-<span class="mi">11</span> <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ASSUNTO&quot;</span>
+<span class="mi">9</span>  <span class="n">msg</span><span class="p">[</span><span class="s1">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fromaddr</span>
+<span class="mi">10</span> <span class="n">msg</span><span class="p">[</span><span class="s1">'To'</span><span class="p">]</span> <span class="o">=</span> <span class="n">toaddr</span>
+<span class="mi">11</span> <span class="n">msg</span><span class="p">[</span><span class="s1">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ASSUNTO"</span>
 <span class="mi">12</span>
-<span class="mi">13</span> <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;SUA MENSAGEM AQUI&quot;</span>
-<span class="mi">14</span> <span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">&#39;plain&#39;</span><span class="p">))</span>
+<span class="mi">13</span> <span class="n">body</span> <span class="o">=</span> <span class="s2">"SUA MENSAGEM AQUI"</span>
+<span class="mi">14</span> <span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">'plain'</span><span class="p">))</span>
 <span class="mi">15</span>
-<span class="mi">16</span> <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">&#39;smtp.gmail.com&#39;</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
+<span class="mi">16</span> <span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">'smtp.gmail.com'</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
 <span class="mi">17</span> <span class="n">s</span><span class="o">.</span><span class="n">starttls</span><span class="p">()</span>
-<span class="mi">18</span> <span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="s2">&quot;SUA SENHA&quot;</span><span class="p">)</span>
+<span class="mi">18</span> <span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="s2">"SUA SENHA"</span><span class="p">)</span>
 <span class="mi">19</span> <span class="n">text</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
 <span class="mi">20</span> <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="n">toaddr</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 <span class="mi">21</span> <span class="n">s</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </code></pre></div>
-
 <p>Não esqueça de alterar as seguinte linhas:</p>
 <ul>
 <li>Linha 6 Com seu endereço de email</li>
@@ -209,37 +172,36 @@ Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.<
 <span class="kn">from</span> <span class="nn">email</span> <span class="kn">import</span> <span class="n">encoders</span>
 
 
-<span class="n">fromaddr</span> <span class="o">=</span> <span class="s2">&quot;SEU EMAIL&quot;</span>
-<span class="n">toaddr</span> <span class="o">=</span> <span class="s2">&quot;EMAIL DE DESTINO&quot;</span>
+<span class="n">fromaddr</span> <span class="o">=</span> <span class="s2">"SEU EMAIL"</span>
+<span class="n">toaddr</span> <span class="o">=</span> <span class="s2">"EMAIL DE DESTINO"</span>
 
 <span class="n">msg</span> <span class="o">=</span> <span class="n">MIMEMultipart</span><span class="p">()</span>
 
-<span class="n">msg</span><span class="p">[</span><span class="s1">&#39;From&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fromaddr</span>
-<span class="n">msg</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">toaddr</span>
-<span class="n">msg</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ASSUNTO DO EMAIL&quot;</span>
+<span class="n">msg</span><span class="p">[</span><span class="s1">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fromaddr</span>
+<span class="n">msg</span><span class="p">[</span><span class="s1">'To'</span><span class="p">]</span> <span class="o">=</span> <span class="n">toaddr</span>
+<span class="n">msg</span><span class="p">[</span><span class="s1">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ASSUNTO DO EMAIL"</span>
 
-<span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;TEXTO A SER ENVIADO&quot;</span>
+<span class="n">body</span> <span class="o">=</span> <span class="s2">"TEXTO A SER ENVIADO"</span>
 
-<span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">&#39;plain&#39;</span><span class="p">))</span>
+<span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">MIMEText</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">'plain'</span><span class="p">))</span>
 
-<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;NOME DO ARQUIVO OU EXTENSÃO&quot;</span>
-<span class="n">attachment</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;CAMINHO DO ARQUIVO&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">"NOME DO ARQUIVO OU EXTENSÃO"</span>
+<span class="n">attachment</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"CAMINHO DO ARQUIVO"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span>
 
-<span class="n">part</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="s1">&#39;application&#39;</span><span class="p">,</span> <span class="s1">&#39;octet-stream&#39;</span><span class="p">)</span>
+<span class="n">part</span> <span class="o">=</span> <span class="n">MIMEBase</span><span class="p">(</span><span class="s1">'application'</span><span class="p">,</span> <span class="s1">'octet-stream'</span><span class="p">)</span>
 <span class="n">part</span><span class="o">.</span><span class="n">set_payload</span><span class="p">((</span><span class="n">attachment</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 <span class="n">encoders</span><span class="o">.</span><span class="n">encode_base64</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
-<span class="n">part</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">,</span> <span class="s2">&quot;attachment; filename= </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+<span class="n">part</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">'Content-Disposition'</span><span class="p">,</span> <span class="s2">"attachment; filename= </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
 
 <span class="n">msg</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
 
-<span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">&#39;smtp.gmail.com&#39;</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">'smtp.gmail.com'</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
 <span class="n">s</span><span class="o">.</span><span class="n">starttls</span><span class="p">()</span>
-<span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="s2">&quot;SUA SENHA&quot;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="s2">"SUA SENHA"</span><span class="p">)</span>
 <span class="n">text</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">as_string</span><span class="p">()</span>
 <span class="n">s</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">fromaddr</span><span class="p">,</span> <span class="n">toaddr</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 <span class="n">s</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
 </code></pre></div>
-
 <p>Esta feito o script de envio de emails.</p>
 <p>Em breve publico o script de coleta de logs e do BOT para o telegram.</p>
 <p>Simples Assim 😆</p>
@@ -248,32 +210,33 @@ Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.<
 <p>– https://docs.python.org/3/library/email.mime.html</p>
 <p>– https://docs.python.org/3/library/email-examples.html</p>
 <p>– https://docs.python.org/3/library/email.html</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="../../tag/emails">emails</a>
-      <a href="../../tag/script">script</a>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="../../tag/emails">emails</a>
+<a href="../../tag/script">script</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Enviar%20emails%20com%20Python&amp;url=https%3A//blog.chcdc.com.br/posts/enviar-emails-com-python&amp;hashtags=emails,script" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/enviar-emails-com-python" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/enviar-emails-com-python&amp;title=Enviar%20emails%20com%20Python&amp;summary=Hoje%20me%20foi%20proposto%20um%20desafio%2C%20coletar%20logs%20de%20um%20servidor%20via%20Telegram%20e%20enviar%20por%20email.%0AAp%C3%B3s%20algumas%20horas%20em%20pesquisa%2C%20cheguei%20ao%20seguinte%20script%20que%20vou%20ensinar%20mais%20abaixo%2C%20primeiramente%20vamos%20fazer%0Ao%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/enviar-emails-com-python" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Enviar%20emails%20com%20Python&amp;body=https%3A//blog.chcdc.com.br/posts/enviar-emails-com-python" title="Share via Email">Email</a>
+      ❄
     </p>
-  </div>
-
-
-  <div class="neighbors">
-    <a class="btn float-left" href="../../posts/gerando-senhas-com-python" title="Gerando senhas com python">
-      <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="../../posts/copiando-arquivos-com-python" title="Copiando arquivos com Python">
-      Next Post <i class="fa fa-angle-right"></i>
-    </a>
-  </div>
-
-  <div class="related-posts">
-    <h4>You might enjoy</h4>
-    <ul class="related-posts">
-      <li><a href="../../posts/copiando-arquivos-com-python">Copiando arquivos com Python</a></li>
-    </ul>
-  </div>
-
-
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="../../posts/copiando-arquivos-com-python">Copiando arquivos com Python</a></li>
+</ul>
+</div>
 <!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -289,25 +252,16 @@ Fiz o codigo o mais simples possivel. Mas ainda vamos precisar de mais modulos.<
 </noscript>
 <!-- End Disqus -->
 </article>
-
-    <footer>
-<p>&copy; 2021 Carlos Carvalho</p>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
   Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-  <script id="dark-theme-script"
-          src="../../theme/dark-theme/dark-theme.min.js"
-          data-enable-auto-detect-theme="True"
-          data-default-theme="light"
-          type="text/javascript">
-  </script>
-</p>    </footer>
-  </main>
-
-
-
-
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="../../theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
 <script type="application/ld+json">
 {
   "@context" : "http://schema.org",
@@ -318,6 +272,5 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "description": "Yet Another Blog"
 }
 </script>
-
 </body>
 </html>

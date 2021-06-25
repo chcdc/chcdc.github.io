@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Carlos Carvalho - DevOps</title><link href="https://blog.chcdc.com.br/" rel="alternate"></link><link href="https://blog.chcdc.com.br/feeds/devops.atom" rel="self"></link><id>https://blog.chcdc.com.br/</id><updated>2021-06-22T22:27:45-02:00</updated><subtitle>Yet Another Blog</subtitle><entry><title>Git Básico</title><link href="https://blog.chcdc.com.br/posts/git-basico" rel="alternate"></link><published>2021-06-22T22:27:45-02:00</published><updated>2021-06-22T22:27:45-02:00</updated><author><name>Carlos Carvalho</name></author><id>tag:blog.chcdc.com.br,2021-06-22:/posts/git-basico</id><summary type="html">&lt;p&gt;Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos.&lt;/p&gt;
 &lt;p&gt;Os conceitos eu abordei &lt;a href="/posts/git-conceitos-e-historia/#os-tres-estados"&gt;aqui&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Para esse …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos.&lt;/p&gt;
+&lt;p&gt;Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos.&lt;/p&gt;
 &lt;p&gt;Os conceitos eu abordei &lt;a href="/posts/git-conceitos-e-historia/#os-tres-estados"&gt;aqui&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas Windows e MacOS.&lt;/p&gt;
 &lt;!-- PELICAN_END_SUMMARY --&gt;
@@ -158,7 +158,8 @@ Faça a edição no seu editor favorito.&lt;/p&gt;
 &lt;!-- PELICAN_END_SUMMARY --&gt;
 
 &lt;h3 id="historia"&gt;Historia&lt;/h3&gt;
-&lt;p&gt;O núcleo (kernel) do …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.&lt;/p&gt;
+&lt;p&gt;O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.&lt;/p&gt;
+&lt;p&gt;Em 2002, o …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.&lt;/p&gt;
 &lt;!-- PELICAN_END_SUMMARY --&gt;
 
 &lt;h3 id="historia"&gt;Historia&lt;/h3&gt;

@@ -1,41 +1,25 @@
 
 <!DOCTYPE html>
+
 <html lang="pt_br">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
-
-    <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark)"
-    href="../../theme/stylesheet/dark-theme.min.css">
-
-    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark)"
-          href="../../theme/pygments/monokai.min.css">
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-          href="../../theme/pygments/monokai.min.css">
-
-
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
-
-
-    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
-
-    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
-
-    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
 <!-- Google Analytics -->
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,98 +30,79 @@
   ga('create', 'UA-66134049-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->  
-
-
-<meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="Nesse post vou mostrar como migrar projetos do svn para o git. Vou partir do principio que já entende como …" />
-<meta name="keywords" content="svn, git">
-
-
-<meta property="og:site_name" content="Carlos Carvalho"/>
-<meta property="og:title" content="Migrando repositorios do SVN para o GIT"/>
-<meta property="og:description" content="Nesse post vou mostrar como migrar projetos do svn para o git. Vou partir do principio que já entende como …"/>
-<meta property="og:locale" content="pt_BR"/>
-<meta property="og:url" content="../../posts/migrando-repositorios-do-svn-para-o-git"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2019-12-14 19:12:45-03:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="../../author/">
-<meta property="article:section" content="Sysadmin"/>
-<meta property="article:tag" content="svn"/>
-<meta property="article:tag" content="git"/>
-<meta property="og:image" content="">
-
-  <title>Carlos Carvalho &ndash; Migrando repositorios do SVN para o GIT</title>
-
-</head>
-<body >
-  <aside>
-    <div>
-      <a href="../..">
-        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
-      </a>
-
-      <h1>
-        <a href="../..">Carlos Carvalho</a>
-      </h1>
-
+<!-- End Google Analytics -->
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Nesse post vou mostrar como migrar projetos do svn para o git. Vou partir do principio que já entende como o Subversion e o Git se comportam. Para tudo ocorrer como esperado, o nosso ambiente …" name="description"/>
+<meta content="svn, git" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Migrando repositorios do SVN para o GIT" property="og:title"/>
+<meta content="Nesse post vou mostrar como migrar projetos do svn para o git. Vou partir do principio que já entende como o Subversion e o Git se comportam. Para tudo ocorrer como esperado, o nosso ambiente …" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="../../posts/migrando-repositorios-do-svn-para-o-git" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2019-12-14 19:12:45-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="../../author/" property="article:author"/>
+<meta content="Sysadmin" property="article:section">
+<meta content="svn" property="article:tag"/>
+<meta content="git" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Migrando repositorios do SVN para o GIT</title>
+</meta></meta><link href="https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Migrando repositorios do svn para o git", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Migrando repositorios do SVN para o GIT", "about": "Sysadmin", "datePublished": "2019-12-14 19:12"}</script></head>
+<body>
+<aside>
+<div>
+<a href="../..">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href="../..">Carlos Carvalho</a>
+</h1>
 <p>Yet Another Blog</p>
-
-
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
-              <i class="fab fa-stack-overflow"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
-              <i class="fas fa-rss"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
-
-  </aside>
-  <main>
-
-    <nav>
-      <a href="../..">Home</a>
-
-      <a href="/archives.html">Archives</a>
-      <a href="/categories.html">Categories</a>
-      <a href="/tags.html">Tags</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
-    </nav>
-
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href="../..">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
 <article class="single">
-  <header>
-      
-    <h1 id="migrando-repositorios-do-svn-para-o-git">Migrando repositorios do SVN para o GIT</h1>
-    <p>
+<header>
+<h1 id="migrando-repositorios-do-svn-para-o-git">Migrando repositorios do SVN para o GIT</h1>
+<p>
       Posted on Sat 14 December 2019 in <a href="../../category/sysadmin">Sysadmin</a>
 
-        &#8226; 3 min read
+        • 3 min read
     </p>
-  </header>
-
-
-  <div>
-    <p>Nesse post vou mostrar como migrar projetos do svn para o git.</p>
+</header>
+<div>
+<p>Nesse post vou mostrar como migrar projetos do svn para o git.</p>
 <p>Vou partir do principio que já entende como o <a href="https://subversion.apache.org/">Subversion</a> e o <a href="https://git-scm.com/">Git</a> se comportam.</p>
 <p>Para tudo ocorrer como esperado, o nosso ambiente precisa estar seguinte forma:</p>
 <ul>
@@ -147,73 +112,65 @@
 <li>PATH configurado que inclua o cliente git,svn e git-svn</li>
 </ul>
 <!--more-->
-
 <p>Primeiramente vamos obter os autores do repositorio svn</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/
 $ svn log --no-auth-cache -q http://svn.yourcompany/svn/repos/sample-repo/ <span class="se">\ </span>
-<span class="p">|</span> awk -F <span class="s1">&#39;|&#39;</span> <span class="s1">&#39;/^r/ {sub(&quot;^ &quot;, &quot;&quot;, $2);</span>
-<span class="s1">        sub(&quot; $&quot;, &quot;&quot;, $2); print $2&quot; = &quot;$2&quot; &lt;&quot;$2&quot;&gt;&quot;}&#39;</span> <span class="se">\</span>
+<span class="p">|</span> awk -F <span class="s1">'|'</span> <span class="s1">'/^r/ {sub("^ ", "", $2);</span>
+<span class="s1">        sub(" $", "", $2); print $2" = "$2" &lt;"$2"&gt;"}'</span> <span class="se">\</span>
 <span class="p">|</span> sort -u &gt;authors-transform.txt
 </code></pre></div>
-
 <p>Agora vamos 'clonar' localmente o nosso repositorio, esse processo pode demorar horas dependendo do tamanho do repositorio. Aqui o --stdlayout indica que o repositório segue o modelo tradicional, com pastas trunk, tags e branches.</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/
 $ git svn --username &lt;usuario&gt; --password &lt;password&gt; <span class="se">\</span>
   clone http://svn.yourcompany/svn/repos/sample-repo/ <span class="se">\</span>
   --no-metadata -A authors-transform.txt --stdlayout
 </code></pre></div>
-
 <p>Após finalizar, vamos criar um repositorio git do tipo bare e vamos indicar que o branch atual é o trunk</p>
 <div class="highlight"><pre><span></span><code>$ mkdir -p ~/sample-repo.git
 $ <span class="nb">cd</span> ~/sample-repo.git
 $ git init --bare
 $ git symbolic-ref HEAD refs/heads/trunk
 </code></pre></div>
-
 <p>Agora temos um clone completo do repositório svn no diretório sample-repo, e um repositório git bare em sample-repo.git Vamos fazer um push do repositório svn clonado para o repositório git local. Configuramos tambem para que o push seja dos branches refs/remotes e dos refs/heads.</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/sample-repo
 $ git remote add bare ~/sample-repo.git
-$ git config remote.bare.push <span class="s1">&#39;refs/remotes/*:refs/heads/*&#39;</span>
+$ git config remote.bare.push <span class="s1">'refs/remotes/*:refs/heads/*'</span>
 $ git push bare
 </code></pre></div>
-
 <p>No final do passo anterior, o repositório svn será copiado para o git, mas precisaremos acertar algumas convenções git. Vamos renomear Trunk para *Master</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/sample-repo.git
 $ git branch -m trunk master
 </code></pre></div>
-
 <p>Precisaremos fazer uma limpeza de branches no git.</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/sample-repo.git
-$ git <span class="k">for</span>-each-ref --format<span class="o">=</span><span class="s1">&#39;%(refname)&#39;</span> refs/heads/origin/tags <span class="p">|</span>
+$ git <span class="k">for</span>-each-ref --format<span class="o">=</span><span class="s1">'%(refname)'</span> refs/heads/origin/tags <span class="p">|</span>
   cut -d / -f <span class="m">5</span> <span class="p">|</span>
   <span class="k">while</span> <span class="nb">read</span> ref
     <span class="k">do</span>
       <span class="nb">echo</span> <span class="nv">$ref</span>
-      <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-      git tag <span class="s2">&quot;</span><span class="nv">$ref</span><span class="s2">&quot;</span> <span class="s2">&quot;origin/tags/</span><span class="nv">$ref</span><span class="s2">&quot;</span><span class="p">;</span>
-      git branch -D <span class="s2">&quot;origin/tags/</span><span class="nv">$ref</span><span class="s2">&quot;</span><span class="p">;</span>
+      <span class="nb">echo</span> <span class="s2">""</span>
+      git tag <span class="s2">"</span><span class="nv">$ref</span><span class="s2">"</span> <span class="s2">"origin/tags/</span><span class="nv">$ref</span><span class="s2">"</span><span class="p">;</span>
+      git branch -D <span class="s2">"origin/tags/</span><span class="nv">$ref</span><span class="s2">"</span><span class="p">;</span>
     <span class="k">done</span>
 </code></pre></div>
-
 <p>E pra finalizar, vamos fazer o push para o servidor git da empresa</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">cd</span> ~/sample-repo.git
 $ git remote add origin https://username:password@gitserver/repo-sample
 $ git push -u origin --all
 $ git push -u origin --tags
 </code></pre></div>
-
 <p>Para facilitar o processo, criei um script para executar com maior facilidade.</p>
 <p>Ele se encontra abaixo e no meu <a href="https://github.com/chcdc/svntogit/blob/master/run-import.sh">Github</a></p>
 <p>Bons commits!! :)</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash </span>
 
-<span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="o">||</span> -z <span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span> <span class="o">]]</span> <span class="p">;</span><span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Argument Null. Exiting&quot;</span>
+<span class="k">if</span> <span class="o">[[</span> -z <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="o">||</span> -z <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span> <span class="o">]]</span> <span class="p">;</span><span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">"Argument Null. Exiting"</span>
     <span class="nb">exit</span> <span class="m">1</span>
 <span class="k">else</span>
     <span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> !<span class="o">=</span> http?<span class="o">(</span>s<span class="o">)</span>://svn/* <span class="o">||</span> <span class="nv">$2</span> !<span class="o">=</span> git@git* <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> -e <span class="s2">&quot;Invalid URL. Exiting&quot;</span>
-        <span class="nb">echo</span> -e <span class="s2">&quot;How to insert parameters:\n</span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span><span class="s2"> SVN GIT&quot;</span>
+        <span class="nb">echo</span> -e <span class="s2">"Invalid URL. Exiting"</span>
+        <span class="nb">echo</span> -e <span class="s2">"How to insert parameters:\n</span><span class="si">${</span><span class="nv">0</span><span class="p">##*/</span><span class="si">}</span><span class="s2"> SVN GIT"</span>
         <span class="nb">exit</span> <span class="m">1</span>
     <span class="k">else</span>
         <span class="nv">SVN</span><span class="o">=</span><span class="nv">$1</span>
@@ -221,42 +178,42 @@ $ git push -u origin --tags
     <span class="k">fi</span>
 <span class="k">fi</span>
 
-<span class="nb">alias</span> <span class="nv">svn</span><span class="o">=</span><span class="s2">&quot;svn --non-interactive --trust-server-cert&quot;</span>
+<span class="nb">alias</span> <span class="nv">svn</span><span class="o">=</span><span class="s2">"svn --non-interactive --trust-server-cert"</span>
 <span class="nv">PROJECT</span><span class="o">=</span><span class="si">${</span><span class="nv">SVN</span><span class="p">##*/</span><span class="si">}</span>
 
 <span class="k">function</span> create_dirs<span class="o">(){</span>
-    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Creating Directories </span><span class="nv">$PROJECT</span><span class="s2">&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"Creating Directories </span><span class="nv">$PROJECT</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"---------------------------------------------"</span>
     <span class="k">if</span> <span class="o">[</span> -d ~/<span class="nv">$PROJECT</span>.git <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> -e <span class="s2">&quot;Removing old directories | </span><span class="nv">$PROJECT</span><span class="s2">.git&quot;</span>
+        <span class="nb">echo</span> -e <span class="s2">"Removing old directories | </span><span class="nv">$PROJECT</span><span class="s2">.git"</span>
         rm -rf ~/<span class="nv">$PROJECT</span>.git
     <span class="k">fi</span>
     <span class="k">if</span> <span class="o">[</span> -d ~/repo-<span class="nv">$PROJECT</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> -e <span class="s2">&quot;Removing old directories  | repo-</span><span class="nv">$PROJECT</span><span class="s2">&quot;</span>
+        <span class="nb">echo</span> -e <span class="s2">"Removing old directories  | repo-</span><span class="nv">$PROJECT</span><span class="s2">"</span>
         rm -rf ~/repo-<span class="nv">$PROJECT</span>
     <span class="k">fi</span>
     mkdir -p ~/repo-<span class="nv">$PROJECT</span>
     mkdir -p ~/<span class="nv">$PROJECT</span>.git
     <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> <span class="s2">&quot;Directories created&quot;</span>
+        <span class="nb">echo</span> <span class="s2">"Directories created"</span>
         clone_repo_svn
     <span class="k">fi</span>
 <span class="o">}</span>
 
 <span class="k">function</span> clone_repo_svn<span class="o">(){</span>
     <span class="nb">cd</span> ~/repo-<span class="nv">$PROJECT</span>
-    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Cloning repositories SVN - </span><span class="nv">$SVN</span><span class="s2">&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"Cloning repositories SVN - </span><span class="nv">$SVN</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"---------------------------------------------"</span>
     svn log --no-auth-cache -q <span class="nv">$SVN</span> <span class="se">\ </span>
-        <span class="p">|</span> awk -F <span class="s1">&#39;|&#39;</span> <span class="s1">&#39;/^r/ {sub(&quot;^ &quot;, &quot;&quot;, $2); \</span>
-<span class="s1">                sub(&quot; $&quot;, &quot;&quot;, $2); print $2&quot; = &quot;$2&quot; &lt;&quot;$2&quot;&gt;&quot;}&#39;</span> <span class="se">\</span>
+        <span class="p">|</span> awk -F <span class="s1">'|'</span> <span class="s1">'/^r/ {sub("^ ", "", $2); \</span>
+<span class="s1">                sub(" $", "", $2); print $2" = "$2" &lt;"$2"&gt;"}'</span> <span class="se">\</span>
         <span class="p">|</span> sort -u &gt;authors-transform.txt
-    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
     <span class="nb">time</span> git svn clone <span class="nv">$SVN</span> --no-metadata -A authors-transform.txt --stdlayout 
     <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        <span class="nb">echo</span> -e <span class="s2">&quot;Error cloning repositories\n&quot;</span>
+        <span class="nb">echo</span> -e <span class="s2">"Error cloning repositories\n"</span>
         <span class="nb">exit</span> <span class="m">1</span>
     <span class="k">else</span>
         git_config
@@ -265,34 +222,34 @@ $ git push -u origin --tags
 
 
 <span class="k">function</span> git_config<span class="o">(){</span>
-    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Convert to GIT - </span><span class="nv">$PROJECT</span><span class="s2">&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"Convert to GIT - </span><span class="nv">$PROJECT</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"---------------------------------------------"</span>
     <span class="nb">cd</span> ~/<span class="nv">$PROJECT</span>.git
     git init --bare
     git symbolic-ref HEAD refs/heads/trunk
     <span class="nb">cd</span> ~/repo-<span class="nv">$PROJECT</span>/<span class="nv">$PROJECT</span>
     git remote add bare ~/<span class="nv">$PROJECT</span>.git/
-    git config remote.bare.push <span class="s1">&#39;refs/remotes/*:refs/heads/*&#39;</span>
+    git config remote.bare.push <span class="s1">'refs/remotes/*:refs/heads/*'</span>
     git push bare
     <span class="nb">cd</span> ~/<span class="nv">$PROJECT</span>.git/
     git branch -m origin/trunk master
-    git <span class="k">for</span>-each-ref --format<span class="o">=</span><span class="s1">&#39;%(refname)&#39;</span> refs/heads/origin/tags <span class="p">|</span> 
+    git <span class="k">for</span>-each-ref --format<span class="o">=</span><span class="s1">'%(refname)'</span> refs/heads/origin/tags <span class="p">|</span> 
     cut -d / -f <span class="m">5</span> <span class="p">|</span>
     <span class="k">while</span> <span class="nb">read</span> ref
     <span class="k">do</span>
       <span class="nb">echo</span> <span class="nv">$ref</span>
-      <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-      git tag <span class="s2">&quot;</span><span class="nv">$ref</span><span class="s2">&quot;</span> <span class="s2">&quot;origin/tags/</span><span class="nv">$ref</span><span class="s2">&quot;</span><span class="p">;</span>
-      git branch -D <span class="s2">&quot;origin/tags/</span><span class="nv">$ref</span><span class="s2">&quot;</span><span class="p">;</span>
+      <span class="nb">echo</span> <span class="s2">""</span>
+      git tag <span class="s2">"</span><span class="nv">$ref</span><span class="s2">"</span> <span class="s2">"origin/tags/</span><span class="nv">$ref</span><span class="s2">"</span><span class="p">;</span>
+      git branch -D <span class="s2">"origin/tags/</span><span class="nv">$ref</span><span class="s2">"</span><span class="p">;</span>
     <span class="k">done</span>
     git_pull
 <span class="o">}</span>
 
 <span class="k">function</span> git_pull<span class="o">(){</span>
-    <span class="nb">echo</span> <span class="s2">&quot;&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Push GIT - </span><span class="nv">$REPO_GIT</span><span class="s2">&quot;</span>
-    <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"Push GIT - </span><span class="nv">$REPO_GIT</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"---------------------------------------------"</span>
     <span class="nb">cd</span> ~/<span class="nv">$PROJECT</span>.git
     git remote add origin <span class="nv">$REPO_GIT</span>
     git push -u origin --all
@@ -305,33 +262,34 @@ $ git push -u origin --tags
 
 main
 </code></pre></div>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="../../tag/svn">svn</a>
-      <a href="../../tag/git">git</a>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="../../tag/svn">svn</a>
+<a href="../../tag/git">git</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Migrando%20repositorios%20do%20SVN%20para%20o%20GIT&amp;url=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git&amp;hashtags=svn,git" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git&amp;title=Migrando%20repositorios%20do%20SVN%20para%20o%20GIT&amp;summary=Nesse%20post%20vou%20mostrar%20como%20migrar%20projetos%20do%20svn%20para%20o%20git.%0AVou%20partir%20do%20principio%20que%20j%C3%A1%20entende%20como%20o%20Subversion%20e%20o%20Git%20se%20comportam.%0APara%20tudo%20ocorrer%20como%20esperado%2C%20o%20nosso%20ambiente%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Migrando%20repositorios%20do%20SVN%20para%20o%20GIT&amp;body=https%3A//blog.chcdc.com.br/posts/migrando-repositorios-do-svn-para-o-git" title="Share via Email">Email</a>
+      ❄
     </p>
-  </div>
-
-
-  <div class="neighbors">
-    <a class="btn float-left" href="../../posts/openvpn" title="OpenVPN">
-      <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="../../posts/git-conceitos-e-historia" title="Git Conceitos e História">
-      Next Post <i class="fa fa-angle-right"></i>
-    </a>
-  </div>
-
-  <div class="related-posts">
-    <h4>You might enjoy</h4>
-    <ul class="related-posts">
-      <li><a href="../../posts/git-basico">Git Básico</a></li>
-      <li><a href="../../posts/git-conceitos-e-historia">Git Conceitos e História</a></li>
-    </ul>
-  </div>
-
-
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="../../posts/git-basico">Git Básico</a></li>
+<li><a href="../../posts/git-conceitos-e-historia">Git Conceitos e História</a></li>
+</ul>
+</div>
 <!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -347,25 +305,16 @@ main
 </noscript>
 <!-- End Disqus -->
 </article>
-
-    <footer>
-<p>&copy; 2021 Carlos Carvalho</p>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
   Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-  <script id="dark-theme-script"
-          src="../../theme/dark-theme/dark-theme.min.js"
-          data-enable-auto-detect-theme="True"
-          data-default-theme="light"
-          type="text/javascript">
-  </script>
-</p>    </footer>
-  </main>
-
-
-
-
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="../../theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
 <script type="application/ld+json">
 {
   "@context" : "http://schema.org",
@@ -376,6 +325,5 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "description": "Yet Another Blog"
 }
 </script>
-
 </body>
 </html>

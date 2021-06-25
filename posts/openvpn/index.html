@@ -1,41 +1,25 @@
 
 <!DOCTYPE html>
+
 <html lang="pt_br">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
-
-    <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark)"
-    href="../../theme/stylesheet/dark-theme.min.css">
-
-    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark)"
-          href="../../theme/pygments/monokai.min.css">
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-          href="../../theme/pygments/monokai.min.css">
-
-
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
-
-
-    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
-
-    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
-
-    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
 <!-- Google Analytics -->
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,157 +30,127 @@
   ga('create', 'UA-66134049-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->  
-
-
-<meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura …" />
-<meta name="keywords" content="sysadmin, VPN, Linux">
-
-
-<meta property="og:site_name" content="Carlos Carvalho"/>
-<meta property="og:title" content="OpenVPN"/>
-<meta property="og:description" content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura …"/>
-<meta property="og:locale" content="pt_BR"/>
-<meta property="og:url" content="../../posts/openvpn"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2019-05-20 00:00:00-03:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="../../author/">
-<meta property="article:section" content="Network"/>
-<meta property="article:tag" content="sysadmin"/>
-<meta property="article:tag" content="VPN"/>
-<meta property="article:tag" content="Linux"/>
-<meta property="og:image" content="">
-
-  <title>Carlos Carvalho &ndash; OpenVPN</title>
-
-</head>
-<body >
-  <aside>
-    <div>
-      <a href="../..">
-        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
-      </a>
-
-      <h1>
-        <a href="../..">Carlos Carvalho</a>
-      </h1>
-
+<!-- End Google Analytics -->
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública. Vamos instalar e configurar o OpenVPN em um servidor CentOS 7 …" name="description"/>
+<meta content="sysadmin, VPN, Linux" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="OpenVPN" property="og:title"/>
+<meta content="OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública. Vamos instalar e configurar o OpenVPN em um servidor CentOS 7 …" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="../../posts/openvpn" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2019-05-20 00:00:00-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="../../author/" property="article:author"/>
+<meta content="Network" property="article:section">
+<meta content="sysadmin" property="article:tag"/>
+<meta content="VPN" property="article:tag"/>
+<meta content="Linux" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – OpenVPN</title>
+</meta></meta><link href="https://blog.chcdc.com.br/posts/openvpn" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Openvpn", "item": "https://blog.chcdc.com.br/posts/openvpn"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/openvpn/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "OpenVPN", "about": "Network", "datePublished": "2019-05-20 00:00"}</script></head>
+<body>
+<aside>
+<div>
+<a href="../..">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href="../..">Carlos Carvalho</a>
+</h1>
 <p>Yet Another Blog</p>
-
-
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
-              <i class="fab fa-stack-overflow"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
-              <i class="fas fa-rss"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
-
-  </aside>
-  <main>
-
-    <nav>
-      <a href="../..">Home</a>
-
-      <a href="/archives.html">Archives</a>
-      <a href="/categories.html">Categories</a>
-      <a href="/tags.html">Tags</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
-    </nav>
-
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href="../..">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
 <article class="single">
-  <header>
-      
-    <h1 id="openvpn">OpenVPN</h1>
-    <p>
+<header>
+<h1 id="openvpn">OpenVPN</h1>
+<p>
       Posted on Mon 20 May 2019 in <a href="../../category/network">Network</a>
 
-        &#8226; 7 min read
+        • 7 min read
     </p>
-  </header>
-
-
-  <div>
-    <p>OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.</p>
+</header>
+<div>
+<p>OpenVPN é uma aplicação VPN de código aberto que permite criar e participar de uma rede privada de forma segura através da Internet pública.</p>
 <p>Vamos instalar e configurar o OpenVPN em um servidor CentOS 7.</p>
 <p>Levando em consideração que o servidor Linux baseado na distribuição CentOS 7 esteja devidamente instalado e com a rede configurada, vamos iniciar a instalação.</p>
 <!--more-->
 <h3 id="configurando-o-sistema">Configurando o sistema</h3>
 <p>Desabilite o SELinux</p>
-<div class="highlight"><pre><span></span><code><span class="gp"># </span>sed -i <span class="s1">&#39;s/^SELINUX=.*/SELINUX=disabled/g&#39;</span> /etc/sysconfig/selinux <span class="o">&amp;&amp;</span> cat /etc/sysconfig/selinux 
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>sed -i <span class="s1">'s/^SELINUX=.*/SELINUX=disabled/g'</span> /etc/sysconfig/selinux <span class="o">&amp;&amp;</span> cat /etc/sysconfig/selinux 
 </code></pre></div>
-
 <p>Desabilite o firewalld</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>systemctl stop firewalld
 <span class="gp"># </span>systemctl disable firewalld
 </code></pre></div>
-
 <p>Após as alterações reinicie o sistema para aplicar a configuração</p>
 <p>Ajuste o kernel para habilitar o modo de roteamento:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span><span class="nb">echo</span> net.ipv4.ip_forward <span class="o">=</span> <span class="m">1</span> &gt;&gt; /etc/sysctl.conf
 <span class="gp"># </span>sysctl -p
 </code></pre></div>
-
 <p>Atualize o sistema operacional</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>yum upgrade -y
 </code></pre></div>
-
 <h3 id="instalando-openvpn">Instalando OpenVPN</h3>
 <p>O repositório Extra Packages for Enterprise Linux (EPEL) é um repositório adicional gerenciado pelo Projeto Fedora contendo pacotes não padrão, mas populares. O OpenVPN não está disponível nos repositórios padrão do CentOS, mas está disponível no EPEL, então instale o EPEL:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>yum install epel-release -y <span class="o">&amp;&amp;</span> yum update -y
 </code></pre></div>
-
 <p>Próximo passo é instalar os pacotes necessários</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>yum install openvpn vim -y
 </code></pre></div>
-
 <p>Usando o curl, faça o download do Easy RSA. 
 Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para esta versão. </p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>curl -L https://github.com/OpenVPN/easy-rsa-old/archive/2.3.3.tar.gz -o /tmp/easyrsa.tar.gz
 </code></pre></div>
-
 <p>Extraia o pacote e crie o diretório em /etc/openvpn/</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>tar xfz /tmp/easyrsa.tar.gz
 <span class="gp"># </span>sudo mkdir /etc/openvpn/easy-rsa 
 <span class="gp"># </span>sudo mkdir /etc/openvpn/keys
 </code></pre></div>
-
 <p>Copie a estrutura do diretório easy-rsa para o diretório /etc/openvpn/easy-rsa para facilitar a administração:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>sudo cp -rfv easy-rsa-old-2.3.3/easy-rsa/2.0/* /etc/openvpn/easy-rsa/
 </code></pre></div>
-
 <p>Altere o diretório para um usuário não root</p>
-<div class="highlight"><pre><span></span><code><span class="gp"># </span>chown <span class="s2">&quot;user&quot;</span> /etc/openvpn/easy-rsa/
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>chown <span class="s2">"user"</span> /etc/openvpn/easy-rsa/
 </code></pre></div>
-
 <p>Depois que esses programas forem instalados e tiverem sido movidos para os locais corretos em seu sistema, a próxima etapa é personalizar a configuração do lado do servidor do OpenVPN.</p>
 <h3 id="configurando-openvpn">Configurando OpenVPN</h3>
 <p>Temos muitas formas de configurar o OpenVPN, neste documento vamos fazer a forma mais comum de conexão.</p>
 <p>Crie o arquivo de configuração</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>vim /etc/openvpn/server.conf
 </code></pre></div>
-
 <p>Vamos a Configuração</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>IP <span class="k">do</span> servidor VPN
 <span class="go">local xxx.xxx.xxx.xxx</span>
@@ -233,8 +187,8 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 <span class="go">client-config-dir /etc/openvpn/ccd/</span>
 
 <span class="gp"># </span>Configuração para setar o DNS dos clientes, no exemplo abaixo estamos utilizando o opendns.com
-<span class="go">push &quot;dhcp-option DNS 208.67.222.222&quot;</span>
-<span class="go">push &quot;dhcp-option DNS 208.67.220.220&quot;</span>
+<span class="go">push "dhcp-option DNS 208.67.222.222"</span>
+<span class="go">push "dhcp-option DNS 208.67.220.220"</span>
 
 <span class="gp"># </span>Envia um “ping” de um lado para o outro, 
 <span class="gp"># </span>de modo que cada lado saiba quando o outro lado ficou inativo.
@@ -266,118 +220,97 @@ Recomendo o uso do easy-rsa-2, pois há mais documentação disponível para est
 <span class="gp"># </span>Notificar o cliente que quando o servidor <span class="k">for</span> reiniciado pode reconectar-se automaticamente.
 <span class="go">explicit-exit-notify 1</span>
 </code></pre></div>
-
 <h3 id="gerando-chaves-e-certificados-servidor">Gerando Chaves e certificados Servidor</h3>
 <p>Começaremos nosso processo de geração de chaves e certificados criando um diretório no qual o Easy RSA armazenará todas as chaves e certificados gerados:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>mkdir /etc/openvpn/easy-rsa/keys
 </code></pre></div>
-
 <p>Vamos editar as variáveis padrões que ficam no arquivo <strong>vars</strong> em <strong>/etc/openvpn/easy-rsa/</strong> :</p>
 <p>Vá até o final do arquivo e altere os valores abaixo</p>
-<p>KEY_NAME: O nome do servidor, o mesmo utilizado para a criação das chaves "server.key" e "server.crt"<br />
-export KEY_COUNTRY="BR"<br />
-export KEY_PROVINCE="PR"<br />
-export KEY_CITY="Maringa"<br />
-export KEY_ORG="Empresa"<br />
-export KEY_EMAIL="vpn@company.com.br"<br />
-export KEY_CN=openvpn<br />
-export KEY_NAME="server"<br />
-export KEY_OU="Infraestrutura"<br /></p>
+<p>KEY_NAME: O nome do servidor, o mesmo utilizado para a criação das chaves "server.key" e "server.crt"<br/>
+export KEY_COUNTRY="BR"<br/>
+export KEY_PROVINCE="PR"<br/>
+export KEY_CITY="Maringa"<br/>
+export KEY_ORG="Empresa"<br/>
+export KEY_EMAIL="vpn@company.com.br"<br/>
+export KEY_CN=openvpn<br/>
+export KEY_NAME="server"<br/>
+export KEY_OU="Infraestrutura"<br/></p>
 <p>Salve e feche o arquivo</p>
 <p>Para começar a gerar as chaves e os certificados, vá para o diretório easy-rsa e carregue as variáveis declaradas no arquivo vars na memória:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span><span class="nb">cd</span> /etc/openvpn/easy-rsa
 <span class="gp"># </span><span class="nb">source</span> ./vars
 </code></pre></div>
-
 <p>Execute o script clean-all do Easy RSA para remover todas as chaves e certificados já existentes na pasta e gerar a autoridade de certificação:</p>
 <p><strong>LEMBRE-SE: esse comando remove todas as chaves e certificados já criados. Não o execute em produção</strong></p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>./clean-all
 </code></pre></div>
-
 <p>Este script gera um arquivo chamado ca.key. Essa é a chave privada usada para assinar seu servidor e os certificados dos clientes. Se estiver perdido, você não poderá mais confiar em nenhum certificado dessa autoridade de certificação e, se alguém conseguir acessar esse arquivo, poderá assinar novos certificados e acessar sua VPN sem o seu conhecimento. 
 Por esse motivo, o OpenVPN recomenda armazenar o ca.key em um local que possa estar offline o máximo possível e só deve ser ativado ao criar novos certificados.</p>
 <p>Em seguida, construa a autoridade de certificação com o script build-ca. Você será solicitado a inserir valores para os campos de certificado, mas se você definir as variáveis no arquivo vars anteriormente, todas as suas opções já estarão definidas como padrões. Você pode pressionar ENTER para aceitar os padrões de cada um:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>./build-ca
 </code></pre></div>
-
 <p>Gere a chave de criptografia estática com o seguinte comando:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>openvpn --genkey --secret /etc/openvpn/keys/vpn_server.tlsauth
 </code></pre></div>
-
 <p>Em seguida, crie uma chave e um certificado para o servidor usando o script build-key-server:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>./build-key-server server
 </code></pre></div>
-
 <p>Assim como na criação da autoridade de certificação, você verá os valores que definiu como padrão para poder pressionar ENTER nesses prompts. Além disso, você será solicitado a inserir uma senha de desafio e um nome de empresa opcional. Se você digitar uma senha de desafio, você será solicitado a se conectar à VPN do seu cliente. Se você não quiser definir uma senha de desafio, deixe esta linha em branco e pressione ENTER. No final, insira Y para confirmar as alterações.</p>
 <p>A última parte da criação das chaves e dos certificados do servidor está gerando um arquivo de troca de chaves Diffie-Hellman. Use o script build-dh para fazer isso. Isso pode levar alguns minutos para ser concluído</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>./build-dh
 </code></pre></div>
-
 <p>Quando o servidor terminar de gerar o arquivo de troca de chaves, copie as chaves do servidor e os certificados do diretório keys no diretório openvpn:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span><span class="nb">cd</span> /etc/openvpn/easy-rsa/keys/
 <span class="gp"># </span>sudo cp dh2048.pem ca.crt server.crt server.key /etc/openvpn/keys
 </code></pre></div>
-
 <h3 id="gerando-chaves-e-certificados-cliente">Gerando Chaves e certificados Cliente</h3>
 <p>Cada cliente também precisará de um certificado para que o servidor OpenVPN possa autenticá-lo. Essas chaves e certificados serão criados no servidor e você terá que copiá-los para seus clientes. É aconselhável gerar chaves e certificados separados para cada cliente que você pretende conectar à sua VPN.</p>
 <p>Crie um certificado de cliente teste. Não crie um certificado para ser utilizado futuramente, pois o mesmo será utilizado para criar o arquivo de revogação de certificados e será invalidado logo em seguida. Preste atenção em alterar o endereço de email para cada certificado novo:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span><span class="nb">cd</span> /etc/openvpn/easy-rsa/
 <span class="gp"># </span>./build-key cert-test
 </code></pre></div>
-
 <p>Revogue o certificado teste, criado anteriormente, para gerar o arquivo crl.pem, que será responsável por controlar os certificados revogados.</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>./revoke-full cert-teste
 </code></pre></div>
-
 <p>Sempre que um certificado for revogado, o arquivo crl.pem deverá ser copiado para a raiz do servidor OpenVPN para que o mesmo possa ser lido:</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>cp /etc/openvpn/rsa/keys/crl.pem /etc/openvpn
 </code></pre></div>
-
 <p>Agora vamos criar o certificado, como vamos apenas criar esse, vamos nomeá-lo de client , mas você pode alterar isso para um nome mais descritivo se quiser:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span> /etc/openvpn/easy-rsa/
 <span class="gp">$ </span>./build-key client
 </code></pre></div>
-
 <p>Copie o arquivo de configuração do OpenSSL com versão, openssl-1.0.0.cnf, para um nome sem versão, openssl.cnf. Não fazer isso pode resultar em um erro em que o OpenSSL não consegue carregar a configuração porque não pode detectar sua versão</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>cp /etc/openvpn/easy-rsa/openssl-1.0.0.cnf /etc/openvpn/easy-rsa/openssl.cnf
 </code></pre></div>
-
 <h3 id="iniciando-openvpn">Iniciando OpenVPN</h3>
 <p>Vamos configurar o OpenVPN para iniciar na inicialização. Para fazer isso, ative o servidor OpenVPN adicionando-o ao systemctl</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>sudo systemctl -f <span class="nb">enable</span> openvpn@server.service
 </code></pre></div>
-
 <p>Inicie o serviço</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>sudo systemctl start openvpn@server.service
 </code></pre></div>
-
 <p>Verifique se não houve erros durante a inicialização do serviço. Caso tenha erros, verifique o arquivo de log /var/log/openvpn.log</p>
 <h3 id="criando-rotas-estaticas">Criando rotas estaticas</h3>
 <p>Vamos criar para cada cliente uma configuração de rede individual</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>mkdir /etc/openvpn/ccd
 </code></pre></div>
-
 <p>Dentro do diretório, crie um arquivo com o nome exatamente igual ao que foi gerado o certificado, no nosso caso é client</p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>touch /etc/openvpn/ccd/client
 </code></pre></div>
-
 <p>Vamos inserir as informações necessárias.</p>
 <p>[Optional]
 Caso deseja que cada cliente tenha um endereço setado manualmente, insira no inicio do arquivo</p>
 <div class="highlight"><pre><span></span><code><span class="go">ifconfig-push 10.1.1.1 255.255.255.0 </span>
 </code></pre></div>
-
 <p>[/optional]</p>
 <p>Insira as rotas da rede local e a rede openvpn, caso deseja que ele acesse a mesma</p>
-<div class="highlight"><pre><span></span><code><span class="go">push &quot;route 10.1.1.0 255.255.255.0&quot;</span>
-<span class="go">push &quot;route 10.42.12.0 255.255.254.0&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="go">push "route 10.1.1.0 255.255.255.0"</span>
+<span class="go">push "route 10.42.12.0 255.255.254.0"</span>
 </code></pre></div>
-
 <p>Insira as rotas desejadas, sempre comentando o destino </p>
 <div class="highlight"><pre><span></span><code><span class="gp"># </span>Algum lugar <span class="k">do</span> mundo
-<span class="go">push &quot;route 200.200.200.1 255.255.255.0&quot;</span>
+<span class="go">push "route 200.200.200.1 255.255.255.0"</span>
 </code></pre></div>
-
 <h3 id="configurando-o-firewall">Configurando o Firewall</h3>
 <p>Para que o servidor faça os redirecionamentos necessários e aceite conexões precisamos setar isso no iptables</p>
 <p>Execute os seguintes comandos</p>
@@ -396,7 +329,6 @@ Caso deseja que cada cliente tenha um endereço setado manualmente, insira no in
 <span class="gp"># </span>iptables -I FORWARD -i tun+ -j ACCEPT
 <span class="gp"># </span>iptables -I FORWARD -o tun+ -j ACCEPT
 </code></pre></div>
-
 <h3 id="configurando-o-cliente">Configurando o Cliente</h3>
 <p>Os certificados e chave que serão inseridos no final do arquivo se encontram em /etc/openvpn/easy-rsa/keys/
 Sendo eles
@@ -440,41 +372,41 @@ Sendo eles
 <span class="go">-----END RSA PRIVATE KEY-----</span>
 <span class="go">&lt;/key&gt;</span>
 </code></pre></div>
-
 <p>Copie o arquivo para sua máquina local, pode utilizar sftp ou scp. </p>
 <p>Após seguir esses passos, sua vpn deverá estar já criada e acessível. Realize os testes de acesso, sempre verificando os logs.</p>
 <p>Simples Assim 😆</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="../../tag/sysadmin">sysadmin</a>
-      <a href="../../tag/vpn">VPN</a>
-      <a href="../../tag/linux">Linux</a>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="../../tag/sysadmin">sysadmin</a>
+<a href="../../tag/vpn">VPN</a>
+<a href="../../tag/linux">Linux</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=OpenVPN&amp;url=https%3A//blog.chcdc.com.br/posts/openvpn&amp;hashtags=sysadmin,vpn,linux" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/openvpn" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/openvpn&amp;title=OpenVPN&amp;summary=OpenVPN%20%C3%A9%20uma%20aplica%C3%A7%C3%A3o%20VPN%20de%20c%C3%B3digo%20aberto%20que%20permite%20criar%20e%20participar%20de%20uma%20rede%20privada%20de%20forma%20segura%20atrav%C3%A9s%20da%20Internet%20p%C3%BAblica.%0AVamos%20instalar%20e%20configurar%20o%20OpenVPN%20em%20um%20servidor%20CentOS%207%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/openvpn" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=OpenVPN&amp;body=https%3A//blog.chcdc.com.br/posts/openvpn" title="Share via Email">Email</a>
+      ❄
     </p>
-  </div>
-
-
-  <div class="neighbors">
-    <a class="btn float-left" href="../../posts/dicas-iptables" title="Dicas IPTables">
-      <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="../../posts/migrando-repositorios-do-svn-para-o-git" title="Migrando repositorios do SVN para o GIT">
-      Next Post <i class="fa fa-angle-right"></i>
-    </a>
-  </div>
-
-  <div class="related-posts">
-    <h4>You might enjoy</h4>
-    <ul class="related-posts">
-      <li><a href="../../posts/dicas-iptables">Dicas IPTables</a></li>
-      <li><a href="../../posts/permissoes-no-linux">Permissoes no Linux</a></li>
-      <li><a href="../../posts/registro-de-acesso">Registro de acesso</a></li>
-      <li><a href="../../posts/removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</a></li>
-      <li><a href="../../posts/ipsec-strongswan">IPSec StrongSwan</a></li>
-    </ul>
-  </div>
-
-
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="../../posts/dicas-iptables">Dicas IPTables</a></li>
+<li><a href="../../posts/permissoes-no-linux">Permissoes no Linux</a></li>
+<li><a href="../../posts/registro-de-acesso">Registro de acesso</a></li>
+<li><a href="../../posts/removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</a></li>
+<li><a href="../../posts/ipsec-strongswan">IPSec StrongSwan</a></li>
+</ul>
+</div>
 <!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -490,25 +422,16 @@ Sendo eles
 </noscript>
 <!-- End Disqus -->
 </article>
-
-    <footer>
-<p>&copy; 2021 Carlos Carvalho</p>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
   Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-  <script id="dark-theme-script"
-          src="../../theme/dark-theme/dark-theme.min.js"
-          data-enable-auto-detect-theme="True"
-          data-default-theme="light"
-          type="text/javascript">
-  </script>
-</p>    </footer>
-  </main>
-
-
-
-
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="../../theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
 <script type="application/ld+json">
 {
   "@context" : "http://schema.org",
@@ -519,6 +442,5 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "description": "Yet Another Blog"
 }
 </script>
-
 </body>
 </html>

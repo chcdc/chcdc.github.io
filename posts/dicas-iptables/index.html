@@ -1,41 +1,25 @@
 
 <!DOCTYPE html>
+
 <html lang="pt_br">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow" />
-
-  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="../../theme/stylesheet/style.min.css">
-
-    <link id="dark-theme-style" rel="stylesheet" type="text/css"
-          media="(prefers-color-scheme: dark)"
-    href="../../theme/stylesheet/dark-theme.min.css">
-
-    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: dark)"
-          href="../../theme/pygments/monokai.min.css">
-    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
-              media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
-          href="../../theme/pygments/monokai.min.css">
-
-
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/fontawesome.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/brands.css">
-  <link rel="stylesheet" type="text/css" href="../../theme/font-awesome/css/solid.css">
-
-
-    <link href="https://blog.chcdc.com.br/feeds.atom" type="application/atom+xml" rel="alternate" title="Carlos Carvalho Atom">
-
-    <link href="https://blog.chcdc.com.br/feeds.rss" type="application/rss+xml" rel="alternate" title="Carlos Carvalho RSS">
-
-    <link rel="shortcut icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="https://blog.chcdc.com.br/extra/favicon.ico" type="image/x-icon">
-
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="../../theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="../../theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
 <!-- Google Analytics -->
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,98 +30,79 @@
   ga('create', 'UA-66134049-1', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- End Google Analytics -->  
-
-
-<meta name="author" content="Carlos Carvalho" />
-<meta name="description" content="Existem 3 tabelas gerenciáveis no IPTables: FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias …" />
-<meta name="keywords" content="Network, Sysadmin">
-
-
-<meta property="og:site_name" content="Carlos Carvalho"/>
-<meta property="og:title" content="Dicas IPTables"/>
-<meta property="og:description" content="Existem 3 tabelas gerenciáveis no IPTables: FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias …"/>
-<meta property="og:locale" content="pt_BR"/>
-<meta property="og:url" content="../../posts/dicas-iptables"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-12-16 19:00:45-02:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="../../author/">
-<meta property="article:section" content="Linux"/>
-<meta property="article:tag" content="Network"/>
-<meta property="article:tag" content="Sysadmin"/>
-<meta property="og:image" content="">
-
-  <title>Carlos Carvalho &ndash; Dicas IPTables</title>
-
-</head>
-<body >
-  <aside>
-    <div>
-      <a href="../..">
-        <img src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" alt="Carlos Carvalho" title="Carlos Carvalho">
-      </a>
-
-      <h1>
-        <a href="../..">Carlos Carvalho</a>
-      </h1>
-
+<!-- End Google Analytics -->
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Existem 3 tabelas gerenciáveis no IPTables: FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras: INPUT - pacotes destinados a sockets locais FORWARD - pacotes encaminhados (roteados) através …" name="description"/>
+<meta content="Network, Sysadmin" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Dicas IPTables" property="og:title"/>
+<meta content="Existem 3 tabelas gerenciáveis no IPTables: FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras: INPUT - pacotes destinados a sockets locais FORWARD - pacotes encaminhados (roteados) através …" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="../../posts/dicas-iptables" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2018-12-16 19:00:45-02:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="../../author/" property="article:author"/>
+<meta content="Linux" property="article:section">
+<meta content="Network" property="article:tag"/>
+<meta content="Sysadmin" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Dicas IPTables</title>
+</meta></meta><link href="https://blog.chcdc.com.br/posts/dicas-iptables" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Posts", "item": "https://blog.chcdc.com.br/posts"}, {"@type": "ListItem", "position": 3, "name": "Dicas iptables", "item": "https://blog.chcdc.com.br/posts/dicas-iptables"}, {"@type": "ListItem", "position": 4, "name": "Index", "item": "https://blog.chcdc.com.br/posts/dicas-iptables/index.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Dicas IPTables", "about": "Linux", "datePublished": "2018-12-16 19:00"}</script></head>
+<body>
+<aside>
+<div>
+<a href="../..">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href="../..">Carlos Carvalho</a>
+</h1>
 <p>Yet Another Blog</p>
-
-
-      <ul class="social">
-          <li>
-            <a  class="sc-github" href="https://github.com/chcdc" target="_blank">
-              <i class="fab fa-github"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
-              <i class="fab fa-stack-overflow"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
-              <i class="fas fa-rss"></i>
-            </a>
-          </li>
-          <li>
-            <a  class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
-              <i class="fab fa-linkedin"></i>
-            </a>
-          </li>
-      </ul>
-    </div>
-
-  </aside>
-  <main>
-
-    <nav>
-      <a href="../..">Home</a>
-
-      <a href="/archives.html">Archives</a>
-      <a href="/categories.html">Categories</a>
-      <a href="/tags.html">Tags</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
-
-      <a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
-    </nav>
-
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href="../..">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
 <article class="single">
-  <header>
-      
-    <h1 id="dicas-iptables">Dicas IPTables</h1>
-    <p>
+<header>
+<h1 id="dicas-iptables">Dicas IPTables</h1>
+<p>
       Posted on Sun 16 December 2018 in <a href="../../category/linux">Linux</a>
 
-        &#8226; 2 min read
+        • 2 min read
     </p>
-  </header>
-
-
-  <div>
-    <p>Existem 3 tabelas gerenciáveis no IPTables:</p>
+</header>
+<div>
+<p>Existem 3 tabelas gerenciáveis no IPTables:</p>
 <ul>
 <li>FILTER - esta é a tabela padrão, responsável pela filtragens de pacotes. Possui três cadeias de conjuntos de regras:<ul>
 <li>INPUT - pacotes destinados a sockets locais</li>
@@ -199,35 +164,36 @@
 <p><strong>10 - Bloquear por endereço MAC:</strong></p>
 <p><code>iptables -A INPUT -m mac --mac-source 00:00:00:00:00:00 -j DROP</code></p>
 <p>Simples assim! 😆</p>
-  </div>
-  <div class="tag-cloud">
-    <p>
-      <a href="../../tag/network">Network</a>
-      <a href="../../tag/sysadmin">Sysadmin</a>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="../../tag/network">Network</a>
+<a href="../../tag/sysadmin">Sysadmin</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Dicas%20IPTables&amp;url=https%3A//blog.chcdc.com.br/posts/dicas-iptables&amp;hashtags=network,sysadmin" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/posts/dicas-iptables" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/posts/dicas-iptables&amp;title=Dicas%20IPTables&amp;summary=Existem%203%20tabelas%20gerenci%C3%A1veis%20no%20IPTables%3A%0A%0AFILTER%20-%20esta%20%C3%A9%20a%20tabela%20padr%C3%A3o%2C%20respons%C3%A1vel%20pela%20filtragens%20de%20pacotes.%20Possui%20tr%C3%AAs%20cadeias%20de%20conjuntos%20de%20regras%3A%0AINPUT%20-%20pacotes%20destinados%20a%20sockets%20locais%0AFORWARD%20-%20pacotes%20encaminhados%20%28roteados%29%20atrav%C3%A9s%20%E2%80%A6&amp;source=https%3A//blog.chcdc.com.br/posts/dicas-iptables" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Dicas%20IPTables&amp;body=https%3A//blog.chcdc.com.br/posts/dicas-iptables" title="Share via Email">Email</a>
+      ❄
     </p>
-  </div>
-
-
-  <div class="neighbors">
-    <a class="btn float-left" href="../../posts/ipsec-strongswan" title="IPSec StrongSwan">
-      <i class="fa fa-angle-left"></i> Previous Post
-    </a>
-    <a class="btn float-right" href="../../posts/openvpn" title="OpenVPN">
-      Next Post <i class="fa fa-angle-right"></i>
-    </a>
-  </div>
-
-  <div class="related-posts">
-    <h4>You might enjoy</h4>
-    <ul class="related-posts">
-      <li><a href="../../posts/openvpn">OpenVPN</a></li>
-      <li><a href="../../posts/permissoes-no-linux">Permissoes no Linux</a></li>
-      <li><a href="../../posts/registro-de-acesso">Registro de acesso</a></li>
-      <li><a href="../../posts/removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</a></li>
-    </ul>
-  </div>
-
-
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="../../posts/openvpn">OpenVPN</a></li>
+<li><a href="../../posts/permissoes-no-linux">Permissoes no Linux</a></li>
+<li><a href="../../posts/registro-de-acesso">Registro de acesso</a></li>
+<li><a href="../../posts/removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</a></li>
+</ul>
+</div>
 <!-- Disqus -->
 <div id="disqus_thread"></div>
 <script type="text/javascript">
@@ -243,25 +209,16 @@
 </noscript>
 <!-- End Disqus -->
 </article>
-
-    <footer>
-<p>&copy; 2021 Carlos Carvalho</p>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
 <p>
 Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
   <span class="footer-separator">|</span>
   Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
-  <script id="dark-theme-script"
-          src="../../theme/dark-theme/dark-theme.min.js"
-          data-enable-auto-detect-theme="True"
-          data-default-theme="light"
-          type="text/javascript">
-  </script>
-</p>    </footer>
-  </main>
-
-
-
-
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="../../theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
 <script type="application/ld+json">
 {
   "@context" : "http://schema.org",
@@ -272,6 +229,5 @@ Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a 
   "description": "Yet Another Blog"
 }
 </script>
-
 </body>
 </html>
