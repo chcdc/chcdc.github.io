@@ -4,7 +4,13 @@ pelican_gist==0.3.4
 pyyaml==5.4.1
 feedgenerator==1.9.1
 python-gettext==4.0
+lxml==4.6.3
 markdown==3.3.4
 Pygments==2.9.0
 pelican-avatar==1.0.0
+pelican-neighbors==1.2.0
+pelican-read-more==1.0.0
+pelican-seo==1.2.2
+pelican-share-post==1.0.0
+pelican-sitemap==1.0.2
 ghp-import==2.0.1

@@ -22,7 +22,7 @@ DELETE_OUTPUT_DIRECTORY = True
 MAIN_MENU = True
 DEFAULT_PAGINATION = 10
 
-SUMMARY_MAX_LENGTH = 20
+SUMMARY_MAX_LENGTH = 35
 #SUMMARY_USE_FIRST_PARAGRAPH = True
 #SUMMARY_END_MARKER = '<!-- PELICAN_END_SUMMARY -->'
 JINJA_ENVIRONMENT  = {'extensions': ['jinja2.ext.i18n']}
@@ -138,14 +138,14 @@ PLUGIN_PATHS = [
 PLUGINS = [
         'gzip_cache',
         'i18n_subsites',
-        #'optimize_images',
+        'neighbors',
         'pelican_gist',
         'post_stats',
         'related_posts',
+        'seo',
         'share_post',
         'sitemap',
         'summary',
-        'neighbors',
         ]
 
 PAGINATION_PATTERNS = (
