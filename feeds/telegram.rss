@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Carlos Carvalho - Telegram</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Fri, 22 Apr 2016 20:43:33 -0300</lastBuildDate><item><title>Instalando Telegram-Cli</title><link>https://blog.chcdc.com.br/posts/instalando-telegram-cli</link><description>&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
+<rss version="2.0"><channel><title>Carlos Carvalho - Telegram</title><link>https://blog.chcdc.com.br/</link><description>Yet Another Blog</description><lastBuildDate>Fri, 22 Apr 2016 20:43:33 -0300</lastBuildDate><item><title>Instalando Telegram-Cli</title><link>https://blog.chcdc.com.br/instalando-telegram-cli.html</link><description>&lt;p&gt;Telegram-CLI é um cliente do Telegram baseado na linguagem lua, ele é executado a partir do terminal.&lt;/p&gt;
 &lt;!--more--&gt;
 
 &lt;p&gt;Instale as dependencias&lt;/p&gt;
@@ -8,4 +8,4 @@
  make git-core
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Navege …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Fri, 22 Apr 2016 20:43:33 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-04-22:/posts/instalando-telegram-cli</guid><category>Telegram</category></item></channel></rss>
+&lt;p&gt;Navege &lt;!--more--&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Carlos Carvalho</dc:creator><pubDate>Fri, 22 Apr 2016 20:43:33 -0300</pubDate><guid isPermaLink="false">tag:blog.chcdc.com.br,2016-04-22:/instalando-telegram-cli.html</guid><category>Telegram</category></item></channel></rss>

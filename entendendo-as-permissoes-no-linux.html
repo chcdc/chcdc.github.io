@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+
+<html lang="pt_br">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="./theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<link href="./entendendo-as-permissoes-no-linux.html" rel="canonical"/>
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. Quando, em um sistema (li)Unix digitamos o comando ls -l" name="description"/>
+<meta content="Sysadmin" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Entendendo as Permissões no Linux" property="og:title"/>
+<meta content="As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. Quando, em um sistema (li)Unix digitamos o comando ls -l" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="./entendendo-as-permissoes-no-linux.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2018-02-27 09:23:45-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="./author/carlos-carvalho" property="article:author"/>
+<meta content="Linux" property="article:section">
+<meta content="Sysadmin" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Entendendo as Permissões no Linux</title>
+</meta></meta><link href="https://blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Entendendo as permissoes no linux", "item": "https://blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Entendendo as Permissões no Linux", "about": "Linux", "datePublished": "2018-02-27 09:23"}</script></head>
+<body>
+<aside>
+<div>
+<a href=".">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href=".">Carlos Carvalho</a>
+</h1>
+<p>Yet Another Blog</p>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href=".">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
+<article class="single">
+<header>
+<h1 id="entendendo-as-permissoes-no-linux">Entendendo as Permissões no Linux</h1>
+<p>
+      Posted on Tue 27 February 2018 in <a href="./category/linux">Linux</a>
+
+        • 1 min read
+    </p>
+</header>
+<div>
+<p>As permissões são usadas para definir quem pode acessar determinados arquivos ou diretórios, assim mantendo segurança e organização em seu sistema e sua rede. </p>
+<p>Quando, em um sistema (li)Unix digitamos o comando <code>ls -l</code> temos a seguinte visualização:</p>
+<p><img alt="ls -l" src="/images/ls_l.png"/></p>
+<p>Vemos o primeiro item em cada linha é a forma utilizada para mostrar as permissoes do arquivo.
+O Linux trata todos os diretórios como arquivos também, portanto, as permissões se aplicam de igual forma para ambos.</p>
+<p>O primeiro caractere aparece para indicar o tipo de arquivo:</p>
+<p>d =&gt; diretório<br/>
+b =&gt; arquivo de bloco<br/>
+c =&gt; arquivo especial de caractere<br/>
+p =&gt; canal<br/>
+s =&gt; socket<br/>
+- =&gt; arquivo "normal"  </p>
+<p>As permissões vão definidas assim:</p>
+<ul>
+<li>(r) Leitura</li>
+<li>(w) Escrita</li>
+<li>(x) Execução</li>
+</ul>
+<p>Como as permissões são divididas em 3, irá aparecer assim: </p>
+<p>(rwx)(rwx)(rwx) </p>
+<p>Tipo de permissão Octal:<br/>
+4 - Indica permissão de leitura;<br/>
+2 - Permissão de escrita;<br/>
+1 - Indica permissão de execução;<br/>
+0 - Indica sem permissões.  </p>
+<p>Então a liberações podem ser definidas somando as permissões em octal, fazendo da seguinte forma:<br/>
+ 4 + 2 + 1 = 7 (permissão de rwx - Leitura, escrita e execução)<br/>
+ 4 + 2 = 6     (permissão rw - Leitura e escrita)<br/>
+ 4 =           (permissão r - Apenas Leitura)  </p>
+<table>
+<thead>
+<tr>
+<th align="center">Usuário</th>
+<th align="center">Grupo</th>
+<th align="center">Outros usuários (não donos)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">Leitura=negada</td>
+<td align="center">Leitura=negada</td>
+<td align="center">Leitura=negada</td>
+</tr>
+<tr>
+<td align="center">Escrita=negada</td>
+<td align="center">Escrita=negada</td>
+<td align="center">Escrita=negada</td>
+</tr>
+<tr>
+<td align="center">Execução=negada</td>
+<td align="center">Execução=negada</td>
+<td align="center">Execução=negada</td>
+</tr>
+</tbody>
+</table>
+<p>Simples Assim 😃</p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="./tag/sysadmin">Sysadmin</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Entendendo%20as%20Permiss%C3%B5es%20no%20Linux&amp;url=https%3A//blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html&amp;hashtags=sysadmin" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html&amp;title=Entendendo%20as%20Permiss%C3%B5es%20no%20Linux&amp;summary=As%20permiss%C3%B5es%20s%C3%A3o%20usadas%20para%20definir%20quem%20pode%20acessar%20determinados%20arquivos%20ou%20diret%C3%B3rios%2C%20assim%20mantendo%20seguran%C3%A7a%20e%20organiza%C3%A7%C3%A3o%20em%20seu%20sistema%20e%20sua%20rede.%20%0AQuando%2C%20em%20um%20sistema%20%28li%29Unix%20digitamos%20o%20comando%20ls%20-l&amp;source=https%3A//blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Entendendo%20as%20Permiss%C3%B5es%20no%20Linux&amp;body=https%3A//blog.chcdc.com.br/entendendo-as-permissoes-no-linux.html" title="Share via Email">Email</a>
+      ❄
+    </p>
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="./criando-um-servidor-openvpn-no-centos-7.html">Criando um servidor OpenVPN no CentOS 7</a></li>
+<li><a href="./dicas-iptables.html">Dicas IPTables</a></li>
+<li><a href="./registro-de-acesso.html">Registro de acesso</a></li>
+<li><a href="./removendo-varios-arquivos-de-uma-lista-gigante.html">Removendo vários arquivos de uma lista gigante</a></li>
+</ul>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="./theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : ".",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+
+<html lang="pt_br">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="./theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<link href="./removendo-varios-arquivos-de-uma-lista-gigante.html" rel="canonical"/>
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada: /bin/rm Argument list too long (Lista de argumento muito longa) E" name="description"/>
+<meta content="sysadmin" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Removendo vários arquivos de uma lista gigante" property="og:title"/>
+<meta content="Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada: /bin/rm Argument list too long (Lista de argumento muito longa) E" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="./removendo-varios-arquivos-de-uma-lista-gigante.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2016-01-02 23:39:17-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="./author/carlos-carvalho" property="article:author"/>
+<meta content="Linux" property="article:section">
+<meta content="sysadmin" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Removendo vários arquivos de uma lista gigante</title>
+</meta></meta><link href="https://blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Removendo varios arquivos de uma lista gigante", "item": "https://blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Removendo vários arquivos de uma lista gigante", "about": "Linux", "datePublished": "2016-01-02 23:39"}</script></head>
+<body>
+<aside>
+<div>
+<a href=".">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href=".">Carlos Carvalho</a>
+</h1>
+<p>Yet Another Blog</p>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href=".">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
+<article class="single">
+<header>
+<h1 id="removendo-varios-arquivos-de-uma-lista-gigante">Removendo vários arquivos de uma lista gigante</h1>
+<p>
+      Posted on Sat 02 January 2016 in <a href="./category/linux">Linux</a>
+
+        • 1 min read
+    </p>
+</header>
+<div>
+<p>Por experiência própria, vez por outra preciso apagar vários arquivos gigantescos (geralmente logs) de uma única vez e a seguinte mensagem é gerada:</p>
+<p>/bin/rm Argument list too long (Lista de argumento muito longa)</p>
+<p>E daí, o que fazer?</p>
+<!--more-->
+<p>Basta entrar no diretório onde encontram-se os arquivos e executar algumas das alternativas de comando.</p>
+<p>Para apagar todos os arquivos que contenham "2015" em seu nome:</p>
+<div class="highlight"><pre><span></span><code>    $ <span class="k">for</span> a <span class="k">in</span> *2015*<span class="p">;</span> <span class="k">do</span> rm <span class="nv">$a</span><span class="p">;</span> <span class="k">done</span>
+</code></pre></div>
+<p>Para apagar todos os arquivos que possuam a extensão .log:</p>
+<div class="highlight"><pre><span></span><code>    $ <span class="k">for</span> a <span class="k">in</span> *.log<span class="p">;</span> <span class="k">do</span> rm <span class="nv">$a</span><span class="p">;</span> <span class="k">done</span>
+</code></pre></div>
+<p>Bem simples! :)</p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="./tag/sysadmin">sysadmin</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Removendo%20v%C3%A1rios%20arquivos%20de%20uma%20lista%20gigante&amp;url=https%3A//blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html&amp;hashtags=sysadmin" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html&amp;title=Removendo%20v%C3%A1rios%20arquivos%20de%20uma%20lista%20gigante&amp;summary=Por%20experi%C3%AAncia%20pr%C3%B3pria%2C%20vez%20por%20outra%20preciso%20apagar%20v%C3%A1rios%20arquivos%20gigantescos%20%28geralmente%20logs%29%20de%20uma%20%C3%BAnica%20vez%20e%20a%20seguinte%20mensagem%20%C3%A9%20gerada%3A%0A/bin/rm%20Argument%20list%20too%20long%20%28Lista%20de%20argumento%20muito%20longa%29%0AE&amp;source=https%3A//blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Removendo%20v%C3%A1rios%20arquivos%20de%20uma%20lista%20gigante&amp;body=https%3A//blog.chcdc.com.br/removendo-varios-arquivos-de-uma-lista-gigante.html" title="Share via Email">Email</a>
+      ❄
+    </p>
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="./criando-um-servidor-openvpn-no-centos-7.html">Criando um servidor OpenVPN no CentOS 7</a></li>
+<li><a href="./dicas-iptables.html">Dicas IPTables</a></li>
+<li><a href="./entendendo-as-permissoes-no-linux.html">Entendendo as Permissões no Linux</a></li>
+<li><a href="./registro-de-acesso.html">Registro de acesso</a></li>
+</ul>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="./theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : ".",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+</body>
+</html>

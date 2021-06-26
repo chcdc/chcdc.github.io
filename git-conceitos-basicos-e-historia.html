@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+
+<html lang="pt_br">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="./theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<link href="./git-conceitos-basicos-e-historia.html" rel="canonical"/>
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT. Historia O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande. Em 2002, o" name="description"/>
+<meta content="git" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Git Conceitos básicos e História" property="og:title"/>
+<meta content="Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT. Historia O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande. Em 2002, o" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="./git-conceitos-basicos-e-historia.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2021-06-20 19:12:32-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="./author/carlos-carvalho" property="article:author"/>
+<meta content="DevOps" property="article:section">
+<meta content="git" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Git Conceitos básicos e História</title>
+</meta></meta><link href="https://blog.chcdc.com.br/git-conceitos-basicos-e-historia.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Git conceitos basicos e historia", "item": "https://blog.chcdc.com.br/git-conceitos-basicos-e-historia.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Git Conceitos básicos e História", "about": "DevOps", "datePublished": "2021-06-20 19:12"}</script></head>
+<body>
+<aside>
+<div>
+<a href=".">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href=".">Carlos Carvalho</a>
+</h1>
+<p>Yet Another Blog</p>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href=".">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
+<article class="single">
+<header>
+<h1 id="git-conceitos-basicos-e-historia">Git Conceitos básicos e História</h1>
+<p>
+      Posted on Sun 20 June 2021 in <a href="./category/devops">DevOps</a>
+
+        • 2 min read
+    </p>
+</header>
+<div>
+<p>Nesse post vamos falar um pouco sobre a história e os conceitos básicos do GIT.</p>
+<h3 id="historia">Historia</h3>
+<p>O núcleo (kernel) do Linux é um projeto de código aberto com um escopo bastante grande.</p>
+<p>Em 2002, o projeto do núcleo do Linux começou usar uma DVCS proprietária chamada BitKeeper.</p>
+<p>Em 2005, a relação entre a comunidade que desenvolveu o núcleo do Linux e a empresa que desenvolveu BitKeeper quebrou em pedaços, e a ferramenta passou a ser paga.</p>
+<p>Isto alertou a comunidade que desenvolvia o Linux (e especialmente Linus Torvalds, o criador do Linux) a desenvolver a sua própria ferramenta baseada em lições aprendidas ao usar o BitKeeper.</p>
+<p>Algumas metas do novo sistema era os seguintes:</p>
+<ul>
+<li>
+<p>Velocidade</p>
+</li>
+<li>
+<p>Projeto simples</p>
+</li>
+<li>
+<p>Forte suporte para desenvolvimento não-linear (milhares de ramos paralelos)</p>
+</li>
+<li>
+<p>Completamente distribuído</p>
+</li>
+<li>
+<p>Capaz de lidar com projetos grandes como o núcleo o Linux com eficiência (velocidade e tamanho dos dados)</p>
+</li>
+</ul>
+<p>Desde seu nascimento em 2005, Git evoluiu e amadureceu para ser fácil de usar e ainda reter essas qualidades iniciais.</p>
+<p>Ele é incrivelmente rápido, é muito eficiente com projetos grandes, e ele tem um incrível sistema de ramos para desenvolvimento não linear</p>
+<h3 id="como-funciona">Como Funciona</h3>
+<p>O Git considera que os dados são como uma imagem do sistema de arquivos.</p>
+<p>Toda vez que você fizer um commit, ou salvar o estado de seu projeto no Git, ele basicamente tira uma foto de todos os seus arquivos e armazena uma referência para esse conjunto de arquivos.</p>
+<p>Para ser eficiente, se os arquivos não foram alterados, o Git não armazena o arquivo novamente, apenas um link para o arquivo idêntico anterior já armazenado.
+O Git trata seus dados mais como um fluxo do estado dos arquivos.</p>
+<p><img alt="git-snapshot" src="/images/snapshots-git.png"/></p>
+<h3 id="principais-caracteristicas">Principais Características</h3>
+<ul>
+<li>As operações são locais</li>
+<li>Tem integridade checksum</li>
+<li>Geralmente só adiciona dados</li>
+</ul>
+<h3 id="os-tres-estados">Os três estados</h3>
+<p>O git tem tres estados principais que seus arquivos podem estar:</p>
+<ul>
+<li>
+<p><strong>Committed</strong>: Os dados estão armazenados de forma segura em seu banco de dados local.</p>
+</li>
+<li>
+<p><strong>Modified</strong>: Significa que o arquivo foi alterado, mas ainda não fez o commit no seu banco de dados.</p>
+</li>
+<li>
+<p><strong>Staged</strong>: Significa que você marcou a versão atual de um arquivo modificado para fazer parte do seu próximo commit</p>
+</li>
+</ul>
+<h3 id="workflow">Workflow</h3>
+<p>O fluxo de trabalho podemos descrever da seguinte forma:</p>
+<ul>
+<li>Você modifica arquivos no seu diretório de trabalho</li>
+<li>Seleciona os arquivos, adicionando imagens deles à sua area de trabalho</li>
+<li>Você faz o commit, que leva os arquivos como eles estão na sua área de preparação e os armazena permanentemente no seu diretório Git.</li>
+</ul>
+<p><img alt="Workflow GIT" src="/images/workflow-git.png"/></p>
+<h3 id="repositorios-locais">Repositórios Locais</h3>
+<p>Seus repositórios locais consistem em três "árvores" mantidas pelo git</p>
+<ul>
+<li><strong>Working Directory</strong> : Contém os arquivos vigentes</li>
+<li><strong>Index</strong> : Funciona como uma área temporária (stage)</li>
+<li><strong>HEAD</strong> : Aponta para o ultimo commit feito</li>
+</ul>
+<p><img alt="Workflow GIT Directories" src="/images/workflow-git-dir.png"/></p>
+<p>A partir de um estado "não gerenciado", os arquivos entram em um ciclo de alterações de estado a cada modificação e posterior consolidação.</p>
+<p><img alt="Workflow GIT States" src="/images/states-git.png"/></p>
+<p>Esses são os conceitos iniciais do GIT, nos próximos posts vamos executar a instalação e fazer alguns commits e alterações.</p>
+<p>Simples Assim 😆</p>
+<p><a href="http://git-scm.com/book/pt-br">Fonte</a></p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="./tag/git">git</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Git%20Conceitos%20b%C3%A1sicos%20e%20Hist%C3%B3ria&amp;url=https%3A//blog.chcdc.com.br/git-conceitos-basicos-e-historia.html&amp;hashtags=git" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/git-conceitos-basicos-e-historia.html" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/git-conceitos-basicos-e-historia.html&amp;title=Git%20Conceitos%20b%C3%A1sicos%20e%20Hist%C3%B3ria&amp;summary=Nesse%20post%20vamos%20falar%20um%20pouco%20sobre%20a%20hist%C3%B3ria%20e%20os%20conceitos%20b%C3%A1sicos%20do%20GIT.%0A%0AHistoria%0AO%20n%C3%BAcleo%20%28kernel%29%20do%20Linux%20%C3%A9%20um%20projeto%20de%20c%C3%B3digo%20aberto%20com%20um%20escopo%20bastante%20grande.%0AEm%202002%2C%20o&amp;source=https%3A//blog.chcdc.com.br/git-conceitos-basicos-e-historia.html" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Git%20Conceitos%20b%C3%A1sicos%20e%20Hist%C3%B3ria&amp;body=https%3A//blog.chcdc.com.br/git-conceitos-basicos-e-historia.html" title="Share via Email">Email</a>
+      ❄
+    </p>
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="./git-comandos-basicos.html">Git Comandos Básicos</a></li>
+<li><a href="./migrando-repositorios-do-svn-para-o-git.html">Migrando repositórios do SVN para o GIT</a></li>
+</ul>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="./theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : ".",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+</body>
+</html>

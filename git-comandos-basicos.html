@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+
+<html lang="pt_br">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="True" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,400;0,700;1,400&amp;family=Source+Sans+Pro:ital,wght@0,300;0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="./theme/stylesheet/style.min.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/stylesheet/dark-theme.min.css" id="dark-theme-style" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-dark-theme" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css"/>
+<link href="./theme/pygments/monokai.min.css" id="pygments-light-theme" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/fontawesome.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/brands.css" rel="stylesheet" type="text/css"/>
+<link href="./theme/font-awesome/css/solid.css" rel="stylesheet" type="text/css"/>
+<link href="https://blog.chcdc.com.br/feeds.atom" rel="alternate" title="Carlos Carvalho Atom" type="application/atom+xml"/>
+<link href="https://blog.chcdc.com.br/feeds.rss" rel="alternate" title="Carlos Carvalho RSS" type="application/rss+xml"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="https://blog.chcdc.com.br/extra/favicon.ico" rel="icon" type="image/x-icon"/>
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-66134049-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+<link href="./git-comandos-basicos.html" rel="canonical"/>
+<meta content="Carlos Carvalho" name="author"/>
+<meta content="Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos. Os conceitos eu abordei aqui Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas" name="description"/>
+<meta content="git" name="keywords"/>
+<meta content="Carlos Carvalho" property="og:site_name">
+<meta content="Git Comandos Básicos" property="og:title"/>
+<meta content="Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos. Os conceitos eu abordei aqui Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas" property="og:description"/>
+<meta content="pt_BR" property="og:locale"/>
+<meta content="./git-comandos-basicos.html" property="og:url"/>
+<meta content="article" property="og:type"/>
+<meta content="2021-06-22 22:27:45-03:00" property="article:published_time"/>
+<meta content="" property="article:modified_time"/>
+<meta content="./author/carlos-carvalho" property="article:author"/>
+<meta content="DevOps" property="article:section">
+<meta content="git" property="article:tag"/>
+<meta content="" property="og:image"/>
+<title>Carlos Carvalho – Git Comandos Básicos</title>
+</meta></meta><link href="https://blog.chcdc.com.br/git-comandos-basicos.html" rel="canonical"/><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Carlos Carvalho", "item": "https://blog.chcdc.com.br"}, {"@type": "ListItem", "position": 2, "name": "Git comandos basicos", "item": "https://blog.chcdc.com.br/git-comandos-basicos.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "author": {"@type": "Person", "name": "Carlos Carvalho"}, "publisher": {"@type": "Organization", "name": "Carlos Carvalho"}, "headline": "Git Comandos Básicos", "about": "DevOps", "datePublished": "2021-06-22 22:27"}</script></head>
+<body>
+<aside>
+<div>
+<a href=".">
+<img alt="Carlos Carvalho" src="https://s.gravatar.com/avatar/b29f6fb12e1e61f1d2a46e1ec2834696?s=80" title="Carlos Carvalho"/>
+</a>
+<h1>
+<a href=".">Carlos Carvalho</a>
+</h1>
+<p>Yet Another Blog</p>
+<ul class="social">
+<li>
+<a class="sc-github" href="https://github.com/chcdc" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+</li>
+<li>
+<a class="sc-stack-overflow" href="https://pt.stackoverflow.com/users/26828" target="_blank">
+<i class="fab fa-stack-overflow"></i>
+</a>
+</li>
+<li>
+<a class="sc-rss" href="http://blog.chcdc.com.br/feeds/all-pt.atom.xml" target="_blank">
+<i class="fas fa-rss"></i>
+</a>
+</li>
+<li>
+<a class="sc-linkedin" href="https://www.linkedin.com/in/chcdc/" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<main>
+<nav>
+<a href=".">Home</a>
+<a href="/archives.html">Archives</a>
+<a href="/categories.html">Categories</a>
+<a href="/tags.html">Tags</a>
+<a href="https://blog.chcdc.com.br/feeds.atom">Atom</a>
+<a href="https://blog.chcdc.com.br/feeds.rss">RSS</a>
+</nav>
+<article class="single">
+<header>
+<h1 id="git-comandos-basicos">Git Comandos Básicos</h1>
+<p>
+      Posted on Tue 22 June 2021 in <a href="./category/devops">DevOps</a>
+
+        • 4 min read
+    </p>
+</header>
+<div>
+<p>Seguindo a sequencia, nesse post vamos iniciar o git com os comandos básicos.</p>
+<p>Os conceitos eu abordei <a href="/posts/git-conceitos-e-historia/#os-tres-estados">aqui</a></p>
+<p>Para esse Post, vamos utilizar um sistema baseado em Linux, porém os comandos são similares para sistemas Windows e MacOS.</p>
+<!--more-->
+<div class="toc"><span class="toctitle">Indice:</span><ul>
+<li><a href="#instalacao">Instalação</a></li>
+<li><a href="#configuracao-basica">Configuração Básica</a><ul>
+<li><a href="#configurando-nome-e-email">Configurando nome e email</a></li>
+<li><a href="#configurando-preferencias">Configurando preferencias</a></li>
+</ul>
+</li>
+<li><a href="#criando-um-projeto-git">Criando um projeto git</a></li>
+</ul>
+</div>
+<h3 id="instalacao">Instalação</h3>
+<p>Em sua grande maioria de sistemas linux pode ser obtido da seguinte forma:</p>
+<p>Debian like</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo apt install git</span>
+</code></pre></div>
+<p>RedHat Like</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo yum install git</span>
+</code></pre></div>
+<p>Para windows pode ser obtido <a href="https://git-scm.com/download/win">aqui</a></p>
+<h3 id="configuracao-basica">Configuração Básica</h3>
+<p>Para utilizar o git em sua maquina, precisamos primeiro configurar o autor. Pelo motivo de que todos os <em>commits</em> devem ser identificados.</p>
+<p>O arquivo <code>/etc/gitconfig</code> contém valores de configuração para todos usuários do sistema e todos os seus repositórios.
+Se você passar a opção --system para git config, ele lerá e escreverá a partir deste arquivo especificamente.</p>
+<p>O arquivo <code>~/.gitconfig</code> é específico para seu usuário.
+Você pode fazer o Git ler e escrever a partir deste arquivo passando a opção --global.</p>
+<p>Em sistemas Windows, Git procura pelo arquivo <code>.gitconfig</code> no diretório <code>$HOME</code>.
+Isto significa um dos diretórios a seguir: <code>C:\Documents</code> e <code>Settings\$USER</code>, para a maioria dos usuários.</p>
+<h4 id="configurando-nome-e-email">Configurando nome e email</h4>
+<p>Podemos definir seu nome e email para serem adicionados como autor nos <em>commits</em>.</p>
+<p>A configuração global no sistema é feita utilizando o seguinte comando:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git config --global user.name <span class="s2">"Carlos Carvalho"</span>
+<span class="gp">$ </span>git config --global user.email carlos@chcdc.com.br
+</code></pre></div>
+<p>Não se esqueça de alterar as informações, não quero ser dono dos seus <em>commits</em></p>
+<h4 id="configurando-preferencias">Configurando preferencias</h4>
+<p>Vamos definir o editor <em>vim</em> como padrão</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git config --global core.editor vim
+</code></pre></div>
+<p>Configurar o Prompt colorido:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git config --global color.ui <span class="nb">true</span>
+</code></pre></div>
+<p>Essas configurações já são suficientes para continuarmos, caso queira ver todas as configurações, basta rodar o comando:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git config --list
+</code></pre></div>
+<p>Para listar uma configuração específica, por exemplo o user.name:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git config user.name
+</code></pre></div>
+<h3 id="criando-um-projeto-git">Criando um projeto git</h3>
+<p>Para iniciar um repositório basta executar <code>git init</code></p>
+<p>Lembrando que é necessário estar no diretório do projeto em que se deseja utilizar o GIT</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span> projeto
+<span class="gp">$ </span>git init
+<span class="go">Initialized empty Git repository in projeto/.git/</span>
+</code></pre></div>
+<p>Vamos criar o arquivo <code>README.md</code>, ele é um arquivo de apresentação. Ele inicialmente será a nossa base</p>
+<p>Use o editor de texto de sua preferência, aqui usarei vim</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>vim README.md
+<span class="gp">$ </span>cat README.md
+<span class="go">Iniciando um repositorio</span>
+</code></pre></div>
+<p>Vamos dar um <code>git status</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git status
+<span class="go">On branch main</span>
+
+<span class="go">No commits yet</span>
+
+<span class="go">Untracked files:</span>
+<span class="go">  (use "git add &lt;file&gt;..." to include in what will be committed)</span>
+<span class="go">        README.md</span>
+
+<span class="go">nothing added to commit but untracked files present (use "git add" to track)</span>
+</code></pre></div>
+<p>Como podemos ver arquivo esta <code>Untracked</code>, para adicionar ele vamos executar o <code>git add</code></p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git add README.md
+</code></pre></div>
+<p>Se rodarmos o <code>git status</code> novamente, veremos que agora o arquivo README.md esta pronto para <em>commit</em></p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git status
+<span class="go">On branch master</span>
+
+<span class="go">No commits yet</span>
+
+<span class="go">Changes to be committed:</span>
+<span class="go">  (use "git rm --cached &lt;file&gt;..." to unstage)</span>
+<span class="go">        new file:   README.md</span>
+</code></pre></div>
+<p>Agora vamos executar o commit, para isso vamos usar o comando <code>git commit -m</code> . O parâmetro <code>m</code> indica qual a mensagem que deseja passar no <em>commit</em></p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git commit -m <span class="s2">"Adicionando meu README.md"</span>
+<span class="go">[master (root-commit) ef567d0] Adicionando meu README.md</span>
+<span class="go"> 1 file changed, 2 insertions(+)</span>
+<span class="go"> create mode 100644 README.md</span>
+</code></pre></div>
+<p>Pronto, fizemos o nosso primeiro <em>commit</em>!!</p>
+<p>Podemos ver nossas alterações utilizando o <code>git log</code>.
+Onde temos o hash do commit, o author do commit e a data em que o commit foi realizado. (Talvez meu commit seja do futuro!)</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git log
+<span class="go">commit ef567d0a3cef19e36ee75fd9251ebfb929a10b46 (HEAD -&gt; master)</span>
+<span class="go">Author: Carlos Carvalho &lt;carlos@chcdc.com.br&gt;</span>
+<span class="go">Date:   Tue Jan 18 21:22:23 2061 -0300</span>
+
+<span class="go">    Adicionando meu README.md</span>
+</code></pre></div>
+<p>O proximo comando é o <code>git diff</code>.
+Então vamos fazer uma alteração no <code>README.md</code>. 
+Faça a edição no seu editor favorito.</p>
+<p>Ao executar o <code>git diff</code> temos a seguinte saida:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git diff
+<span class="go">diff --git a/README.md b/README.md</span>
+<span class="go">index abb520e..f603704 100644</span>
+<span class="go">--- a/README.md</span>
+<span class="go">+++ b/README.md</span>
+<span class="go">@@ -1,2 +1,2 @@</span>
+<span class="go">-Iniciando um repositório</span>
+<span class="go">+### Novo Projeto de colonização lunar</span>
+</code></pre></div>
+<p>Nesse exemplo, removemos o texto <strong>Iniciando um repositório</strong> e inserimos o texto <strong>Novo Projeto de colonização lunar</strong></p>
+<p>Como podemos ver, ele mostrou, utilizando o simbolo <em>+</em>, o que adicionamos e utilizando o simbolo <em>-</em>, o que removemos.</p>
+<p>O <code>git diff</code> nos permite ver qualquer alteração antes de fazer o <em>commit</em>, ele se torna um dos comandos mais importantes no workflow, sempre utilize ele pois assim pode revisar o que esta enviando.</p>
+<p><strong>Lembrando que o <code>git diff</code> deve ser executado antes de adicionarmos o arquivo em staging</strong></p>
+<p>Vamos adicionar o arquivo e fazer o commit dessas mudanças</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>git add README.md
+<span class="gp">$ </span>git commit -m <span class="s2">"Novo projeto lunar"</span>
+<span class="go">[master 014982d] Novo projeto lunar</span>
+<span class="go"> 1 file changed, 1 insertion(+), 1 deletion(-)</span>
+</code></pre></div>
+<p>Como resultado ele nos mostrou que houve:</p>
+<ul>
+<li>1 arquivo alterado (README.md)</li>
+<li>1 inserção (### Novo Projeto de colonização lunar)</li>
+<li>1 remoção (Iniciando um repositório)</li>
+</ul>
+<p>Então nesse post vimos como criar um repositório local , inserir arquivos, ver alterações, adicionar e fazer o commit dos arquivos.</p>
+<p>Com esses comandos já podemos trabalhar com o básico do git.</p>
+<p>Simples Assim 😆</p>
+<p><a href="http://git-scm.com/book/pt-br">Fonte</a></p>
+</div>
+<div class="tag-cloud">
+<p>
+<a href="./tag/git">git</a>
+</p>
+</div>
+<section>
+<p id="post-share-links">
+      Share on:
+      ❄
+      <a href="https://twitter.com/intent/tweet?text=Git%20Comandos%20B%C3%A1sicos&amp;url=https%3A//blog.chcdc.com.br/git-comandos-basicos.html&amp;hashtags=git" title="Share on Twitter">Twitter</a>
+      ❄
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//blog.chcdc.com.br/git-comandos-basicos.html" title="Share on Facebook">Facebook</a>
+      ❄
+      <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//blog.chcdc.com.br/git-comandos-basicos.html&amp;title=Git%20Comandos%20B%C3%A1sicos&amp;summary=Seguindo%20a%20sequencia%2C%20nesse%20post%20vamos%20iniciar%20o%20git%20com%20os%20comandos%20b%C3%A1sicos.%0AOs%20conceitos%20eu%20abordei%20aqui%0APara%20esse%20Post%2C%20vamos%20utilizar%20um%20sistema%20baseado%20em%20Linux%2C%20por%C3%A9m%20os%20comandos%20s%C3%A3o%20similares%20para%20sistemas&amp;source=https%3A//blog.chcdc.com.br/git-comandos-basicos.html" title="Share on LinkedIn">LinkedIn</a>
+      ❄
+      <a href="mailto:?subject=Git%20Comandos%20B%C3%A1sicos&amp;body=https%3A//blog.chcdc.com.br/git-comandos-basicos.html" title="Share via Email">Email</a>
+      ❄
+    </p>
+</section>
+<div class="related-posts">
+<h4>You might enjoy</h4>
+<ul class="related-posts">
+<li><a href="./git-conceitos-basicos-e-historia.html">Git Conceitos básicos e História</a></li>
+<li><a href="./migrando-repositorios-do-svn-para-o-git.html">Migrando repositórios do SVN para o GIT</a></li>
+</ul>
+</div>
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'chcdc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+<footer>
+<p>© 2021 Carlos Carvalho</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script data-default-theme="light" data-enable-auto-detect-theme="True" id="dark-theme-script" src="./theme/dark-theme/dark-theme.min.js" type="text/javascript">
+</script>
+</p> </footer>
+</main>
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Carlos Carvalho ",
+  "url" : ".",
+  "image": "",
+  "description": "Yet Another Blog"
+}
+</script>
+</body>
+</html>
