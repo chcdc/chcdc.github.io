@@ -1,6 +1,6 @@
 ---
 title: Enviar emails com Python
-date: 2018-02-09 02:10:18 -0200
+date: 2018-02-09 02:10:18 -0300
 comments: true
 Category: Python
 tags: emails, script

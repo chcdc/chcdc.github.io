@@ -1,6 +1,6 @@
 ---
 title: Registro de acesso
-date: 2016-01-05 01:59:44 -0200
+date: 2016-01-05 01:59:44 -0300
 comments: true
 Category: Shell Script
 Tags: sysadmin

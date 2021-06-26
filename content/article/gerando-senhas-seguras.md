@@ -1,6 +1,6 @@
 ---
 title: Como Gerar Senhas seguras com PWGEN
-date: 2016-01-20 01:48:25 -0200
+date: 2016-01-20 01:48:25 -0300
 comments: true
 Category: Shell Script
 Status: published

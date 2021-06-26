@@ -1,6 +1,6 @@
 ---
 title: Git Conceitos básicos e História
-date: 2021-06-22 22:27:45 -0200
+date: 2021-06-20 19:12:32 -0300
 comments: true
 Category: DevOps
 tags: git

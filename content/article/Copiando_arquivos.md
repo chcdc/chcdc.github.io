@@ -1,6 +1,6 @@
 ---
 title: Copiando arquivos com Python
-date: 2018-02-14 10:55:25 -0200
+date: 2018-02-14 10:55:25 -0300
 comments: true
 Category: Python
 tags: script

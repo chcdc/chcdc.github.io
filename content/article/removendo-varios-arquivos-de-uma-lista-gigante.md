@@ -1,6 +1,6 @@
 ---
 title: Removendo vários arquivos de uma lista gigante
-date: 2016-01-02 23:39:17 -0200
+date: 2016-01-02 23:39:17 -0300
 comments: true
 Category: Linux
 Tags: sysadmin

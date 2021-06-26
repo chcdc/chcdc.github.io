@@ -1,6 +1,6 @@
 ---
 title: Entendendo as Permissões no Linux
-date: 2018-02-27 09:23:45 -0200
+date: 2018-02-27 09:23:45 -0300
 comments: true
 Category: Linux
 tags: Sysadmin

@@ -1,6 +1,6 @@
 ---
 title: Organizando arquivos por extensão usando Python
-date: 2017-01-25 11:45:45 -0200
+date: 2017-01-25 11:45:45 -0300
 comments: true
 Category: Python
 tags: regex

@@ -1,6 +1,6 @@
 ---
 title: Gerando senhas seguras utilizando python
-date: 2018-01-09 19:48:25 -0200
+date: 2018-01-09 19:48:25 -0300
 comments: true
 Category: Python
 Status: published
